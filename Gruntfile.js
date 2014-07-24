@@ -21,6 +21,7 @@ module.exports = function (grunt) {
     dist: 'dist'
   };
 
+  var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
   // Define the configuration for all the tasks
   grunt.initConfig({
 
@@ -71,11 +72,16 @@ module.exports = function (grunt) {
         hostname: 'localhost',
         livereload: 35729
       },
+      proxies: [
+        {context: '/rest', host: 'localhost', port: 3003, https: false, changeOrigin: false}
+        // {context: '/rest', host: 'localhost', port: 3003, https: false, changeOrigin: false, rewrite: {'^/' : '/app/'}}
+      ],
       livereload: {
         options: {
           open: true,
           middleware: function (connect) {
             return [
+              proxySnippet,
               connect.static('.tmp'),
               connect().use(
                 '/bower_components',
@@ -369,6 +375,7 @@ module.exports = function (grunt) {
       'wiredep',
       'concurrent:server',
       'autoprefixer',
+      'configureProxies',
       'connect:livereload',
       'watch'
     ]);

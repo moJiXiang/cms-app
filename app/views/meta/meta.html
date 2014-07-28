@@ -1,0 +1,46 @@
+
+<!-- A single page for managing entity, both for listing and editing -->
+
+<!-- <input type="text" ng-model="query" placeholder="search" class="form-control searchmetabtn"> -->
+<!-- <pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm paginationmodel" boundary-links="true"></pagination> -->
+
+
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>type</th>
+			<th>value</th>
+			<th><a type="button" ng-click="newMeta()" class="btn btn-default">add</a></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="meta in metas">
+			<td>{{meta.type}}</td>
+			<td>{{meta.value}}</td>
+			<td>
+				<a type="button" ng-click="edit(meta)" class="btn btn-default">编辑</a>
+				<button type="button" ng-click="del(meta)" class="btn btn-danger">删除</button>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+
+
+<!-- Editing Window -->
+
+<div>
+    <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class='modal-title'> Edit Item</h3>
+        </div>
+        <div class="modal-body">
+        	Type : <input type="text" ng-model="edit.type" />
+        	Value : <input type="text" ng-model="edit.value" />
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="save()">Save</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+</div>

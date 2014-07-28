@@ -15,7 +15,9 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'ngGrid',
+    'ui.bootstrap'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -23,9 +25,33 @@ angular
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
+      .when('/citylist', {
+        templateUrl: 'views/city/list.html',
+        controller: 'CityListCtrl'
+      })
+      .when('/citylist/:cityId/detail',{
+        templateUrl: 'views/city/detail.html',
+        controller: 'CityDetailCtrl'
+      })
+      .when('/citylist/:cityId/edit',{
+        templateUrl: 'views/city/edit.html',
+        controller: 'CityEditCtrl'
+      })
+      .when('/attractionlist', {
+        templateUrl: 'views/attraction/list.html',
+        controller: 'CityCtrl'
+      })
+      .when('/restaurantlist', {
+        templateUrl: 'views/restaurant/list.html',
+        controller: 'CityCtrl'
+      })
+      .when('/shoplist', {
+        templateUrl: 'views/shop/list.html',
+        controller: 'CityCtrl'
+      })
+      .when('/shoparealist', {
+        templateUrl: 'views/shoparea/list.html',
+        controller: 'CityCtrl'
       })
       .otherwise({
         redirectTo: '/'

@@ -1,0 +1,151 @@
+	<div class="col-lg-9">
+		<div class="bs-callout bs-callout-info" id="a1">
+			<h4>封面图片</h4>
+			<img src="http://weegotest.b0.upaiyun.com/city/imgsizeC2/{{city.coverImageName}}" alt="" class="img-thumbnail">
+		</div>
+		<div class="bs-callout bs-callout-info" id="a2">
+			<h4>图片</h4>
+			<!-- <img ng-repeat="image in city.image" src="http://weegotest.b0.upaiyun.com/city/imgsizeC2/{{image}}" alt="" class="img-thumbnail"> -->
+			<div class="slidemodel">
+			    <carousel interval="myInterval">
+			      <slide ng-repeat="image in city.image" active="slide.active">
+			        <img ng-src="http://weegotest.b0.upaiyun.com/city/imgsizeC2/{{image || '5304e329c38e6ee65d00000c.jpeg'}}" style="margin:auto;">
+			      </slide>
+			    </carousel>
+			  </div>
+		</div>
+		<div class="bs-callout bs-callout-info" id="a3">
+			<h4>城市背景大图</h4>
+			<div class="slidemodel">
+			    <carousel interval="myInterval">
+			      <slide ng-repeat="image in city.backgroundimage" active="slide.active">
+			        <img ng-src="http://weegotest.b0.upaiyun.com/city/imgsizeC1/{{image || '5304e329c38e6ee65d00000c.jpeg'}}" style="margin:auto;">
+			      </slide>
+			    </carousel>
+			</div>
+		</div>
+		<div class="bs-callout bs-callout-info" id="a4">
+			<h4>城市基本信息</h4>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>大洲</h4>
+				<p>{{city.continents}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>国家</h4>
+				<p>{{city.countryname}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>城市名（中文）</h4>
+				<p>{{city.cityname}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>城市名（英文）</h4>
+				<p>{{city.cityname_en}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>城市名（拼音）</h4>
+				<p>{{city.cityname_py}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>城市WEOID</h4>
+				<p>{{city.weoid || '无'}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>经纬度</h4>
+				<p>（{{city.latitude}}，{{city.longitude}}）</p>
+			</div>
+		</div>
+		<div class="bs-callout bs-callout-info" id="a5">
+			<h4>制定计划相关信息</h4>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>推荐天数</h4>
+				<p>{{city.recommand_day}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>推荐强度</h4>
+				<p>{{city.recommand_intensity}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>热门城市</h4>
+				<p>{{hot_flag}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>是否显示</h4>
+				<p>{{show_flag}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>推荐出发点</h4>
+				<p>{{city.recommand_center.name}}（{{city.recommand_center.latitude}},{{city.recommand_center.longitude}}）</p>
+			</div>
+		</div>
+		<div class="bs-callout bs-callout-info" id="a6">
+			<h4>标签</h4>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>主标签</h4>
+				<p>艺术</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>子标签</h4>
+				<p>纽约时代广场（123,456）</p>
+			</div>
+		</div>
+		<div class="bs-callout bs-callout-info" id="a7">
+			<h4>一句话简介</h4>
+			<pre>{{city.short_introduce}}</pre>
+		</div>
+		<div class="bs-callout bs-callout-info" id="a8">
+			<h4>景点概述</h4>
+			<pre>{{city.attraction_overview}}</pre>
+		</div>
+		<div class="bs-callout bs-callout-info" id="a9">
+			<h4>餐馆概述</h4>
+			<pre>{{city.restaurant_overview}}</pre>
+		</div>
+		<div class="bs-callout bs-callout-info" id="a10">
+			<h4>购物概述</h4>
+			<pre>{{city.shopping_overview}}</pre>
+		</div>
+
+		<div class="bs-callout bs-callout-info" id="a11">
+			<h4>简介</h4>
+			<div class="bs-callout bs-callout-info bs-small" ng-repeat="introduce in city.introduce">
+				<h4>{{introduce.intrItemTitle}}</h4>
+				<pre>{{introduce.intrItemContent}}</pre>
+			</div>
+		</div>
+
+		<div class="bs-callout bs-callout-info" id="a12">
+			<h4>小贴士</h4>
+			<div class="bs-callout bs-callout-info bs-small" ng-repeat="tip in city.tips">
+				<h4>{{tip.tipItemTitle}}</h4>
+				<pre>{{tip.tipItemContent}}</pre>
+			</div>
+		</div>
+
+		<div class="bs-callout bs-callout-info" id="a13">
+			<h4>交通</h4>
+			<div class="bs-callout bs-callout-info bs-small" ng-repeat="traffic in city.traffic">
+				<h4>{{traffic.traItemTitle}}</h4>
+				<pre>{{traffic.traItemTitle}}</pre>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3">
+		<nav id="citynavaffix" class="citynav affix" data-spy="affix" data-offset-top="200">
+			<ul>
+				<li><a ng-click="scrollTo('a1')">封面图片</a></li>
+				<li><a ng-click="scrollTo('a2')">图片</a></li>
+				<li><a ng-click="scrollTo('a3')">城市背景大图</a></li>
+				<li><a ng-click="scrollTo('a4')">城市基本信息</a></li>
+				<li><a ng-click="scrollTo('a5')">制定计划相关信息</a></li>
+				<li><a ng-click="scrollTo('a6')">标签</a></li>
+				<li><a ng-click="scrollTo('a7')">一句话简介</a></li>
+				<li><a ng-click="scrollTo('a8')">景点概述</a></li>
+				<li><a ng-click="scrollTo('a9')">餐馆概述</a></li>
+				<li><a ng-click="scrollTo('a10')">购物概述</a></li>
+				<li><a ng-click="scrollTo('a11')">简介</a></li>
+				<li><a ng-click="scrollTo('a12')">小贴士</a></li>
+				<li><a ng-click="scrollTo('a13')">交通</a></li>
+			</ul>
+		</nav>
+	</div>

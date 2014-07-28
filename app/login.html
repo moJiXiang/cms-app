@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>WEEGO后台管理系统登录</title>
+	<!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.css" />
+    <link rel="stylesheet" href="styles/login.css">
+</head>
+<body>
+	<div id="main">
+		<img class="loginbg" src="/images/weego-bg.jpg">
+		<form action="" method="POST" class="form-signin">
+			<h5>用户登录</h5>
+			<ul>
+				<li>
+					<span class="glyphicon glyphicon-user"></span><input name="username" type="text"/>
+				</li>
+				<li>
+					<span class="glyphicon glyphicon-lock"></span><input name="password" type="password"/>
+				</li>
+			</ul>
+			<label for="autologinnext">
+				<input type="checkbox" id="autologinnext">
+				下次自动登录
+			</label>
+			<input type="submit" class="btn btndefault" value="登录">
+		</form>
+	</div>
+</body>
+</html>

@@ -87,12 +87,11 @@ background: #fff;}
 #user{background:url("../images/anibor.png") no-repeat 10px;width:50px;padding-right:110px;padding-top:2px;}
 #user font{position:absolute;margin:14px 0px 0px 50px;font-size:15px;color:#666666;padding-left:5px;}
 
+/*==========================routes/header.html==============================*/
+
 /*========================partials/city.html================================*/
 
-/*.bs-callout+.bs-callout {
-margin-top: -5px;
-}
-*/
+
 .bs-callout {
 	padding: 20px;
 	margin: 10px 0;

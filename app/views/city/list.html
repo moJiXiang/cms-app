@@ -17,14 +17,12 @@
 			<tr>
 				<th>国家</th>
 				<th>城市</th>
-				<th>景点</th>
-				<th>餐馆</th>
-				<th>购物区域</th>
-				<th>购物</th>
 				<th>中文审核</th>
 				<th>中文编辑</th>
+				<th>中文审核状态</th>
 				<th>英文审核</th>
 				<th>英文编辑</th>
+				<th>英文审核状态</th>
 				<th>操作</th>
 			</tr>
 		</thead>
@@ -32,14 +30,12 @@
 			<tr ng-repeat="city in cities | filter: query ">
 				<td>{{city.countryname}}</td>
 				<td>{{city.cityname}}</td>
-				<td>{{city.attractionscount}}</td>
-				<td>{{city.restaurantscount}}</td>
-				<td>{{city.shopareacount}}</td>
-				<td>{{city.shoppingscount}}</td>
 				<td>{{city.editorname}}</td>
 				<td>{{city.auditorname}}</td>
+				<td>{{city.status}}</td>
 				<td>{{city.en_info.editorname}}</td>
 				<td>{{city.en_info.auditorname}}</td>
+				<td>{{city.en_info.status}}</td>
 				<td>
 					
 					<a type="button" href="#/citylist/{{city._id}}/edit" class="btn btn-default">编辑</a>

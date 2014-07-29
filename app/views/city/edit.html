@@ -147,15 +147,23 @@
 				<div class="bs-callout bs-callout-warning bs-small">
 					<h4>主标签</h4>
 					<p>{{masterlabel}}</p>
-					<select class="form-control" ng-model="mstep" ng-options="opt for opt in options.mstep"></select>
+					<select class="form-control" ng-model="selectedMasterItem" ng-options="item as item.name for item in masterlabels"></select>
+   					<pre>{{selectedMasterItem | json}}</pre>
+					<button type="button" class="btn btn-success" ng-click="fixMasterlabel(selectedMasterItem._id)">修改</button>
 				</div>
 				<div class="bs-callout bs-callout-warning bs-small">
 					<h4>子标签</h4>
-					<pre>Model: {{asyncSelected | json}}</pre>
-					<input type="text" ng-model="asyncSelected" placeholder="艺术，家庭" typeahead="label for label in getLabels($viewValue)" class="form-control">
-					<button type="button" class="btn btn-success">增加</button>
-					<p ng-repeat="sublabel in sublabels">{{sublabel.label}}</p>
+                    <p ng-repeat="sublabel in sublabels">{{sublabel.label}}</p>
+					<select class="form-control" ng-model="selectedSubItem" ng-options="item as item.name for item in sublabelsopts"></select>
+   					<pre>{{selectedSubItem | json}}</pre>
+					<button type="button" class="btn btn-success" ng-click="addSublabel(selectedSubItem._id)">增加</button>
+					
 				</div>
+				<script type="text/ng-template" id="customTemplate.html">
+				  <a>
+				      <span bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
+				  </a>
+				</script>
 			</div>
 			<div class="bs-callout bs-callout-info" id="a7">
 				<h4>一句话简介</h4>

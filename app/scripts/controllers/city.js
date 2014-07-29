@@ -104,7 +104,6 @@ angular.module('cmsAppApp')
   	$scope.addTip = function(tip, items) {
 
   		if (!$scope.editMode){
-  			console.log(items);
   			switch(items){
   				case 'introduce':
   			 		$scope.city.introduce.push($scope.atip);
@@ -159,15 +158,41 @@ angular.module('cmsAppApp')
   	/**
 	 *  get labels by typehead
   	 */
-	$scope.getLabels = function(val) {
-		console.log(val);
-		return labelResource.query({name: val, criteria: {level: '2'}}, function(data) {
-			console.log(data.Resource);
-			var labels = [];
-			angular.forEach(data, function(item) {
-				labels.push(item.label);
-			});
-			return labels;
-		})
-	};
+  	labelResource.query({
+  		criteria: {
+  			level: '1'
+  		}
+  	}, function(data) {
+  		$scope.masterlabels = [];
+  		angular.forEach(data, function(item) {
+  			var label = {
+  				name: item.label,
+  				_id: item._id
+  			};
+  			$scope.masterlabels.push(label);
+  		});
+  	})
+
+	labelResource.query({
+		criteria: {
+			level: '2'
+		}
+	}, function(data) {
+		$scope.sublabelsopts = [];
+		angular.forEach(data, function(item) {
+			var label = {
+				name: item.label,
+				_id: item._id
+			}
+			$scope.sublabelsopts.push(label);
+		});
+	})
+
+	$scope.fixMasterlabel = function(labelid) {
+		$scope.city.masterLabel = labelid;
+	}
+	$scope.addSublabel = function(labelid) {
+		console.log(labelid);
+		$scope.city.subLabel.push(labelid);
+	}
   }]);

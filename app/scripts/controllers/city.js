@@ -2,9 +2,9 @@
 
 /**
  * @ngdoc function
- * @name cmsAppApp.controller:AboutCtrl
+ * @name cmsAppApp.controller:CityListCtrl,CityDetailCtrl,CityEditCtrl
  * @description
- * # AboutCtrl
+ * # CityListCtrl,CityDetailCtrl,CityEditCtrl
  * Controller of the cmsAppApp
  */
 angular.module('cmsAppApp')
@@ -160,12 +160,12 @@ angular.module('cmsAppApp')
 	 *  get labels by typehead
   	 */
 	$scope.getLabels = function(val) {
-
+		console.log(val);
 		return labelResource.query({name: val, criteria: {level: '2'}}, function(data) {
-			console.log(data);
+			console.log(data.Resource);
 			var labels = [];
-			angular.forEach(data.result, function(item) {
-				labels.push(item.formatted_address);
+			angular.forEach(data, function(item) {
+				labels.push(item.label);
 			});
 			return labels;
 		})

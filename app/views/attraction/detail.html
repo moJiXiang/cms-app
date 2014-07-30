@@ -1,0 +1,191 @@
+	<div class="col-lg-9">
+		<div class="bs-callout bs-callout-info" id="a1">
+			<h4>封面图片</h4>
+			<img src="http://weegotest.b0.upaiyun.com/attractions/origin/{{attraction.coverImageName}}" alt="" class="img-thumbnail">
+		</div>
+		<div class="bs-callout bs-callout-info" id="a2">
+			<h4>图片</h4>
+			<div class="slidemodel">
+			    <carousel interval="myInterval">
+			      <slide ng-repeat="image in attraction.image" active="slide.active">
+			        <img ng-src="http://weegotest.b0.upaiyun.com/attractions/origin/{{image}}" style="margin:auto;">
+			      </slide>
+			    </carousel>
+			  </div>
+		</div>
+		<div class="bs-callout bs-callout-info" id="a3">
+			<h4>景点基本信息</h4>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>城市名（中文）</h4>
+				<p>{{attraction.cityname}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>景点名</h4>
+				<p>{{attraction.attractions}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>景点名（英文）</h4>
+				<p>{{attraction.attractions_en}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>经纬度</h4>
+				<p>（{{attraction.latitude}}，{{attraction.longitude}}）</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>地址</h4>
+				<p>{{attraction.address}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>价格</h4>
+				<p>{{attraction.price}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>开放时间</h4>
+				<p>{{attraction.opentime}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>网址</h4>
+				<p>{{attraction.website}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>电话</h4>
+				<p>{{attraction.telno}}</p>
+			</div>
+		</div>
+		<div class="bs-callout bs-callout-info" id="a4">
+			<h4>制定计划相关信息</h4>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>推荐白天或晚上</h4>
+				<p>{{attraction.dayornight == '1' ? '白天' : '晚上'}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>游览时间段</h4>
+				<p>
+					<span>{{attraction.am ? '上午' : ''}}</span>
+					<span>{{attraction.pm ? '下午' : ''}}</span>
+					<span>{{attraction.ev ? '晚上' : ''}}</span>
+				</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>推荐游览时间</h4>
+				<p>{{attraction.recommand_duration}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>是否推荐</h4>
+				<p>{{attraction.recommand_flag == '1' ? '推荐' : '不推荐'}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>城市首页显示</h4>
+				<p>{{attraction.index_flag == '1' ? '显示' : '不显示'}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>是否显示</h4>
+				<p>{{attraction.show_flag == '1' ? '显示' : '不显示'}}</p>
+			</div>
+		</div>
+		<div class="bs-callout bs-callout-info" id="a5">
+			<h4>标签</h4>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>主标签</h4>
+				<p>{{masterlabel}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<h4>子标签</h4>
+				<p ng-repeat="sublabel in sublabels">{{sublabel.label}}</p>
+			</div>
+		</div>
+		<div class="bs-callout bs-callout-info" id="a6">
+			<div class="alert alert-warning" ng-show="short_introduce">
+				<span class="glyphicon glyphicon-thumbs-up"></span>
+				<textarea class="form-control" rows='2'></textarea>
+				<button type="button" class="btn btn-default">保存</button>
+		    </div>
+			<input type="checkbox" class="commentbtn" ng-model="short_introduce" >
+			<h4>一句话简介</h4>
+			<pre>{{attraction.short_introduce}}</pre>
+
+		</div>
+		<div class="bs-callout bs-callout-info" id="a7">
+			<div class="alert alert-warning" ng-show="checked">
+				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
+		    </div>
+			<input type="checkbox" class="commentbtn" ng-model="checked" >
+			<h4>简介</h4>
+			<pre>{{attraction.introduce}}</pre>
+		</div>
+
+		<div class="bs-callout bs-callout-info" id="a8">
+			<div class="alert alert-warning" ng-show="checked">
+				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
+		    </div>
+			<input type="checkbox" class="commentbtn" ng-model="checked" >
+			<h4>小贴士</h4>
+			<pre>{{attraction.tips}}</pre>
+		</div>
+
+		<div class="bs-callout bs-callout-info" id="a9">
+			<div class="alert alert-warning" ng-show="checked">
+				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
+		    </div>
+			<input type="checkbox" class="commentbtn" ng-model="checked" >
+			<h4>交通</h4>
+			<pre>{{attraction.traffic_info}}</pre>
+		</div>
+
+		<div class="bs-callout bs-callout-danger" id="a10">
+			<div class="alert alert-warning" ng-show="checked">
+				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
+		    </div>
+			<input type="checkbox" class="commentbtn" ng-model="checked" >
+			<h4>short introduce</h4>
+			<pre>{{attraction.en_info.short_introduce}}</pre>
+			
+		</div>
+
+		<div class="bs-callout bs-callout-danger" id="a11">
+			<div class="alert alert-warning" ng-show="checked">
+				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
+		    </div>
+			<input type="checkbox" class="commentbtn" ng-model="checked" >
+			<h4>introduce</h4>
+			<pre>{{attraction.en_info.introduce}}</pre>
+		</div>
+
+		<div class="bs-callout bs-callout-danger" id="a12">
+			<div class="alert alert-warning" ng-show="checked">
+				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
+		    </div>
+			<input type="checkbox" class="commentbtn" ng-model="checked" >
+			<h4>tips</h4>
+			<pre>{{attraction.en_info.tips}}</pre>
+		</div>
+
+		<div class="bs-callout bs-callout-danger" id="a13">
+			<div class="alert alert-warning" ng-show="checked">
+				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
+		    </div>
+			<input type="checkbox" class="commentbtn" ng-model="checked" >
+			<h4>traffic</h4>
+			<pre>{{attraction.en_info.traffic_info}}</pre>
+		</div>
+	</div>
+	<div class="col-lg-3">
+		<nav id="citynavaffix" class="citynav affix" data-spy="affix" data-offset-top="200">
+			<ul>
+				<li><h2>{{attraction.attractions}}</h2></li>
+				<li><a ng-click="scrollTo('a1')">封面图片</a></li>
+				<li><a ng-click="scrollTo('a2')">图片</a></li>
+				<li><a ng-click="scrollTo('a3')">城市基本信息</a></li>
+				<li><a ng-click="scrollTo('a4')">制定计划相关信息</a></li>
+				<li><a ng-click="scrollTo('a5')">标签</a></li>
+				<li><a ng-click="scrollTo('a6')">一句话简介</a></li>
+				<li><a ng-click="scrollTo('a7')">简介</a></li>
+				<li><a ng-click="scrollTo('a8')">小贴士</a></li>
+				<li><a ng-click="scrollTo('a9')">交通</a></li>
+				<li><a ng-click="scrollTo('a10')">short introduce</a></li>
+				<li><a ng-click="scrollTo('a11')">introduce</a></li>
+				<li><a ng-click="scrollTo('a12')">tips</a></li>
+				<li><a ng-click="scrollTo('a13')">traffic</a></li>
+			</ul>
+		</nav>
+	</div>

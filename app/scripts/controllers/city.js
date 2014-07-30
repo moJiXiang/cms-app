@@ -9,6 +9,10 @@
  */
 angular.module('cmsAppApp')
   .controller('CityListCtrl', ['$scope', '$http', 'cityResource', function ($scope, $http, cityResource) {
+
+	cityResource.query({}, function(items) {
+		$scope.cities = items;
+	});
 	/**
   	 *  pagination 
 	 */
@@ -23,36 +27,21 @@ angular.module('cmsAppApp')
 		console.log('Page changed to: ' + $scope.currentPage);
 	};
 
-	$scope.maxSize = 5;
-	$scope.bigTotalItems = 175;
+	$scope.maxSize        = 5;
+	$scope.bigTotalItems  = 175;
 	$scope.bigCurrentPage = 1;
 
 	/**
-	 *	del one city
+	 * del one city
+	 * @param  {string} cityId city's id
+	 * @return {boolean}        del success or fail
 	 */
 	$scope.del = function(cityId) {
 		$http.delete('/rest/citys/'+cityId).success(function(data) {
 			console.log(data);
 		})
 	}
-	// $('#searchcity').typeahead({
-	// 	source: function(query, process) {
-	// 		$.ajax({
-	// 			url: '/mirage/index.php?it=barservice&op=get-receiptno',
-	// 			type: 'POST',
-	// 			dataType: 'JSON',
-	// 			data: query,
-	// 			success: function(data) {
-	// 				console.log(data);
-	// 				process(data);
-	// 			}
-	// 		});
-	// 	}
-	// })
-	
-	cityResource.query({}, function(items) {
-		$scope.cities = items;
-	});
+
 
   }])
   .controller('CityDetailCtrl', ['$scope', '$http', '$routeParams', '$location', '$anchorScroll', 'cityResource','labelResource',function($scope, $http, $routeParams, $location, $anchorScroll, cityResource, labelResource) {
@@ -70,9 +59,11 @@ angular.module('cmsAppApp')
 		var showflag = data.show_flag;
 		$scope.hot_flag = hotflag == '1' ? '是' : '否';
 		$scope.show_flag = showflag	== '1' ? '是' : '否';
-		labelResource.get({id: data.masterLabel}, function(data) {
-			$scope.masterlabel = data.label;
-		})
+    	if(data.masterLabel){
+			labelResource.get({id: data.masterLabel}, function(data) {
+				$scope.masterlabel = data.label;
+			})
+		} 
 		labelResource.query({city: $routeParams.cityId, cmd:'listByCity'}, function(data){
 			$scope.sublabels = data;
 		})
@@ -80,7 +71,8 @@ angular.module('cmsAppApp')
   }])
   .controller('CityEditCtrl', ["$scope", "$http", "$routeParams", "$location", "$anchorScroll","cityResource","labelResource",function($scope, $http, $routeParams, $location, $anchorScroll,cityResource,labelResource) {
   	/**
-	 *  scroll to anchor
+  	 * scroll to one anchor by id
+  	 * @param  {string} id DOM id
   	 */
   	$scope.scrollTo = function(id){
     	$location.hash(id);
@@ -89,18 +81,23 @@ angular.module('cmsAppApp')
 
     cityResource.get({id: $routeParams.cityId}, function(data) {
     	$scope.city = data;
-    	labelResource.get({id: data.masterLabel}, function(data) {
-			$scope.masterlabel = data.label;
-		})
+    	$scope.hotFlagModel  = data.hot_flag;
+    	$scope.showFlagModel = data.show_flag;
+    	
+    	/**
+		 *  get masterlabel and sublabels 
+		 */
+    	if(data.masterLabel){
+	    	labelResource.get({id: data.masterLabel}, function(data) {
+				$scope.masterlabel = data.label;
+			})
+    	} 
 		labelResource.query({city: $routeParams.cityId, cmd:'listByCity'}, function(data){
 			$scope.sublabels = data;
 		})
     })
-    $scope.atip = {};
 
-  	// $http.get('/rest/citys/' + $routeParams.cityId).success(function(data) {
-  	// 	$scope.city = data;
-  	// });
+    $scope.atip = {};
   	$scope.addTip = function(tip, items) {
 
   		if (!$scope.editMode){
@@ -156,7 +153,8 @@ angular.module('cmsAppApp')
   	}
 
   	/**
-	 *  get labels by typehead
+  	 * get masterlabels
+  	 * @return {array}  data is result returned
   	 */
   	labelResource.query({
   		criteria: {
@@ -173,6 +171,10 @@ angular.module('cmsAppApp')
   		});
   	})
 
+  	/**
+  	 * get sublabels
+  	 * @return {array}  data is result returned
+  	 */
 	labelResource.query({
 		criteria: {
 			level: '2'
@@ -192,7 +194,21 @@ angular.module('cmsAppApp')
 		$scope.city.masterLabel = labelid;
 	}
 	$scope.addSublabel = function(labelid) {
-		console.log(labelid);
-		$scope.city.subLabel.push(labelid);
+		if($scope.city.subLabel){
+			$scope.city.subLabel.push(labelid);
+		}else{
+			$scope.city.subLabel = [];
+			$scope.city.subLabel.push(labelid);
+		}
 	}
-  }]);
+  }])
+.controller('CityNewCtrl',['$scope', "$location", "$anchorScroll", function($scope, $location, $anchorScroll) {
+	/**
+  	 * scroll to one anchor by id
+  	 * @param  {string} id DOM id
+  	 */
+  	$scope.scrollTo = function(id){
+    	$location.hash(id);
+    	$anchorScroll();
+    }
+}]);

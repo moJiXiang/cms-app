@@ -1,9 +1,23 @@
 	<div class="col-lg-9">
 		<div class="bs-callout bs-callout-info" id="a1">
+			<div class="alert alert-warning" ng-show="coverImageName">
+				<span class="glyphicon glyphicon-thumbs-up"></span>
+				<textarea class="form-control itemcomment" rows='2'></textarea>
+				<button type="button" class="btn btn-default">保存</button>
+				<button type="button" class="btn btn-danger">删除</button>
+		    </div>
+			<input type="checkbox" class="commentbtn" ng-model="coverImageName" >
 			<h4>封面图片</h4>
 			<img src="http://weegotest.b0.upaiyun.com/city/imgsizeC2/{{city.coverImageName}}" alt="" class="img-thumbnail">
 		</div>
 		<div class="bs-callout bs-callout-info" id="a2">
+			<div class="alert alert-warning" ng-show="image">
+				<span class="glyphicon glyphicon-thumbs-up"></span>
+				<textarea class="form-control itemcomment" rows='2'></textarea>
+				<button type="button" class="btn btn-default">保存</button>
+				<button type="button" class="btn btn-danger">删除</button>
+		    </div>
+			<input type="checkbox" class="commentbtn" ng-model="image" >
 			<h4>图片</h4>
 			<div class="slidemodel">
 			    <carousel interval="myInterval">
@@ -14,6 +28,13 @@
 			  </div>
 		</div>
 		<div class="bs-callout bs-callout-info" id="a3">
+			<div class="alert alert-warning" ng-show="backgroundimage">
+				<span class="glyphicon glyphicon-thumbs-up"></span>
+				<textarea class="form-control itemcomment" rows='2'></textarea>
+				<button type="button" class="btn btn-default">保存</button>
+				<button type="button" class="btn btn-danger">删除</button>
+		    </div>
+			<input type="checkbox" class="commentbtn" ng-model="backgroundimage" >
 			<h4>城市背景大图</h4>
 			<div class="slidemodel">
 			    <carousel interval="myInterval">
@@ -91,9 +112,9 @@
 		<div class="bs-callout bs-callout-info" id="a7">
 			<div class="alert alert-warning" ng-show="short_introduce">
 				<span class="glyphicon glyphicon-thumbs-up"></span>
-				<textarea class="form-control" rows='2'></textarea>
+				<textarea class="form-control itemcomment" rows='2'></textarea>
 				<button type="button" class="btn btn-default">保存</button>
-				<button type="button" class="btn btn-default">保存</button>
+				<button type="button" class="btn btn-danger">删除</button>
 		    </div>
 			<input type="checkbox" class="commentbtn" ng-model="short_introduce" >
 			<h4>一句话简介</h4>
@@ -101,35 +122,47 @@
 
 		</div>
 		<div class="bs-callout bs-callout-info" id="a8">
-			<div class="alert alert-warning" ng-show="checked">
-				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
+			<div class="alert alert-warning" ng-show="attraction_overview">
+				<span class="glyphicon glyphicon-thumbs-up"></span>
+				<textarea class="form-control itemcomment" rows='2'></textarea>
+				<button type="button" class="btn btn-default">保存</button>
+				<button type="button" class="btn btn-danger">删除</button>
 		    </div>
-			<input type="checkbox" class="commentbtn" ng-model="checked" >
+			<input type="checkbox" class="commentbtn" ng-model="attraction_overview" >
 			<h4>景点概述</h4>
 			<pre>{{city.attraction_overview}}</pre>
 		</div>
 		<div class="bs-callout bs-callout-info" id="a9">
-			<div class="alert alert-warning" ng-show="checked">
-				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
+			<div class="alert alert-warning" ng-show="restaurant_overview">
+				<span class="glyphicon glyphicon-thumbs-up"></span>
+				<textarea class="form-control itemcomment" rows='2'></textarea>
+				<button type="button" class="btn btn-default">保存</button>
+				<button type="button" class="btn btn-danger">删除</button>
 		    </div>
-			<input type="checkbox" class="commentbtn" ng-model="checked" >
+			<input type="checkbox" class="commentbtn" ng-model="restaurant_overview" >
 			<h4>餐馆概述</h4>
 			<pre>{{city.restaurant_overview}}</pre>
 		</div>
 		<div class="bs-callout bs-callout-info" id="a10">
-			<div class="alert alert-warning" ng-show="checked">
-				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
+			<div class="alert alert-warning" ng-show="shopping_overview">
+				<span class="glyphicon glyphicon-thumbs-up"></span>
+				<textarea class="form-control itemcomment" rows='2'></textarea>
+				<button type="button" class="btn btn-default">保存</button>
+				<button type="button" class="btn btn-danger">删除</button>
 		    </div>
-			<input type="checkbox" class="commentbtn" ng-model="checked" >
+			<input type="checkbox" class="commentbtn" ng-model="shopping_overview" >
 			<h4>购物概述</h4>
 			<pre>{{city.shopping_overview}}</pre>
 		</div>
 
 		<div class="bs-callout bs-callout-info" id="a11">
-			<div class="alert alert-warning" ng-show="checked">
-				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
+			<div class="alert alert-warning" ng-show="introduce">
+				<span class="glyphicon glyphicon-thumbs-up"></span>
+				<textarea class="form-control itemcomment" rows='2'></textarea>
+				<button type="button" class="btn btn-default">保存</button>
+				<button type="button" class="btn btn-danger">删除</button>
 		    </div>
-			<input type="checkbox" class="commentbtn" ng-model="checked" >
+			<input type="checkbox" class="commentbtn" ng-model="introduce" >
 			<h4>简介</h4>
 			<div class="bs-callout bs-callout-info bs-small" ng-repeat="introduce in city.introduce">
 				<h4>{{introduce.intrItemTitle}}</h4>
@@ -138,10 +171,13 @@
 		</div>
 
 		<div class="bs-callout bs-callout-info" id="a12">
-			<div class="alert alert-warning" ng-show="checked">
-				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
+			<div class="alert alert-warning" ng-show="tips">
+				<span class="glyphicon glyphicon-thumbs-up"></span>
+				<textarea class="form-control itemcomment" rows='2'></textarea>
+				<button type="button" class="btn btn-default">保存</button>
+				<button type="button" class="btn btn-danger">删除</button>
 		    </div>
-			<input type="checkbox" class="commentbtn" ng-model="checked" >
+			<input type="checkbox" class="commentbtn" ng-model="tips" >
 			<h4>小贴士</h4>
 			<div class="bs-callout bs-callout-info bs-small" ng-repeat="tip in city.tips">
 				<h4>{{tip.tipItemTitle}}</h4>
@@ -150,10 +186,13 @@
 		</div>
 
 		<div class="bs-callout bs-callout-info" id="a13">
-			<div class="alert alert-warning" ng-show="checked">
-				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
+			<div class="alert alert-warning" ng-show="traffic">
+				<span class="glyphicon glyphicon-thumbs-up"></span>
+				<textarea class="form-control itemcomment" rows='2'></textarea>
+				<button type="button" class="btn btn-default">保存</button>
+				<button type="button" class="btn btn-danger">删除</button>
 		    </div>
-			<input type="checkbox" class="commentbtn" ng-model="checked" >
+			<input type="checkbox" class="commentbtn" ng-model="traffic" >
 			<h4>交通</h4>
 			<div class="bs-callout bs-callout-info bs-small" ng-repeat="traffic in city.traffic">
 				<h4>{{traffic.traItemTitle}}</h4>
@@ -162,44 +201,59 @@
 		</div>
 
 		<div class="bs-callout bs-callout-danger" id="a14">
-			<div class="alert alert-warning" ng-show="checked">
-				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
+			<div class="alert alert-warning" ng-show="en_info.short_introduce">
+				<span class="glyphicon glyphicon-thumbs-up"></span>
+				<textarea class="form-control itemcomment" rows='2'></textarea>
+				<button type="button" class="btn btn-default">保存</button>
+				<button type="button" class="btn btn-danger">删除</button>
 		    </div>
-			<input type="checkbox" class="commentbtn" ng-model="checked" >
+			<input type="checkbox" class="commentbtn" ng-model="en_info.short_introduce" >
 			<h4>short introduce</h4>
 			<pre>{{city.en_info.short_introduce}}</pre>
 			
 		</div>
 		<div class="bs-callout bs-callout-danger" id="a15">
-			<div class="alert alert-warning" ng-show="checked">
-				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
+			<div class="alert alert-warning" ng-show="en_info.attraction_overview">
+				<span class="glyphicon glyphicon-thumbs-up"></span>
+				<textarea class="form-control itemcomment" rows='2'></textarea>
+				<button type="button" class="btn btn-default">保存</button>
+				<button type="button" class="btn btn-danger">删除</button>
 		    </div>
-			<input type="checkbox" class="commentbtn" ng-model="checked" >
+			<input type="checkbox" class="commentbtn" ng-model="en_info.attraction_overview" >
 			<h4>attraction overview</h4>
 			<pre>{{city.en_info.attraction_overview}}</pre>
 		</div>
 		<div class="bs-callout bs-callout-danger" id="a16">
-			<div class="alert alert-warning" ng-show="checked">
-				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
+			<div class="alert alert-warning" ng-show="en_info.restaurant_overview">
+				<span class="glyphicon glyphicon-thumbs-up"></span>
+				<textarea class="form-control itemcomment" rows='2'></textarea>
+				<button type="button" class="btn btn-default">保存</button>
+				<button type="button" class="btn btn-danger">删除</button>
 		    </div>
-			<input type="checkbox" class="commentbtn" ng-model="checked" >
+			<input type="checkbox" class="commentbtn" ng-model="en_info.restaurant_overview" >
 			<h4>restaurant overview</h4>
 			<pre>{{city.en_info.restaurant_overview}}</pre>
 		</div>
 		<div class="bs-callout bs-callout-danger" id="a17">
-			<div class="alert alert-warning" ng-show="checked">
-				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
+			<div class="alert alert-warning" ng-show="en_info.shopping_overview">
+				<span class="glyphicon glyphicon-thumbs-up"></span>
+				<textarea class="form-control itemcomment" rows='2'></textarea>
+				<button type="button" class="btn btn-default">保存</button>
+				<button type="button" class="btn btn-danger">删除</button>
 		    </div>
-			<input type="checkbox" class="commentbtn" ng-model="checked" >
+			<input type="checkbox" class="commentbtn" ng-model="en_info.shopping_overview" >
 			<h4>shopping overview</h4>
 			<pre>{{city.en_info.shopping_overview}}</pre>
 		</div>
 
 		<div class="bs-callout bs-callout-danger" id="a18">
-			<div class="alert alert-warning" ng-show="checked">
-				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
+			<div class="alert alert-warning" ng-show="en_info.introduce">
+				<span class="glyphicon glyphicon-thumbs-up"></span>
+				<textarea class="form-control itemcomment" rows='2'></textarea>
+				<button type="button" class="btn btn-default">保存</button>
+				<button type="button" class="btn btn-danger">删除</button>
 		    </div>
-			<input type="checkbox" class="commentbtn" ng-model="checked" >
+			<input type="checkbox" class="commentbtn" ng-model="en_info.introduce" >
 			<h4>introduce</h4>
 			<div class="bs-callout bs-callout-danger bs-small" ng-repeat="introduce in city.en_info.introduce">
 				<h4>{{introduce.intrItemTitle}}</h4>
@@ -208,10 +262,13 @@
 		</div>
 
 		<div class="bs-callout bs-callout-danger" id="a19">
-			<div class="alert alert-warning" ng-show="checked">
-				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
+			<div class="alert alert-warning" ng-show="en_info.tips">
+				<span class="glyphicon glyphicon-thumbs-up"></span>
+				<textarea class="form-control itemcomment" rows='2'></textarea>
+				<button type="button" class="btn btn-default">保存</button>
+				<button type="button" class="btn btn-danger">删除</button>
 		    </div>
-			<input type="checkbox" class="commentbtn" ng-model="checked" >
+			<input type="checkbox" class="commentbtn" ng-model="en_info.tips" >
 			<h4>tips</h4>
 			<div class="bs-callout bs-callout-danger bs-small" ng-repeat="tip in city.en_info.tips">
 				<h4>{{tip.tipItemTitle}}</h4>
@@ -220,10 +277,13 @@
 		</div>
 
 		<div class="bs-callout bs-callout-danger" id="a20">
-			<div class="alert alert-warning" ng-show="checked">
-				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
+			<div class="alert alert-warning" ng-show="en_info.traffic">
+				<span class="glyphicon glyphicon-thumbs-up"></span>
+				<textarea class="form-control itemcomment" rows='2'></textarea>
+				<button type="button" class="btn btn-default">保存</button>
+				<button type="button" class="btn btn-danger">删除</button>
 		    </div>
-			<input type="checkbox" class="commentbtn" ng-model="checked" >
+			<input type="checkbox" class="commentbtn" ng-model="en_info.traffic" >
 			<h4>traffic</h4>
 			<div class="bs-callout bs-callout-danger bs-small" ng-repeat="traffic in city.en_info.traffic">
 				<h4>{{traffic.traItemTitle}}</h4>

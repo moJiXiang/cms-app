@@ -8,11 +8,42 @@
  * Controller of the cmsAppApp
  */
 angular.module('cmsAppApp')
-  .controller('CityListCtrl', ['$scope', '$http', 'cityResource', function ($scope, $http, cityResource) {
-
-	cityResource.query({}, function(items) {
-		$scope.cities = items;
+  .controller('CityListCtrl', ['$scope', '$http', '$modal', 'cityResource', 'edituserResource', 'auditingResource', function ($scope, $http, $modal, cityResource, edituserResource, auditingResource) {
+  	/**
+  	 * get all cities
+  	 * @return {array}    return cities array
+  	 */
+	cityResource.query({}, function(citys) {
+		angular.forEach(citys, function(city) {
+			auditingResource.query({item_id: city._id, cmd: 'getAuditByItemid'}, function(audits) {
+				audits.forEach(function(audit) {
+					if(audit.en){
+						city.audit_en = audit;
+					}else{
+						city.audit_zh = audit;
+					}
+				})
+			})	
+		})
+		$scope.cities = citys;
 	});
+
+
+	/**
+	 * get chinese editors
+	 * @return {array}    return chinese editors
+	 */
+	edituserResource.query({group: 0 , type: 1, cmd: "listChineseEditors"}, function(items) {
+		$scope.editusers_zh = items;
+	})
+	/**
+	 * get english editors
+	 * @return {array}   return english editors
+	 */
+	edituserResource.query({group: 1, type: 1, cmd: "listEnglishEditors"}, function(items) {
+		$scope.editusers_en = items;
+	})
+
 	/**
   	 *  pagination 
 	 */
@@ -78,7 +109,7 @@ angular.module('cmsAppApp')
     	$location.hash(id);
     	$anchorScroll();
     }
-
+    $('.textarea').wysihtml5();
     cityResource.get({id: $routeParams.cityId}, function(data) {
     	$scope.city = data;
     	$scope.hotFlagModel  = data.hot_flag;

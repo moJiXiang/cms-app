@@ -10,7 +10,19 @@
 	</div> -->
 	
 	<!-- <input type="text" ng-model="selected" typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control"> -->
- 	<input type="text" ng-model="query" placeholder="search" class="form-control searchcitybtn">
+ 	<input type="text" ng-model="query" placeholder="搜索城市" class="form-control searchcitybtn">
+ 	<div class="col-sm-2">
+ 		<div class="input-group">
+	       	<div class="input-group-addon">中文编辑</div>
+	       	<select class="form-control" ng-model="edituserModel" ng-options="edituser as edituser.username for edituser in editusers_zh"></select>
+	    </div>
+ 	</div>
+ 	<div class="col-sm-2">
+ 		<div class="input-group">
+	       	<div class="input-group-addon">英文编辑</div>
+ 			<select class="form-control" ng-model="edituserModel" ng-options="edituser as edituser.username for edituser in editusers_en"></select>
+	    </div>
+ 	</div>
  	<a type="button" class="btn btn-default" ng-href="#/citylist/addnewcity">新增城市</a>
  	<pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm paginationmodel" boundary-links="true"></pagination>
 	<table class="table table-hover">
@@ -28,20 +40,20 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="city in cities | filter: query ">
+			<tr ng-repeat="city in cities | filter: query">
 				<td>{{city.countryname}}</td>
 				<td>{{city.cityname}}</td>
-				<td>{{city.editorname}}</td>
-				<td>{{city.auditorname}}</td>
-				<td>{{city.status}}</td>
+				<td>{{city.audit_zh.editorname}}</td>
+				<td>{{city.audit_zh.auditorname}}</td>
+				<td>{{city.audit_zh.status}}</td>
 				<td>{{city.en_info.editorname}}</td>
 				<td>{{city.en_info.auditorname}}</td>
 				<td>{{city.en_info.status}}</td>
 				<td>
-					
 					<a type="button" href="#/citylist/{{city._id}}/edit" class="btn btn-default">编辑</a>
 					<a type="button" href="#/citylist/{{city._id}}/detail" class="btn btn-default">预览</a>
 					<button type="button" ng-click="del(city._id)" class="btn btn-danger">删除</button>
+					<button class="btn btn-default" ng-click="open()">指派任务</button>
 				</td>
 			</tr>
 		</tbody>

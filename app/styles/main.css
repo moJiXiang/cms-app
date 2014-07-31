@@ -1,6 +1,7 @@
 /* Prototurk.com adina anibor tarafindan kodlanmistir.*/ 
 /*@import "reset.css";*/
 body{font-family:Verdana;}
+ul,ol{margin: 0; padding: 0; list-style: none;}
 a{text-decoration:none;}
 :focus{outline:none;}
 
@@ -105,8 +106,8 @@ background: #fff;}
 }
 .bs-callout-warning.bs-small{
 	float: left;
-	width: 25%;
-	padding: 0 20px;
+	width: 50%;
+	padding: 5px 20px;
 }
 .bs-callout-info.bs-small,.bs-callout-danger.bs-small{
 	padding: 5px 20px;

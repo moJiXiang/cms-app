@@ -23,6 +23,7 @@ var names = [
 {n: 'bigtype', ns:'bigtypes'}, 
 {n: 'entertainment', ns: 'entertainments'}, 
 {n: 'meta', ns: 'metas'}, 
+{n: 'country', ns: 'countrys'}, 
 {n: 'shopping', ns:'shoppings'}
 ];
 

@@ -19,6 +19,13 @@ app.config(['$routeProvider', '$locationProvider', '$resourceProvider', function
       controller: 'MainCtrl'
     })
     /**
+     * country routes
+     */
+    .when('/countrylist', {
+      templateUrl: 'views/country/list.html',
+      controller: 'CountryListCtrl'
+    })
+    /**
      * city routes
      */
     .when('/citylist', {

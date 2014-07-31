@@ -14,6 +14,9 @@ var unwrap = function (body) {
 //ATTENTION!! DON'T EDIT, BELOW CODES ARE GENERATED , SEE codegen.js
 
 
+
+
+
 //model : areas
 app.factory('areaResource', ['$resource', function ($resource) {
 
@@ -388,6 +391,17 @@ app.factory('countryResource', ['$resource', function ($resource) {
     });
     
     return Model;
+}]);
+
+
+
+//model : countrys
+app.factory('countryResource', ['$resource', function ($resource) {
+    return $resource('/rest/countrys/:id', {id:'@id'}, {
+        query : {method: 'GET', isArray: true, transformResponse: unwrap},
+        count : {method: 'GET', params: {cmd:'count'}},
+        get   : {method: 'GET', transformResponse: unwrap}
+    });
 }]);
 
 

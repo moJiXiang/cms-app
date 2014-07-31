@@ -1,0 +1,26 @@
+<input type="text" ng-model="query" placeholder="搜索国家" class="form-control searchcitybtn">
+<pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm paginationmodel" boundary-links="true"></pagination>
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>国家</th>
+			<th>英文名</th>
+			<th>code</th>
+			<th>color</th>
+			<th>国际区号</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="country in countries | filter: query">
+			<td>{{country.cn_name}}</td>
+			<td>{{country.name}}</td>
+			<td>{{country.code}}</td>
+			<td>{{country.color}}</td>
+			<td>{{country.phonecode}}</td>
+			<td>
+				<button type="button" class="btn btn-danger">删除</button>
+			</td>
+		</tr>
+	</tbody>
+</table>

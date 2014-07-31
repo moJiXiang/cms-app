@@ -11,7 +11,7 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,
 table{border-collapse:collapse;border-spacing:0;}
 fieldset,img{border:0;}
 address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
-ol,ul {list-style:none;}
+ol,ul {margin:0;padding:0;list-style:none;}
 caption,th {text-align:left;}
 h1,h2,h3,h4,h5,h6{font-size:11px;font-weight:normal;}
 q:before,q:after{content:'';}

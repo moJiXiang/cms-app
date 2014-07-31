@@ -13,6 +13,7 @@
     "angular-touch": "1.2.16",
     "angular-route": "1.2.16",
     "bootstrap3-typeahead": "3.0.3",
+    "bootstrap3-wysihtml5-bower":"0.3.2",
     "ng-grid": "2.0.11",
     "angular-bootstrap":"0.11.0"
   },

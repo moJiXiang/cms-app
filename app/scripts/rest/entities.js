@@ -16,198 +16,399 @@ var unwrap = function (body) {
 
 //model : areas
 app.factory('areaResource', ['$resource', function ($resource) {
-    return $resource('/rest/areas/:id', {id:'@id'}, {
+
+    var Model =  $resource('/rest/areas/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {cmd:'count'}},
-        get   : {method: 'GET', transformResponse: unwrap}
+        get   : {method: 'GET', transformResponse: unwrap},
+        update: {method: 'PUT', transformResponse: unwrap}
     });
+
+    angular.extend(Model.prototype, {
+        hasId : function () {
+            return !!this._id;
+        }
+    });
+    
+    return Model;
 }]);
 
 
 
 //model : categories
 app.factory('categoryResource', ['$resource', function ($resource) {
-    return $resource('/rest/categories/:id', {id:'@id'}, {
+
+    var Model =  $resource('/rest/categories/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {cmd:'count'}},
-        get   : {method: 'GET', transformResponse: unwrap}
+        get   : {method: 'GET', transformResponse: unwrap},
+        update: {method: 'PUT', transformResponse: unwrap}
     });
+
+    angular.extend(Model.prototype, {
+        hasId : function () {
+            return !!this._id;
+        }
+    });
+    
+    return Model;
 }]);
 
 
 
 //model : paths
 app.factory('pathResource', ['$resource', function ($resource) {
-    return $resource('/rest/paths/:id', {id:'@id'}, {
+
+    var Model =  $resource('/rest/paths/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {cmd:'count'}},
-        get   : {method: 'GET', transformResponse: unwrap}
+        get   : {method: 'GET', transformResponse: unwrap},
+        update: {method: 'PUT', transformResponse: unwrap}
     });
+
+    angular.extend(Model.prototype, {
+        hasId : function () {
+            return !!this._id;
+        }
+    });
+    
+    return Model;
 }]);
 
 
 
 //model : tasks
 app.factory('taskResource', ['$resource', function ($resource) {
-    return $resource('/rest/tasks/:id', {id:'@id'}, {
+
+    var Model =  $resource('/rest/tasks/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {cmd:'count'}},
-        get   : {method: 'GET', transformResponse: unwrap}
+        get   : {method: 'GET', transformResponse: unwrap},
+        update: {method: 'PUT', transformResponse: unwrap}
     });
+
+    angular.extend(Model.prototype, {
+        hasId : function () {
+            return !!this._id;
+        }
+    });
+    
+    return Model;
 }]);
 
 
 
 //model : attractions
 app.factory('attractionResource', ['$resource', function ($resource) {
-    return $resource('/rest/attractions/:id', {id:'@id'}, {
+
+    var Model =  $resource('/rest/attractions/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {cmd:'count'}},
-        get   : {method: 'GET', transformResponse: unwrap}
+        get   : {method: 'GET', transformResponse: unwrap},
+        update: {method: 'PUT', transformResponse: unwrap}
     });
+
+    angular.extend(Model.prototype, {
+        hasId : function () {
+            return !!this._id;
+        }
+    });
+    
+    return Model;
 }]);
 
 
 
 //model : cities
 app.factory('cityResource', ['$resource', function ($resource) {
-    return $resource('/rest/cities/:id', {id:'@id'}, {
+
+    var Model =  $resource('/rest/cities/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {cmd:'count'}},
-        get   : {method: 'GET', transformResponse: unwrap}
+        get   : {method: 'GET', transformResponse: unwrap},
+        update: {method: 'PUT', transformResponse: unwrap}
     });
+
+    angular.extend(Model.prototype, {
+        hasId : function () {
+            return !!this._id;
+        }
+    });
+    
+    return Model;
 }]);
 
 
 
 //model : labels
 app.factory('labelResource', ['$resource', function ($resource) {
-    return $resource('/rest/labels/:id', {id:'@id'}, {
+
+    var Model =  $resource('/rest/labels/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {cmd:'count'}},
-        get   : {method: 'GET', transformResponse: unwrap}
+        get   : {method: 'GET', transformResponse: unwrap},
+        update: {method: 'PUT', transformResponse: unwrap}
     });
+
+    angular.extend(Model.prototype, {
+        hasId : function () {
+            return !!this._id;
+        }
+    });
+    
+    return Model;
 }]);
 
 
 
 //model : perms
 app.factory('permResource', ['$resource', function ($resource) {
-    return $resource('/rest/perms/:id', {id:'@id'}, {
+
+    var Model =  $resource('/rest/perms/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {cmd:'count'}},
-        get   : {method: 'GET', transformResponse: unwrap}
+        get   : {method: 'GET', transformResponse: unwrap},
+        update: {method: 'PUT', transformResponse: unwrap}
     });
+
+    angular.extend(Model.prototype, {
+        hasId : function () {
+            return !!this._id;
+        }
+    });
+    
+    return Model;
 }]);
 
 
 
 //model : taskquestions
 app.factory('taskquestionResource', ['$resource', function ($resource) {
-    return $resource('/rest/taskquestions/:id', {id:'@id'}, {
+
+    var Model =  $resource('/rest/taskquestions/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {cmd:'count'}},
-        get   : {method: 'GET', transformResponse: unwrap}
+        get   : {method: 'GET', transformResponse: unwrap},
+        update: {method: 'PUT', transformResponse: unwrap}
     });
+
+    angular.extend(Model.prototype, {
+        hasId : function () {
+            return !!this._id;
+        }
+    });
+    
+    return Model;
 }]);
 
 
 
 //model : auditings
 app.factory('auditingResource', ['$resource', function ($resource) {
-    return $resource('/rest/auditings/:id', {id:'@id'}, {
+
+    var Model =  $resource('/rest/auditings/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {cmd:'count'}},
-        get   : {method: 'GET', transformResponse: unwrap}
+        get   : {method: 'GET', transformResponse: unwrap},
+        update: {method: 'PUT', transformResponse: unwrap}
     });
+
+    angular.extend(Model.prototype, {
+        hasId : function () {
+            return !!this._id;
+        }
+    });
+    
+    return Model;
 }]);
 
 
 
 //model : editusers
 app.factory('edituserResource', ['$resource', function ($resource) {
-    return $resource('/rest/editusers/:id', {id:'@id'}, {
+
+    var Model =  $resource('/rest/editusers/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {cmd:'count'}},
-        get   : {method: 'GET', transformResponse: unwrap}
+        get   : {method: 'GET', transformResponse: unwrap},
+        update: {method: 'PUT', transformResponse: unwrap}
     });
+
+    angular.extend(Model.prototype, {
+        hasId : function () {
+            return !!this._id;
+        }
+    });
+    
+    return Model;
 }]);
 
 
 
 //model : lifetags
 app.factory('lifetagResource', ['$resource', function ($resource) {
-    return $resource('/rest/lifetags/:id', {id:'@id'}, {
+
+    var Model =  $resource('/rest/lifetags/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {cmd:'count'}},
-        get   : {method: 'GET', transformResponse: unwrap}
+        get   : {method: 'GET', transformResponse: unwrap},
+        update: {method: 'PUT', transformResponse: unwrap}
     });
+
+    angular.extend(Model.prototype, {
+        hasId : function () {
+            return !!this._id;
+        }
+    });
+    
+    return Model;
 }]);
 
 
 
 //model : restaurants
 app.factory('restaurantResource', ['$resource', function ($resource) {
-    return $resource('/rest/restaurants/:id', {id:'@id'}, {
+
+    var Model =  $resource('/rest/restaurants/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {cmd:'count'}},
-        get   : {method: 'GET', transformResponse: unwrap}
+        get   : {method: 'GET', transformResponse: unwrap},
+        update: {method: 'PUT', transformResponse: unwrap}
     });
+
+    angular.extend(Model.prototype, {
+        hasId : function () {
+            return !!this._id;
+        }
+    });
+    
+    return Model;
 }]);
 
 
 
 //model : users
 app.factory('userResource', ['$resource', function ($resource) {
-    return $resource('/rest/users/:id', {id:'@id'}, {
+
+    var Model =  $resource('/rest/users/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {cmd:'count'}},
-        get   : {method: 'GET', transformResponse: unwrap}
+        get   : {method: 'GET', transformResponse: unwrap},
+        update: {method: 'PUT', transformResponse: unwrap}
     });
+
+    angular.extend(Model.prototype, {
+        hasId : function () {
+            return !!this._id;
+        }
+    });
+    
+    return Model;
 }]);
 
 
 
 //model : bigtypes
 app.factory('bigtypeResource', ['$resource', function ($resource) {
-    return $resource('/rest/bigtypes/:id', {id:'@id'}, {
+
+    var Model =  $resource('/rest/bigtypes/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {cmd:'count'}},
-        get   : {method: 'GET', transformResponse: unwrap}
+        get   : {method: 'GET', transformResponse: unwrap},
+        update: {method: 'PUT', transformResponse: unwrap}
     });
+
+    angular.extend(Model.prototype, {
+        hasId : function () {
+            return !!this._id;
+        }
+    });
+    
+    return Model;
 }]);
 
 
 
 //model : entertainments
 app.factory('entertainmentResource', ['$resource', function ($resource) {
-    return $resource('/rest/entertainments/:id', {id:'@id'}, {
+
+    var Model =  $resource('/rest/entertainments/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {cmd:'count'}},
-        get   : {method: 'GET', transformResponse: unwrap}
+        get   : {method: 'GET', transformResponse: unwrap},
+        update: {method: 'PUT', transformResponse: unwrap}
     });
+
+    angular.extend(Model.prototype, {
+        hasId : function () {
+            return !!this._id;
+        }
+    });
+    
+    return Model;
 }]);
 
 
 
 //model : metas
 app.factory('metaResource', ['$resource', function ($resource) {
-    return $resource('/rest/metas/:id', {id:'@id'}, {
+
+    var Model =  $resource('/rest/metas/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {cmd:'count'}},
-        get   : {method: 'GET', transformResponse: unwrap}
+        get   : {method: 'GET', transformResponse: unwrap},
+        update: {method: 'PUT', transformResponse: unwrap}
     });
+
+    angular.extend(Model.prototype, {
+        hasId : function () {
+            return !!this._id;
+        }
+    });
+    
+    return Model;
+}]);
+
+
+
+//model : countrys
+app.factory('countryResource', ['$resource', function ($resource) {
+
+    var Model =  $resource('/rest/countrys/:id', {id:'@_id'}, {
+        query : {method: 'GET', isArray: true, transformResponse: unwrap},
+        count : {method: 'GET', params: {cmd:'count'}},
+        get   : {method: 'GET', transformResponse: unwrap},
+        update: {method: 'PUT', transformResponse: unwrap}
+    });
+
+    angular.extend(Model.prototype, {
+        hasId : function () {
+            return !!this._id;
+        }
+    });
+    
+    return Model;
 }]);
 
 
 
 //model : shoppings
 app.factory('shoppingResource', ['$resource', function ($resource) {
-    return $resource('/rest/shoppings/:id', {id:'@id'}, {
+
+    var Model =  $resource('/rest/shoppings/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {cmd:'count'}},
-        get   : {method: 'GET', transformResponse: unwrap}
+        get   : {method: 'GET', transformResponse: unwrap},
+        update: {method: 'PUT', transformResponse: unwrap}
     });
+
+    angular.extend(Model.prototype, {
+        hasId : function () {
+            return !!this._id;
+        }
+    });
+    
+    return Model;
 }]);
 
 

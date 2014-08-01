@@ -6,8 +6,8 @@
     <div id="tools">
 
       <ul>
-        <a href="/"><li class="select">个人主页</li></a>
-        <a href="#/countrylist"><li id="yazilar">国家</li></a>
+        <li ng-repeat="link in links"> <a href="#{{link.value}}">{{link.name}}</a> </li>
+<!--         <a href="/"><li class="select">个人主页</li></a>
         <a href="#/citylist"><li id="yazilar">城市</li></a>
         <a href="#/attractionlist"><li id="medya">景点</li></a>
         <a href="#/restaurantlist"><li id="sayfalar">餐馆</li></a>
@@ -17,7 +17,7 @@
         <a href="#"><li id="eklentiler">生活标签 <span class="number">2</span></li></a>
         <a href="#"><li id="kullanicilar">菜系管理</li></a>
         <a href="#"><li id="araclar">标签管理</li></a>
-        <a href="#"><li id="ayarlar">数据统计</li></a>
+        <a href="#"><li id="ayarlar">数据统计</li></a> -->
       </ul>
       
     </div>

@@ -4,22 +4,35 @@
 <!-- <input type="text" ng-model="query" placeholder="search" class="form-control searchmetabtn"> -->
 <!-- <pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm paginationmodel" boundary-links="true"></pagination> -->
 
+<div class="row">
+  <div class="col-xs-1">Type : </div>
+  <div class="col-xs-3">
+    <select  class="form-control col-xs-3" ng-model="filter.type" ng-options="t for t in types" ng-click="query()">
+      <option value="">-- choose type --</option>
+    </select>
+  </div>
+</div>
 
+<hr/>
 <table class="table table-hover">
 	<thead>
 		<tr>
 			<th>type</th>
 			<th>value</th>
-			<th><a type="button" data-toggle="modal" data-target="#metaDetailModalWindow" class="btn btn-default">add</a></th>
+			<th>name</th>
+			<th>position(optional)</th>
+			<th><a type="button" ng-click="newMeta()" data-toggle="modal" data-target="#metaDetailModalWindow"  class="btn btn-default">add</a></th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr ng-repeat="meta in metas">
 			<td>{{meta.type}}</td>
 			<td>{{meta.value}}</td>
+			<td>{{meta.name}}</td>
+			<td>{{meta.order}}</td>
 			<td>
-				<a type="button" ng-click="editMeta(meta)"  data-toggle="modal" data-target="#metaDetailModalWindow" class="btn btn-default">编辑</a>
-				<button type="button" ng-click="delMeta(meta)"  class="btn btn-danger">删除</button>
+				<a type="button" ng-click="editMeta(meta)"  data-toggle="modal" data-target="#metaDetailModalWindow" class="btn btn-default btn-sm">编辑</a>
+				<button type="button" ng-click="delMeta(meta)"  class="btn btn-danger btn-sm">删除</button>
 			</td>
 		</tr>
 	</tbody>
@@ -33,15 +46,35 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title">Modal title</h4>
+        <h4 class="modal-title">Meta Edit</h4>
       </div>
       <div class="modal-body">
-        <input type="text" ng-model="edit.type" />
-        <input type="text" ng-model="edit.value" />
+      	<div class="form-group">
+      		<label>Type Category
+            <select  class="form-control" ng-model="meta.type" ng-options="t for t in types">
+            </select>
+      			<!-- <input type="text" class="form-control" placeholder="Any" ng-model="meta.type"> -->
+      		</label>
+      	</div>
+      	<div class="form-group">
+      		<label>Value
+      			<input type="text" class="form-control" placeholder="Any" ng-model="meta.value">
+      		</label>
+      	</div>
+      	<div class="form-group">
+      		<label>Display Name
+      			<input type="text" class="form-control" placeholder="Any" ng-model="meta.name">
+      		</label>
+      	</div>
+      	<div class="form-group">
+      		<label>Order Position
+      			<input type="text" class="form-control" placeholder="Any" ng-model="meta.order">
+      		</label>
+      	</div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" ng-click="save()">Save changes</button>
+        <button type="button" class="btn btn-primary" ng-click="save()" data-dismiss="modal">Save changes</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

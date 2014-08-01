@@ -7,13 +7,16 @@
  * # MainCtrl
  * Controller of the cmsAppApp
  */
-angular.module('cmsAppApp')
-  .controller('SidebarCtrl', ['$scope',function ($scope) {
+angular.module('cmsAppApp').controller('SidebarCtrl', ['$scope', 'metaResource',function ($scope, metaResource) {
 
-	$('#tools a').click(function() {
+    metaResource.query({criteria: {type: 'sidebar-link'}}, function (links) {
+        $scope.links = links
+    });
+
+	$('#tools li').click(function() {
 		console.log('sdf');
 		$('#tools').find('li').removeClass('select');
 		$(this).children('li').addClass('select');
 	})
-  }]);
+}]);
 

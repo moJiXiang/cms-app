@@ -78,7 +78,7 @@ background: #fff;}
 #i_publish .publish{float:right;}
 
 #footer{border-top:1px solid #ebebeb;position:fixed;bottom:0;height:50px;width:100%;background: #fff;}
-#f_left{float:left;font-size:15px;color:#0d8cc8;padding:13px 15px 15px 20px;}
+#f_left{float:left;font-size:15px;color:#0d8cc8;padding:6px 15px 15px 20px;}
 #f_right{float:right;margin-right:204px;}
 #f_right li{display:inline;}
 #user,#setting,#exit{position:relative;height:49px;float:left;border-left:1px solid #ebebeb; }
@@ -92,6 +92,12 @@ background: #fff;}
 
 .notifier{
 	float: left;
+}
+.pagenum{
+	float: right;
+}
+.pagenum pre{
+	padding: 5px;
 }
 /*========================partials/city.html================================*/
 

@@ -9,14 +9,34 @@
  */
 angular.module('cmsAppApp')
 	.controller('AttractionListCtrl', ['$scope', 'attractionResource', function($scope, attractionResource) {
-		attractionResource.query({}, function(items) {
-			console.log(items);
-			$scope.attractions = items;
+		/**
+		 * get attractions and pagination
+		 */
+		attractionResource.count({}, function(data) {
+			$scope.totalItems = data.result;
+			$scope.numPages   = Math.round(data.result / 20);
 		})
+		$scope.currentPage = 1;
+		$scope.maxSize     = 5;
+		$scope.pageChanged = function() {
+			attractionResource.query({offset: ($scope.currentPage - 1) * 20}, function(items) {
+				$scope.attractions = items;
+			})
+		}
+
+		$scope.getItem = function(val) {
+			return attractionResource.query({criteria: { value: val }, cmd: "queryByName"}, function(items) {
+				console.log(items);
+				$scope.attractions = items;
+				// prevent err of typeahead `length of null `
+				return [];
+			})
+		}
 	}])
 	.controller('AttractionDetailCtrl', ['$scope', '$routeParams', '$location', '$anchorScroll', 'attractionResource', function($scope, $routeParams, $location, $anchorScroll, attractionResource) {
 		/**
-get	  	 */
+		 *  scroll to anchor
+	  	 */
 	  	$scope.scrollTo = function(id){
 	    	$location.hash(id);
 	    	$anchorScroll();

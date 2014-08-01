@@ -10,25 +10,63 @@
 angular.module('cmsAppApp')
   .controller('CityListCtrl', ['$scope', '$http', '$modal', 'cityResource', 'edituserResource', 'auditingResource', function ($scope, $http, $modal, cityResource, edituserResource, auditingResource) {
   	/**
-  	 * get all cities
+  	 * get all cities and pagination
   	 * @return {array}    return cities array
   	 */
-	cityResource.query({}, function(citys) {
-		angular.forEach(citys, function(city) {
-			auditingResource.query({item_id: city._id, cmd: 'getAuditByItemid'}, function(audits) {
-				audits.forEach(function(audit) {
-					if(audit.en){
-						city.audit_en = audit;
-					}else{
-						city.audit_zh = audit;
-					}
-				})
-			})	
+  	cityResource.count({}, function(data) {
+		$scope.totalItems = data.result;
+		$scope.numPages   = Math.round(data.result / 20);
+  	})
+	$scope.maxSize     = 5
+	$scope.currentPage = 1;
+
+	$scope.pageChanged = function() {
+
+		cityResource.query({ offset: ($scope.currentPage - 1) * 20 }, function(citys) {
+			angular.forEach(citys, function(city) {
+				auditingResource.query({item_id: city._id, cmd: 'getAuditByItemid'}, function(audits) {
+					audits.forEach(function(audit) {
+						if(audit.en){
+							city.audit_en = audit;
+						}else{
+							city.audit_zh = audit;
+						}
+					})
+				})	
+			})
+			$scope.cities = citys;
+		});
+	}
+	/**
+	 * typeahead, function queryByName use mongodb $regex
+	 * @return {array}     return city array
+	 */
+	$scope.getItem = function(val) {
+		return cityResource.query({criteria: { value: val }, cmd: "queryByName"}, function(items) {
+			$scope.cities = items;
+			return [];
 		})
-		$scope.cities = citys;
-	});
-
-
+		// return cityResource.query({criteria: { cityname: val }, cmd: "queryByName"}, function(items) {
+		// 	var results = [];
+		// 	angular.forEach(items, function(item) {
+		// 		results.push(item.cityname);
+		// 	});
+		// 	console.log(results);
+		// 	return results;
+		// });
+	    // return $http.get('http://maps.googleapis.com/maps/api/geocode/json', {
+	    //   params: {
+	    //     address: val,
+	    //     sensor: false
+	    //   }
+	    // }).then(function(res){
+	    //   var addresses = [];
+	    //   angular.forEach(res.data.results, function(item){
+	    //     addresses.push(item.formatted_address);
+	    //   });
+	    //   return addresses;
+	    // });
+	  };
 	/**
 	 * get chinese editors
 	 * @return {array}    return chinese editors
@@ -36,6 +74,7 @@ angular.module('cmsAppApp')
 	edituserResource.query({group: 0 , type: 1, cmd: "listChineseEditors"}, function(items) {
 		$scope.editusers_zh = items;
 	})
+
 	/**
 	 * get english editors
 	 * @return {array}   return english editors
@@ -43,24 +82,6 @@ angular.module('cmsAppApp')
 	edituserResource.query({group: 1, type: 1, cmd: "listEnglishEditors"}, function(items) {
 		$scope.editusers_en = items;
 	})
-
-	/**
-  	 *  pagination 
-	 */
-	$scope.totalItems = 64;
-	$scope.currentPage = 4;
-
-	$scope.setPage = function(pageNo) {
-		$scope.currentPage = pageNo;
-	};
-
-	$scope.pageChanged = function() {
-		console.log('Page changed to: ' + $scope.currentPage);
-	};
-
-	$scope.maxSize        = 5;
-	$scope.bigTotalItems  = 175;
-	$scope.bigCurrentPage = 1;
 
 	/**
 	 * del one city
@@ -109,7 +130,6 @@ angular.module('cmsAppApp')
     	$location.hash(id);
     	$anchorScroll();
     }
-    $('.textarea').wysihtml5();
     cityResource.get({id: $routeParams.cityId}, function(data) {
     	$scope.city = data;
     	$scope.hotFlagModel  = data.hot_flag;

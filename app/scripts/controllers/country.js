@@ -9,26 +9,26 @@
  */
 angular.module('cmsAppApp')
 	.controller('CountryListCtrl', ['$scope', 'countryResource', function($scope, countryResource) {
-		countryResource.query({}, function(items) {
-			console.log(items);
-			$scope.countries = items;
-		})
-
 		/**
 	  	 *  pagination 
 		 */
-		$scope.totalItems = 64;
-		$scope.currentPage = 4;
-
-		$scope.setPage = function(pageNo) {
-			$scope.currentPage = pageNo;
-		};
-
+		countryResource.count({}, function(data) {
+			$scope.totalItems = data.result;
+			$scope.numPages  = Math.round(data.result / 20);
+		})
+		$scope.currentPage = 1;
+		$scope.maxSize     = 5;
+		
 		$scope.pageChanged = function() {
-			console.log('Page changed to: ' + $scope.currentPage);
+			countryResource.query({offset: ($scope.currentPage - 1) * 20}, function(items) {
+				$scope.countries = items;
+			})
 		};
 
-		$scope.maxSize        = 5;
-		$scope.bigTotalItems  = 175;
-		$scope.bigCurrentPage = 1;
+		$scope.getItem = function(val) {
+			return countryResource.query({criteria: { value: val }, cmd: "queryByName"}, function(items) {
+				$scope.countries = items;
+				return [];
+			})
+		}
 	}]);

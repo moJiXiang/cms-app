@@ -41,10 +41,10 @@ angular.module('cmsAppApp').controller('metaController', ['$scope', '$modal', 'm
     $scope.save = function () {
         var meta = $scope.meta;
         if (meta._id) {
-            console.log(meta.$update());
-            meta.$update().$promise.then(function () {
-                //TODO handle success 
-            }).fail(function (res) {
+            meta.$update().then(function (ab) {
+                $scope.meta = ab;
+            }).catch(function (res) {
+                console.log(res);
                 //TODO handle failure
             });
         } else {

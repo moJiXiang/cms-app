@@ -1,5 +1,19 @@
-<input type="text" ng-model="asyncSelected" placeholder="输入:niuyue" typeahead="result for result in getItem($viewValue)" class="form-control searchcitybtn" typeahead-wait-ms="1000">
-
+<div class="col-sm-2">
+	<div class="form-group">
+	    <div class="input-group">
+	        <div class="input-group-addon">中文名</div>
+			<input type="text" ng-model="zhname" placeholder="例如:纽约" typeahead="result for result in getItemByZhname($viewValue)" class="form-control searchcitybtn" typeahead-wait-ms="1000">
+	    </div>
+	</div>
+</div>
+<div class="col-sm-2">
+	<div class="form-group">
+	    <div class="input-group">
+	        <div class="input-group-addon">英文名</div>
+			<input type="text" ng-model="enname" placeholder="example:niuyue" typeahead="result for result in getItemByEnname($viewValue)" class="form-control searchcitybtn" typeahead-wait-ms="1000">
+	    </div>
+	</div>
+</div>
 <pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm paginationmodel" boundary-links="true" ng-change="pageChanged()" ng-init="pageChanged()"></pagination>
 <div class="col-sm-1 pagenum">
 	<pre>Page: {{currentPage}}/{{numPages ? numPages : 1}}</pre>
@@ -23,8 +37,57 @@
 			<td><div style="width:10px;height:10px;background:{{country.color}}"></div></td>
 			<td>{{country.phonecode}}</td>
 			<td>
-				<button type="button" class="btn btn-danger">删除</button>
+				<a ng-click="openCountryModal(country)" type="button" class="btn btn-default">编辑</a>
+				<button ng-click="openDelModal('sm',country)" type="button" class="btn btn-danger">删除</button>
 			</td>
 		</tr>
 	</tbody>
 </table>
+
+<script type="text/ng-template" id="editCountryContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">{{country.cn_name}}</h3>
+    </div>
+    <div class="modal-body">
+    	<div class="bs-callout bs-callout-info">
+			<div class="form-group">
+			    <div class="input-group">
+			      <div class="input-group-addon">国家</div>
+			      <input class="form-control" type="text" ng-model='country.cn_name' value="{{country.cn_name}}">
+			    </div>
+			</div>
+		</div>
+		<div class="bs-callout bs-callout-info">
+			<div class="form-group">
+			    <div class="input-group">
+			      <div class="input-group-addon">英文名</div>
+			      <input class="form-control" type="text" ng-model='country.name' value="{{country.name}}">
+			    </div>
+			</div>
+		</div>
+		<div class="bs-callout bs-callout-info">
+			<div class="form-group">
+			    <div class="input-group">
+			      <div class="input-group-addon">国家区号</div>
+			      <input class="form-control" type="text" ng-model='country.phonecode' value="{{country.phonecode}}">
+			    </div>
+			</div>
+		</div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="save()">保存</button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+</script>
+<script type="text/ng-template" id="delmodal.html">
+    <div class="modal-header">
+        <h3 class="modal-title">确定删除</h3>
+    </div>
+    <div class="modal-body">
+    	<h4>{{country.cn_name}}</h4>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="sure(country)">确定</button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+</script>

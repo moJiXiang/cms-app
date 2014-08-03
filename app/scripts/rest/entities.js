@@ -394,18 +394,6 @@ app.factory('countryResource', ['$resource', function ($resource) {
 }]);
 
 
-
-//model : countrys
-app.factory('countryResource', ['$resource', function ($resource) {
-    return $resource('/rest/countrys/:id', {id:'@id'}, {
-        query : {method: 'GET', isArray: true, transformResponse: unwrap},
-        count : {method: 'GET', params: {cmd:'count'}},
-        get   : {method: 'GET', transformResponse: unwrap}
-    });
-}]);
-
-
-
 //model : shoppings
 app.factory('shoppingResource', ['$resource', function ($resource) {
 

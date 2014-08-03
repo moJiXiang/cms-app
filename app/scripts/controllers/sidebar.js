@@ -14,7 +14,6 @@ angular.module('cmsAppApp').controller('SidebarCtrl', ['$scope', 'metaResource',
     });
 
 	$('#tools li').click(function() {
-		console.log('sdf');
 		$('#tools').find('li').removeClass('select');
 		$(this).children('li').addClass('select');
 	})

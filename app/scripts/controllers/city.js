@@ -23,6 +23,7 @@ angular.module('cmsAppApp')
 	$scope.pageChanged = function() {
 
 		cityResource.query({ offset: ($scope.currentPage - 1) * 20 }, function(citys) {
+			console.log(citys);
 			angular.forEach(citys, function(city) {
 				auditingResource.query({item_id: city._id, cmd: 'getAuditByItemid'}, function(audits) {
 					audits.forEach(function(audit) {
@@ -38,34 +39,38 @@ angular.module('cmsAppApp')
 		});
 	}
 	/**
-	 * typeahead, function queryByName use mongodb $regex
+	 * typeahead, query by country use mongodb $regex
+	 * @return {array}     return city array
+	 */
+	$scope.getItemByCountry = function(val) {
+		if(val) {
+			return cityResource.query({countryname: val, sort: 'cityname_py'}, function(items) {
+				$scope.cities = items;
+				return [];
+			})
+		} else {
+			return cityResource.query({}, function(items) {
+				$scope.cities = items;
+				return [];
+			})
+		}
+	  };
+	/**
+	 * typeahead, query by cityname_py use mongodb $regex
 	 * @return {array}     return city array
 	 */
 	$scope.getItem = function(val) {
-		return cityResource.query({criteria: { value: val }, cmd: "queryByName"}, function(items) {
-			$scope.cities = items;
-			return [];
-		})
-		// return cityResource.query({criteria: { cityname: val }, cmd: "queryByName"}, function(items) {
-		// 	var results = [];
-		// 	angular.forEach(items, function(item) {
-		// 		results.push(item.cityname);
-		// 	});
-		// 	console.log(results);
-		// 	return results;
-		// });
-	    // return $http.get('http://maps.googleapis.com/maps/api/geocode/json', {
-	    //   params: {
-	    //     address: val,
-	    //     sensor: false
-	    //   }
-	    // }).then(function(res){
-	    //   var addresses = [];
-	    //   angular.forEach(res.data.results, function(item){
-	    //     addresses.push(item.formatted_address);
-	    //   });
-	    //   return addresses;
-	    // });
+		if(val) {
+			return cityResource.query({cityname_py: val, sort: 'cityname_py'}, function(items) {
+				$scope.cities = items;
+				return [];
+			})
+		} else {
+			return cityResource.query({}, function(items) {
+				$scope.cities = items;
+				return [];
+			})
+		}
 	  };
 	/**
 	 * get chinese editors
@@ -94,6 +99,23 @@ angular.module('cmsAppApp')
 		})
 	}
 
+	/**
+	 * open modal for appoint task to editor
+	 * @return {array}   
+	 */
+	$scope.open = function(size, cityname) {
+		$scope.cityname = cityname;
+		var modalInstance = $modal.open({
+			templateUrl: 'myModalContent.html',
+			controller: ModalInstanceCtrl,
+			size: size,
+			resolve: {
+				cityname: function() {
+					return $scope.cityname;
+				}
+			}
+		});
+	};
 
   }])
   .controller('CityDetailCtrl', ['$scope', '$http', '$routeParams', '$location', '$anchorScroll', 'cityResource','labelResource',function($scope, $http, $routeParams, $location, $anchorScroll, cityResource, labelResource) {
@@ -135,6 +157,12 @@ angular.module('cmsAppApp')
     	$scope.hotFlagModel  = data.hot_flag;
     	$scope.showFlagModel = data.show_flag;
     	
+    	// textAngular modal
+		$scope.short_introduce     = data.short_introduce;
+		$scope.attraction_overview = data.attraction_overview;
+		$scope.restaurant_overview = data.restaurant_overview;
+		$scope.shopping_overview   = data.shopping_overview;
+
     	/**
 		 *  get masterlabel and sublabels 
 		 */
@@ -252,6 +280,7 @@ angular.module('cmsAppApp')
 			$scope.city.subLabel.push(labelid);
 		}
 	}
+
   }])
 .controller('CityNewCtrl',['$scope', "$location", "$anchorScroll", function($scope, $location, $anchorScroll) {
 	/**
@@ -263,3 +292,31 @@ angular.module('cmsAppApp')
     	$anchorScroll();
     }
 }]);
+
+var ModalInstanceCtrl = function($scope, $modalInstance, edituserResource, cityname) {
+	/**
+	 * get chinese editors
+	 * @return {array}    return chinese editors
+	 */
+	edituserResource.query({group: 0 , type: 1, cmd: "listChineseEditors"}, function(items) {
+		console.log(items);
+		$scope.editusers_zh = items;
+	})
+
+	/**
+	 * get english editors
+	 * @return {array}   return english editors
+	 */
+	edituserResource.query({group: 1, type: 1, cmd: "listEnglishEditors"}, function(items) {
+		$scope.editusers_en = items;
+	})
+	$scope.cityname  = cityname;	
+
+	$scope.ok = function() {
+		$modalInstance.close();
+	};
+
+	$scope.cancel = function() {
+		$modalInstance.dismiss('cancel');
+	};
+};

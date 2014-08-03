@@ -21,6 +21,7 @@ angular.module('cmsAppApp').controller('metaController', ['$scope', '$modal', 'm
             c.criteria.type = $scope.filter.type;
         }
         metaResource.query(c, function (items) {
+            console.log(items);
             $scope.metas = items;
         });
     }
@@ -40,6 +41,7 @@ angular.module('cmsAppApp').controller('metaController', ['$scope', '$modal', 'm
     $scope.save = function () {
         var meta = $scope.meta;
         if (meta._id) {
+            console.log(meta.$update());
             meta.$update().$promise.then(function () {
                 //TODO handle success 
             }).fail(function (res) {

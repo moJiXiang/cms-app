@@ -6,7 +6,7 @@
     <div id="tools">
 
       <ul>
-        <li ng-repeat="link in links"> <a href="#{{link.value}}">{{link.name}}</a> </li>
+        <a href="#{{link.value}}" ng-repeat="link in links"><li> {{link.name}}</li></a>
 <!--         <a href="/"><li class="select">个人主页</li></a>
         <a href="#/citylist"><li id="yazilar">城市</li></a>
         <a href="#/attractionlist"><li id="medya">景点</li></a>
@@ -22,7 +22,5 @@
       
     </div>
 
-    <div id="keep">
-
-    </div>
+   
 </div>

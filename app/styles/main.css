@@ -5,13 +5,13 @@ ul,ol{margin: 0; padding: 0; list-style: none;}
 a{text-decoration:none;}
 :focus{outline:none;}
 
-#left{width:10%;float:left;position: fixed;}
-#right{float:left;margin-left: 10%;padding-bottom: 50px;width: 90%}
-#logo{background:url("../images/theme_logo.png") no-repeat 55px;background-color:#f7f7f7;min-height:145px;border-bottom:1px solid #ebebeb;border-right:1px solid #ebebeb;}
+#left{width:10%;height:100%;float:left;position: fixed;background-color:#f7f7f7;border-right:1px solid #ebebeb;}
+#right{float:left;margin-left: 10%;padding-bottom: 50px;width: 89%}
+#logo{background:url("../images/theme_logo.png") no-repeat 55px;background-color:#f7f7f7;min-height:145px;border-bottom:1px solid #ebebeb;}
 
 
 #tools a{font-size:15px;color:#666666;text-decoration:none;text-shadow:1px 1px #ffffff;}
-#tools li{padding:12px 15px 12px 15px;border-top:1px solid #fff;border-bottom:1px solid #ebebeb;border-right:1px solid #ebebeb;background-color:#f7f7f7;}
+#tools li{padding:12px 15px 12px 15px;border-top:1px solid #fff;border-bottom:1px solid #ebebeb;background-color:#f7f7f7;}
 #tools li:hover{background-color:#fbfbfb;}
 #tools .select{padding-left:10px;border-left:5px solid #ea533f;background-color:#fff;border-right:none;background-image:none;color:#333333;}
 #tools .select:hover {background-color:#fff;}
@@ -25,16 +25,15 @@ a{text-decoration:none;}
 #kullanicilar{background:url("../images/kullanicilar.png") no-repeat 165px;}
 #araclar{background:url("../images/araclar.png") no-repeat 165px;}
 #ayarlar{background:url("../images/ayarlar.png") no-repeat 165px;}
-#keep{background-color:#f7f7f7;border-right:1px solid #ebebeb;border-top:1px solid #fff;position:fixed;top:0;bottom:0;width:10%;margin-top:610px;height:100%;}
 .number{background:url("../images/button_bg.png") repeat-x;padding:0px 4px 0px 4px;font-size:13px;color:#fff;text-shadow:1px 1px #d23e2a;border-radius:2px;border:1px solid #db301a;margin-left:5px;}
 
-#header{height:49px;border-bottom:1px solid #ebebeb;position: fixed;
+#header{height:52px;border-bottom:1px solid #ebebeb;position: fixed;
 width: 90%;
 z-index: 10;
 background: #fff;}
 #other{float:right;}
 
-#arti,#bulut,#yorum,#zil,#wordpress{position:relative;float:left;height:49px;width:49px;}
+#arti,#bulut,#yorum,#zil,#wordpress{position:relative;float:left;height:52px;width:52px;}
 #bulut,#yorum,#zil,#wordpress{border-left:1px solid #ebebeb;}
 #bulut{background:url("../images/bulut.png") 16px no-repeat;}
 #yorum{background:url("../images/yorumlar.png") 16px no-repeat;}
@@ -92,6 +91,15 @@ background: #fff;}
 
 .notifier{
 	float: left;
+	margin-left: 300px;
+}
+.notifier .alert{
+	position: relative;
+}
+.notifier .close{
+	position: absolute;
+	top: 1px;
+	right: 1px;
 }
 .pagenum{
 	float: right;
@@ -164,9 +172,9 @@ background: #fff;}
 	border-left: 1px solid #563d7c;
 }
 .editbtns{
-	top: 700px;
+	top: 80px;
 }
-/*.form-control{
-	margin: 5px 0;
-}*/
+.input-group{
+	margin-bottom: 5px;
+}
 

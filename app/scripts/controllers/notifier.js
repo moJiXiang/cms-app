@@ -1,23 +1,18 @@
 
 var app = angular.module('cmsAppApp');
 
-app.controller('notifierController', ['$scope', 'notifierService', function ($scope, notifierService) {
-
-    $scope.unread  = notifierService.unread;
-    $scope.current = {};
-    $scope.notify = function (msg) {
-        var m = {}
-        if (msg.err) {
-            m = {type: 'error', msg : msg.err};
-        } else if (msg.message) {
-            m = {type: 'alert', msg : msg.message};
-        } else {
-            m = {type: 'alert', msg : msg + ''};
-        }
-        notifierService.dismiss(m);
-        $scope.current = m;
-    }
-
+app.controller('notifierController', ['$scope', '$timeout', 'notifierService', function ($scope, $timeout, notifierService) {
+    /**
+     * use $timeout to realize auto dismiss the alert after 3000ms
+     * @return {[type]} [description]
+     */
+    $scope.current  = function () {
+        $timeout(function() {
+            notifierService.dismissAll();
+        }, 500, false);
+        return notifierService.listUnread();
+    };
+    
     $scope.dismiss = function (msg) {
         notifierService.dismiss(msg)
     };

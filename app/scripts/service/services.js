@@ -4,20 +4,32 @@
 
 var app = angular.module('cmsAppApp');
 
-app.service('notifierService', [function () {
-    //
-    this.unread = [];
+app.factory('notifierService', [function () {
 
-    this.notify = function (message) {
-        this.unread.unshift(message);//push to the beginning of array
-    };
+    var unread = [];
+    
+    return  {
+        /**
+         * notify, alert message that response user's event,maybe success or error
+         * @param  {Object} msg response Object
+         */
+        notify : function (message) {
+            unread.unshift(message);//push to the beginning of array
+            console.log(unread);
+        },
 
-    this.dismiss = function (message) {
-        this.unread.splice(this.unread.indexOf(message), 1);
-    };
+        dismiss : function (index) {
+            unread.splice(index, 1);
+        },
 
-    this.dismissAll = function () {
-        this.unread = [];
+        dismissAll : function () {
+            unread = [];
+            return unread;
+        },
+
+        listUnread : function () {
+            return unread;
+        }
     }
 }]);
 

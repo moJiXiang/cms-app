@@ -1,13 +1,13 @@
-<div id="plus" >
+<!-- <div id="plus" >
             
 	<a href="#">
 	  <span id="arti"></span>
 	</a>
   
-</div>
+</div> -->
 
 <div ng-controller="notifierController" class="notifier">
-	<alert type="current.type">{{current.msg}}</alert>
+	<alert ng-repeat="currentmsg in current()" type="{{currentmsg.type}}" close="dismiss($index)">{{currentmsg.msg}}</alert>
 </div>
 <div id="other">
   

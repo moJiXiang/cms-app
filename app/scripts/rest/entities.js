@@ -20,7 +20,7 @@ app.factory('areaResource', ['$resource', function ($resource) {
 
     var Model =  $resource('/rest/areas/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
-        count : {method: 'GET', params: {cmd:'countNum'}},
+        count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
         update: {method: 'PUT', transformResponse: unwrap}
     });
@@ -41,7 +41,7 @@ app.factory('categoryResource', ['$resource', function ($resource) {
 
     var Model =  $resource('/rest/categories/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
-        count : {method: 'GET', params: {cmd:'countNum'}},
+        count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
         update: {method: 'PUT', transformResponse: unwrap}
     });
@@ -62,7 +62,7 @@ app.factory('pathResource', ['$resource', function ($resource) {
 
     var Model =  $resource('/rest/paths/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
-        count : {method: 'GET', params: {cmd:'countNum'}},
+        count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
         update: {method: 'PUT', transformResponse: unwrap}
     });
@@ -83,7 +83,7 @@ app.factory('taskResource', ['$resource', function ($resource) {
 
     var Model =  $resource('/rest/tasks/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
-        count : {method: 'GET', params: {cmd:'countNum'}},
+        count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
         update: {method: 'PUT', transformResponse: unwrap}
     });
@@ -104,7 +104,7 @@ app.factory('attractionResource', ['$resource', function ($resource) {
 
     var Model =  $resource('/rest/attractions/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
-        count : {method: 'GET', params: {cmd:'countNum'}},
+        count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
         update: {method: 'PUT', transformResponse: unwrap}
     });
@@ -125,7 +125,7 @@ app.factory('cityResource', ['$resource', function ($resource) {
 
     var Model =  $resource('/rest/cities/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
-        count : {method: 'GET', params: {cmd:'countNum'}},
+        count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
         update: {method: 'PUT', transformResponse: unwrap}
     });
@@ -146,7 +146,7 @@ app.factory('labelResource', ['$resource', function ($resource) {
 
     var Model =  $resource('/rest/labels/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
-        count : {method: 'GET', params: {cmd:'countNum'}},
+        count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
         update: {method: 'PUT', transformResponse: unwrap}
     });
@@ -167,7 +167,7 @@ app.factory('permResource', ['$resource', function ($resource) {
 
     var Model =  $resource('/rest/perms/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
-        count : {method: 'GET', params: {cmd:'countNum'}},
+        count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
         update: {method: 'PUT', transformResponse: unwrap}
     });
@@ -188,7 +188,7 @@ app.factory('taskquestionResource', ['$resource', function ($resource) {
 
     var Model =  $resource('/rest/taskquestions/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
-        count : {method: 'GET', params: {cmd:'countNum'}},
+        count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
         update: {method: 'PUT', transformResponse: unwrap}
     });
@@ -209,7 +209,7 @@ app.factory('auditingResource', ['$resource', function ($resource) {
 
     var Model =  $resource('/rest/auditings/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
-        count : {method: 'GET', params: {cmd:'countNum'}},
+        count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
         update: {method: 'PUT', transformResponse: unwrap}
     });
@@ -230,7 +230,7 @@ app.factory('edituserResource', ['$resource', function ($resource) {
 
     var Model =  $resource('/rest/editusers/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
-        count : {method: 'GET', params: {cmd:'countNum'}},
+        count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
         update: {method: 'PUT', transformResponse: unwrap}
     });
@@ -251,7 +251,7 @@ app.factory('lifetagResource', ['$resource', function ($resource) {
 
     var Model =  $resource('/rest/lifetags/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
-        count : {method: 'GET', params: {cmd:'countNum'}},
+        count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
         update: {method: 'PUT', transformResponse: unwrap}
     });
@@ -272,7 +272,7 @@ app.factory('restaurantResource', ['$resource', function ($resource) {
 
     var Model =  $resource('/rest/restaurants/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
-        count : {method: 'GET', params: {cmd:'countNum'}},
+        count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
         update: {method: 'PUT', transformResponse: unwrap}
     });
@@ -293,7 +293,7 @@ app.factory('userResource', ['$resource', function ($resource) {
 
     var Model =  $resource('/rest/users/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
-        count : {method: 'GET', params: {cmd:'countNum'}},
+        count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
         update: {method: 'PUT', transformResponse: unwrap}
     });
@@ -314,7 +314,7 @@ app.factory('bigtypeResource', ['$resource', function ($resource) {
 
     var Model =  $resource('/rest/bigtypes/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
-        count : {method: 'GET', params: {cmd:'countNum'}},
+        count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
         update: {method: 'PUT', transformResponse: unwrap}
     });
@@ -335,7 +335,7 @@ app.factory('entertainmentResource', ['$resource', function ($resource) {
 
     var Model =  $resource('/rest/entertainments/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
-        count : {method: 'GET', params: {cmd:'countNum'}},
+        count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
         update: {method: 'PUT', transformResponse: unwrap}
     });
@@ -356,7 +356,7 @@ app.factory('metaResource', ['$resource', function ($resource) {
 
     var Model =  $resource('/rest/metas/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
-        count : {method: 'GET', params: {cmd:'countNum'}},
+        count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
         update: {method: 'PUT', transformResponse: unwrap}
     });
@@ -377,7 +377,7 @@ app.factory('countryResource', ['$resource', function ($resource) {
 
     var Model =  $resource('/rest/countrys/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
-        count : {method: 'GET', params: {cmd:'countNum'}},
+        count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
         update: {method: 'PUT', transformResponse: unwrap}
     });
@@ -391,12 +391,14 @@ app.factory('countryResource', ['$resource', function ($resource) {
     return Model;
 }]);
 
+
+
 //model : shoppings
 app.factory('shoppingResource', ['$resource', function ($resource) {
 
     var Model =  $resource('/rest/shoppings/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
-        count : {method: 'GET', params: {cmd:'countNum'}},
+        count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
         update: {method: 'PUT', transformResponse: unwrap}
     });

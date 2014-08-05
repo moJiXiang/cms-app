@@ -4,18 +4,18 @@
 
 var app = angular.module('cmsAppApp');
 
-app.factory('authenticationInterceptor', function($q, $window, $location) {
-    return {
-      responseError : function(rejection) {
-        if (401 == rejection.status) {
-            // $location.path('/login');
-            $window.location.href = "login.html";
-            return;
-        }
-        return $q.rejection(rejection);
-      }
-    }
-});
+// app.factory('authenticationInterceptor', function($q, $window, $location) {
+//     return {
+//       responseError : function(rejection) {
+//         if (401 == rejection.status) {
+//             // $location.path('/login');
+//             $window.location.href = "login.html";
+//             return;
+//         }
+//         return $q.rejection(rejection);
+//       }
+//     }
+// });
 
 app.factory('notifierService', [function () {
 

@@ -11,8 +11,8 @@
 var app = angular.module('cmsAppApp', ['ngAnimate', 'ngCookies', 'ngResource', 'ngRoute', 'ngSanitize', 'ngTouch', 'ngGrid', 'ui.bootstrap','textAngular','angularFileUpload'])
 
 app.config(['$routeProvider', '$locationProvider', '$resourceProvider', function ($routeProvider, $locationProvider, $resourceProvider) {
-
-  $httpProvider.interceptors.push('authenticationInterceptor');
+  //intercept 401 error
+  // $httpProvider.interceptors.push('authenticationInterceptor');
 
   //configure routeProvider
   $routeProvider
@@ -128,6 +128,10 @@ app.config(['$routeProvider', '$locationProvider', '$resourceProvider', function
     .when('/shoparealist/addnewattraction',{
       templateUrl: 'views/shoparea/edit.html',
       controller: 'ShopareaNewCtrl'
+    })
+    .when('/shoparealist/:shopareaId/fileupload',{
+      templateUrl: 'views/shoparea/fileupload.html',
+      controller: 'ShopareaFileuploadCtrl'
     })
 
     .when('/meta',{

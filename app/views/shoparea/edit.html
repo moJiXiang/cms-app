@@ -5,9 +5,16 @@
 			<div class="bs-callout bs-callout-warning bs-small">
 				<div class="form-group">
 				    <div class="input-group">
-				     	<div class="input-group-addon">国家</div>
-						<select class="form-control" ng-model="continent" ng-options="item.name for item in continents" ng-change="changeContinent(city, continent);setCountries(continent);">
-						</select>
+				     	<div class="input-group-addon">城市</div>
+				     	<div class="col-sm-4">
+							<select class="form-control" ng-model="continent" ng-options="item.name for item in continents" ng-change="changeContinent(city, continent);setCountries(continent);"></select>
+				     	</div>
+					     <div class="col-sm-4">
+							<select class="form-control" ng-model="continent" ng-options="item.name for item in continents" ng-change="changeContinent(city, continent);setCountries(continent);"></select>
+				     	</div>
+				     	<div class="col-sm-4">
+							<select class="form-control" ng-model="continent" ng-options="item.name for item in continents" ng-change="changeContinent(city, continent);setCountries(continent);"></select>
+				     	</div>
 				    </div>
 				</div>
 			</div>
@@ -24,14 +31,6 @@
 				    <div class="input-group">
 				     	<div class="input-group-addon">区域英文名称</div>
 				      	<input class="form-control" type="text" ng-model="shoparea.area_enname">
-				    </div>
-				</div>
-			</div>
-			<div class="bs-callout bs-callout-warning bs-small">
-				<div class="form-group">
-				    <div class="input-group">
-				     	<div class="input-group-addon">地址</div>
-				      	<input class="form-control" type="text" ng-model="shoparea.address">
 				    </div>
 				</div>
 			</div>
@@ -68,10 +67,23 @@
 		</div>
 		<div class="bs-callout bs-callout-info" id="a2">
 			<h4>标签</h4>
+			<h4 ng-repeat="tag in shoparea.tags">
+				<span class="label label-success">{{tag}}</span>
+			</h4>
+			<div class="input-group" style="width: 50%">
+				<input class="form-control" type="text" ng-model="tag">
+		        <span class="input-group-btn">
+					<button type="button" class="btn btn-success" ng-click="addTag(tag, shoparea.tags)">增加</button>
+		        </span>
+		    </div>
 		</div>
 		<div class="bs-callout bs-callout-info" id="a3">
 			<h4>开放时间</h4>
 			<text-angular ng-model="shoparea.open_time"></text-angular>
+		</div>
+		<div class="bs-callout bs-callout-info" id="a3">
+			<h4>地址</h4>
+			<text-angular ng-model="shoparea.address"></text-angular>
 		</div>
 		<div class="bs-callout bs-callout-info" id="a4">
 			<h4>介绍</h4>

@@ -45,7 +45,14 @@ app.factory('notifierService', [function () {
         }
     }
 }]);
-
+app.factory('cmspublicfn', ['$location', '$anchorScroll', function ($location, $anchorScroll) {
+    return {
+        scrollTo : function(id) {
+            $location.hash(id);
+            $anchorScroll();
+        }
+    }
+}]);
 // app.config(['$http', function ($http) {
 
 // }]);

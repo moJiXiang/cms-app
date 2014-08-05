@@ -49,9 +49,20 @@ angular.module('cmsAppApp')
 		$scope.scrollTo = function(id) {
 			cmspublicfn.scrollTo(id);
 		}
+		/**
+		 * get area message
+		 * @param  {string} shoparea shoparea id
+		 */
 		areaResource.get({id: $routeParams.shopareaId}, function(shoparea) {
 			$scope.shoparea = shoparea;
 		})
+		$scope.addTag = function(tag, tags) {
+			$scope.shoparea.tags = tags;
+			if(tags.indexOf(tag) < 0){
+				$scope.shoparea.tags.push(tag);
+			}
+			$scope.tag="";
+		}
 	}])
 	.controller('ShopareaNewCtrl', ['$scope', function($scope) {
 

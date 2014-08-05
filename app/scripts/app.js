@@ -12,11 +12,16 @@ var app = angular.module('cmsAppApp', ['ngAnimate', 'ngCookies', 'ngResource', '
 
 app.config(['$routeProvider', '$locationProvider', '$resourceProvider', function ($routeProvider, $locationProvider, $resourceProvider) {
 
+  $httpProvider.interceptors.push('authenticationInterceptor');
+
   //configure routeProvider
   $routeProvider
     .when('/', {
       templateUrl: 'views/main.html',
       controller: 'MainCtrl'
+    })
+    .when('/login', {
+      controller: 'loginController'
     })
     /**
      * country routes

@@ -14,7 +14,7 @@ angular.module('cmsAppApp')
 		 */
 		shoppingResource.count({}, function(data) {
 			$scope.totalItems = data.result;
-			$scope.numPages   = Math.round(data.result / 20);
+			$scope.numPages   = Math.ceil(data.result / 20);
 		})
 		$scope.currentPage = 1;
 		$scope.maxSize     = 5;
@@ -31,7 +31,7 @@ angular.module('cmsAppApp')
 			return shoppingResource.query({criteria: { value: val }, cmd: "queryByName"}, function(items) {
 				shoppingResource.count({criteria: {'name': {'$regex': val, '$options': 'i'}}}, function(data) {
 					$scope.totalItems = data.result;
-					$scope.numPages   = Math.round(data.result / 20);
+					$scope.numPages   = Math.ceil(data.result / 20);
 				})
 				$scope.shoppings = items;
 				return [];

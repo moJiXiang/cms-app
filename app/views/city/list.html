@@ -3,7 +3,7 @@
 		<div class="form-group">
 		    <div class="input-group">
 		        <div class="input-group-addon">国家</div>
-				<input type="text" ng-model="country" placeholder="example:niuyue" typeahead="result for result in getItemByCountry($viewValue)" class="form-control searchcitybtn" typeahead-wait-ms="1000">
+				<input type="text" ng-model="country" placeholder="例如:美国" typeahead="result for result in getItemByCountry($viewValue)" class="form-control searchcitybtn" typeahead-wait-ms="1000">
 		    </div>
 		</div>
 	</div>
@@ -58,8 +58,8 @@
 				<td>
 					<a type="button" href="#/citylist/{{city._id}}/edit" class="btn btn-default">编辑</a>
 					<a type="button" href="#/citylist/{{city._id}}/detail" class="btn btn-default">预览</a>
-					<button type="button" ng-click="del(city._id)" class="btn btn-danger">删除</button>
-					<button class="btn btn-default" ng-click="open('', city.cityname)">指派任务</button>
+					<a type="button" href="#/citylist/{{city._id}}/fileupload" class="btn btn-default">图片上传</a>
+					<button class="btn btn-default" ng-click="open('', city)">指派任务</button>
 				</td>
 			</tr>
 		</tbody>
@@ -69,43 +69,139 @@
 	</div>
 	<script type="text/ng-template" id="myModalContent.html">
         <div class="modal-header">
-            <h3 class="modal-title">{{cityname}}</h3>
+            <h3 class="modal-title">{{city.cityname}}</h3>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" style="height: 500px">
             <h3>中文编辑任务</h3>
-            <div class="input-group">
-			    <div class="input-group-addon">景点</div>
-				<select class="form-control" ng-model="attraction_zh" ng-options="item as item.username for item in editusers_zh"></select>
+            <div class="col-sm-8">
+	            <div class="input-group">
+				    <div class="input-group-addon">城市</div>
+					<select class="form-control" ng-model="city_zh" ng-options="item as item.username for item in editusers_zh"></select>
+			    </div>
+            </div>
+            <div class="col-sm-4">
+            	<div class="input-group">
+				    <div class="input-group-addon">最小数目</div>
+					<input class="form-control" type="number" ng-model="qq">
+			    </div>
+            </div>
+
+            <div class="col-sm-8">
+	            <div class="input-group">
+				    <div class="input-group-addon">景点</div>
+					<select class="form-control" ng-model="attraction_zh" ng-options="item as item.username for item in editusers_zh"></select>
+			    </div>
+            </div>
+            <div class="col-sm-4">
+            	<div class="input-group">
+				    <div class="input-group-addon">最小数目</div>
+					<input class="form-control" type="number" ng-model="qq">
+			    </div>
+            </div>
+
+            <div class="col-sm-8">
+			    <div class="input-group">
+				    <div class="input-group-addon">餐馆</div>
+					<select class="form-control" ng-model="restaurant_zh" ng-options="item as item.username for item in editusers_zh"></select>
+			    </div>
 		    </div>
-		    <div class="input-group">
-			    <div class="input-group-addon">餐馆</div>
-				<select class="form-control" ng-model="restaurant_zh" ng-options="item as item.username for item in editusers_zh"></select>
+		    <div class="col-sm-4">
+            	<div class="input-group">
+				    <div class="input-group-addon">最小数目</div>
+					<input class="form-control" type="number" ng-model="qq">
+			    </div>
+            </div>
+
+            <div class="col-sm-8">
+			    <div class="input-group">
+				    <div class="input-group-addon">购物</div>
+					<select class="form-control" ng-model="shop_zh" ng-options="item as item.username for item in editusers_zh"></select>
+			    </div>
 		    </div>
-		    <div class="input-group">
-			    <div class="input-group-addon">购物</div>
-				<select class="form-control" ng-model="shop_zh" ng-options="item as item.username for item in editusers_zh"></select>
+		    <div class="col-sm-4">
+            	<div class="input-group">
+				    <div class="input-group-addon">最小数目</div>
+					<input class="form-control" type="number" ng-model="qq">
+			    </div>
+            </div>
+
+            <div class="col-sm-8">
+			    <div class="input-group">
+				    <div class="input-group-addon">购物区域</div>
+					<select class="form-control" ng-model="shoparea_zh" ng-options="item as item.username for item in editusers_zh"></select>
+			    </div>
 		    </div>
-		    <div class="input-group">
-			    <div class="input-group-addon">购物区域</div>
-				<select class="form-control" ng-model="shoparea_zh" ng-options="item as item.username for item in editusers_zh"></select>
-		    </div>
+		    <div class="col-sm-4">
+            	<div class="input-group">
+				    <div class="input-group-addon">最小数目</div>
+					<input class="form-control" type="number" ng-model="qq">
+			    </div>
+            </div>
 		    <h3>英文编辑任务</h3>
-            <div class="input-group">
-			    <div class="input-group-addon">景点</div>
-				<select class="form-control" ng-model="attraction_en" ng-options="item as item.username for item in editusers_en"></select>
+            <div class="col-sm-8">
+			    <div class="input-group">
+				    <div class="input-group-addon">城市</div>
+					<select class="form-control" ng-model="city_en" ng-options="item as item.username for item in editusers_en"></select>
+			    </div>
 		    </div>
-		    <div class="input-group">
-			    <div class="input-group-addon">餐馆</div>
-				<select class="form-control" ng-model="restaurant_en" ng-options="item as item.username for item in editusers_en"></select>
+		    <div class="col-sm-4">
+            	<div class="input-group">
+				    <div class="input-group-addon">最小数目</div>
+					<input class="form-control" type="number" ng-model="qq">
+			    </div>
+            </div>
+
+            <div class="col-sm-8">
+	            <div class="input-group">
+				    <div class="input-group-addon">景点</div>
+					<select class="form-control" ng-model="attraction_en" ng-options="item as item.username for item in editusers_en"></select>
+			    </div>
 		    </div>
-		    <div class="input-group">
-			    <div class="input-group-addon">购物</div>
-				<select class="form-control" ng-model="shop_en" ng-options="item as item.username for item in editusers_en"></select>
+		    <div class="col-sm-4">
+            	<div class="input-group">
+				    <div class="input-group-addon">最小数目</div>
+					<input class="form-control" type="number" ng-model="qq">
+			    </div>
+            </div>
+
+            <div class="col-sm-8">
+			    <div class="input-group">
+				    <div class="input-group-addon">餐馆</div>
+					<select class="form-control" ng-model="restaurant_en" ng-options="item as item.username for item in editusers_en"></select>
+			    </div>
 		    </div>
-		    <div class="input-group">
-			    <div class="input-group-addon">购物区域</div>
-				<select class="form-control" ng-model="shoparea_en" ng-options="item as item.username for item in editusers_en"></select>
+		    <div class="col-sm-4">
+            	<div class="input-group">
+				    <div class="input-group-addon">最小数目</div>
+					<input class="form-control" type="number" ng-model="qq">
+			    </div>
+            </div>
+
+            <div class="col-sm-8">
+			    <div class="input-group">
+				    <div class="input-group-addon">购物</div>
+					<select class="form-control" ng-model="shop_en" ng-options="item as item.username for item in editusers_en"></select>
+			    </div>
 		    </div>
+		    <div class="col-sm-4">
+            	<div class="input-group">
+				    <div class="input-group-addon">最小数目</div>
+					<input class="form-control" type="number" ng-model="qq">
+			    </div>
+            </div>
+
+            <div class="col-sm-8">
+			    <div class="input-group">
+				    <div class="input-group-addon">购物区域</div>
+					<select class="form-control" ng-model="shoparea_en" ng-options="item as item.username for item in editusers_en"></select>
+			    </div>
+		    </div>
+		    <div class="col-sm-4">
+            	<div class="input-group">
+				    <div class="input-group-addon">最小数目</div>
+					<input class="form-control" type="number" ng-model="qq">
+			    </div>
+            </div>
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" ng-click="ok()">发送任务</button>

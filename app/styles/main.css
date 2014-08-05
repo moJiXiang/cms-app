@@ -177,4 +177,9 @@ background: #fff;}
 .input-group{
 	margin-bottom: 5px;
 }
+.fileuploadbtncontain{
+	position: fixed;
+	top: 66px;
+	left: 400px;
+}
 

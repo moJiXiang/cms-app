@@ -31,16 +31,17 @@
 			<div class="bs-callout bs-callout-warning bs-small">
 				<div class="form-group">
 				    <div class="input-group">
-				      <div class="input-group-addon">大洲</div>
-				      <input class="form-control" type="text" ng-model='city.continents'>
+				     	<div class="input-group-addon">大洲</div>
+						<select class="form-control" ng-model="continent" ng-options="item.name for item in continents" ng-change="changeContinent(city, continent);setCountries(continent);">
+						</select>
 				    </div>
 				</div>
 			</div>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<div class="form-group">
 				    <div class="input-group">
-				      <div class="input-group-addon">国家</div>
-				      <input class="form-control" type="text" ng-model='city.countryname'>
+				      	<div class="input-group-addon">国家</div>
+						<select class="form-control" ng-model="country" ng-options="item.name for item in countries" ng-change="changeCountry(city, country);setCities(country)"></select>
 				    </div>
 				</div>
 			</div>
@@ -48,7 +49,7 @@
 				<div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">城市名（中文）</div>
-				      <input class="form-control" type="text" ng-model="city.cityname">
+				      <select class="form-control" ng-model="city.cityname" ng-options="item for item in cities" ng-change=""></select>
 				    </div>
 				</div>
 			</div>
@@ -112,15 +113,15 @@
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>热门城市</h4>
 				<div class="btn-group">
-			        <label class="btn btn-primary" ng-model="hotFlagModel" btn-radio="'1'">热门</label>
-			        <label class="btn btn-primary" ng-model="hotFlagModel" btn-radio="'0'">不热门</label>
+			        <label class="btn btn-primary" ng-model="city.hot_flag" btn-radio="'1'">热门</label>
+			        <label class="btn btn-primary" ng-model="city.hot_flag" btn-radio="'0'">不热门</label>
 			    </div>
 			</div>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>是否显示</h4>
 				<div class="btn-group">
-			        <label class="btn btn-primary" ng-model="showFlagModel" btn-radio="'1'">显示</label>
-			        <label class="btn btn-primary" ng-model="showFlagModel" btn-radio="'0'">不显示</label>
+			        <label class="btn btn-primary" ng-model="city.show_flag" btn-radio="'1'">显示</label>
+			        <label class="btn btn-primary" ng-model="city.show_flag" btn-radio="'0'">不显示</label>
 			    </div>
 			</div>
 			<div class="bs-callout bs-callout-warning bs-small">
@@ -143,13 +144,13 @@
 		<div class="bs-callout bs-callout-info" id="a6">
 			<h4>标签</h4>
 			<div class="bs-callout bs-callout-warning bs-small">
-				<h4>主标签</h4>
-				<p>{{masterlabel}}</p>
+				<!-- <h4>主标签</h4>
+				<p>{{masterlabel}}</p> -->
 				<div class="input-group">
-					<select class="form-control" ng-model="selectedMasterItem" ng-options="item as item.name for item in masterlabels"></select>
-			        <span class="input-group-btn">
-						<button type="button" class="btn btn-success" ng-click="fixMasterlabel(selectedMasterItem._id)">修改</button>
-			        </span>
+			      	<div class="input-group-addon">主标签</div>
+					<select class="form-control" ng-model="selectedMasterItem" ng-options="item as item.name for item in masterlabels" ng-change="fixMasterlabel(selectedMasterItem._id)">
+						<option value="">--- {{masterlabel}} ---</option>
+					</select>
 			    </div>
 			</div>
 			<div class="bs-callout bs-callout-warning bs-small">
@@ -157,13 +158,13 @@
                 <div class="input-group" ng-repeat="sublabel in sublabels">
 					<input class="form-control" placeholder="{{sublabel.label}}" disabled>
 			        <span class="input-group-btn">
-						<button type="button" class="btn btn-danger">删除</button>
+						<button type="button" class="btn btn-danger" ng-click="delSublabel(sublabel, sublabels)">删除</button>
 			        </span>
 			    </div>
 				<div class="input-group">
 					<select class="form-control" ng-model="selectedSubItem" ng-options="item as item.name for item in sublabelsopts"></select>
 			        <span class="input-group-btn">
-						<button type="button" class="btn btn-success" ng-click="addSublabel(selectedSubItem._id)">增加</button>
+						<button type="button" class="btn btn-success" ng-click="addSublabel(selectedSubItem._id, sublabels)">增加</button>
 			        </span>
 			    </div>
 			</div>

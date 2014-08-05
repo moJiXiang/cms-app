@@ -16,7 +16,7 @@ angular.module('cmsAppApp')
 			 */
 			cityResource.count({}, function(data) {
 				$scope.totalItems = data.result;
-				$scope.numPages = Math.round(data.result / 20);
+				$scope.numPages = Math.ceil(data.result / 20);
 			})
 			$scope.maxSize = 5
 			$scope.currentPage = 1;
@@ -31,24 +31,24 @@ angular.module('cmsAppApp')
 					var itemids = citys.map(function(city) {
 						return city._id
 					});
-					console.log(itemids);
 
 					auditingResource.query({"items": itemids.join(',')}, function(audits) {
 						console.log(audits);
-						// var cities = audits.map()
+						var cities = citys.forEach(function(city) {
+							var id = city._id;
+							audits.forEach(function(audit) {
+								var item_id = audit.item_id;
+								if(id == item_id) {
+									if(audit.en) {
+										city.audit_en = audit;
+									} else {
+										city.audit_zh = audit;
+									}
+								}
+							})
+						})
 					})
 
-					// angular.forEach(citys, function(city) {
-					// 	auditingResource.query({item_id: city._id, cmd: 'getAuditByItemid'}, function(audits) {
-					// 		audits.forEach(function(audit) {
-					// 			if(audit.en){
-					// 				city.audit_en = audit;
-					// 			}else{
-					// 				city.audit_zh = audit;
-					// 			}
-					// 		})
-					// 	})	
-					// })
 					$scope.cities = citys;
 				});
 			}
@@ -121,7 +121,7 @@ angular.module('cmsAppApp')
 			 * @param  {string} cityId city's id
 			 * @return {boolean}        del success or fail
 			 */
-			$scope.del = function(cityId) {
+			$scope.del = function(city) {
 				$http.delete('/rest/citys/' + cityId).success(function(data) {
 					console.log(data);
 				})
@@ -131,15 +131,15 @@ angular.module('cmsAppApp')
 			 * open modal for appoint task to editor
 			 * @return {array}
 			 */
-			$scope.open = function(size, cityname) {
-				$scope.cityname = cityname;
+			$scope.open = function(size, city) {
+				$scope.city = city;
 				var modalInstance = $modal.open({
 					templateUrl: 'myModalContent.html',
 					controller: ModalInstanceCtrl,
 					size: size,
 					resolve: {
-						cityname: function() {
-							return $scope.cityname;
+						city: function() {
+							return city;
 						}
 					}
 				});
@@ -181,8 +181,8 @@ angular.module('cmsAppApp')
 			})
 		}
 	])
-	.controller('CityEditCtrl', ["$scope", "$http", "$routeParams", "$location", "$anchorScroll", "cityResource", "labelResource", 'notifierService',
-		function($scope, $http, $routeParams, $location, $anchorScroll, cityResource, labelResource, notifierService) {
+	.controller('CityEditCtrl', ["$scope", "$http", "$routeParams", "$location", "$anchorScroll", "countryResource", "cityResource", "labelResource", 'notifierService',
+		function($scope, $http, $routeParams, $location, $anchorScroll, countryResource, cityResource, labelResource, notifierService) {
 			/**
 			 * scroll to one anchor by id
 			 * @param  {string} id DOM id
@@ -194,11 +194,57 @@ angular.module('cmsAppApp')
 			cityResource.get({
 				id: $routeParams.cityId
 			}, function(data) {
-				console.log(data.en_info);
 				$scope.city = data;
-				$scope.hotFlagModel = data.hot_flag;
-				$scope.showFlagModel = data.show_flag;
-
+				/**
+				 * default continents
+				 */
+				$scope.continents = [
+					{name: "亚洲", value: "AS"},
+					{name: "欧洲", value: "EU"},
+					{name: "美洲", value: "NA"},
+					{name: "南美", value: "SA"},
+					{name: "非洲", value: "AF"},
+					{name: "大洋洲", value: "OC"}
+				]
+				var continentsArray = $scope.continents.map(function (item) {
+					return item.name;
+				})
+				// city.continents maybe null
+				var index = continentsArray.indexOf($scope.city.continents)
+				$scope.continent =　$scope.continents[index];
+				$scope.city.continents = $scope.continent.name;
+				$scope.city.continentscode = $scope.continent.value;
+				/**
+				 * get countries by continentscode
+				 */
+				var continentscode = data.continentscode;
+				countryResource.query({'getCountriesByContient': continentscode}, function(items) {
+					console.log(items);
+					$scope.countries = items.map(function (item) {
+						return {
+							name: item.cn_name,
+							countrycode: item.code
+						}
+					});
+					var countriesArray = items.map(function (item) {
+						return item.code;
+					})
+					console.log(countriesArray, $scope.city.countrycode);
+					var index = countriesArray.indexOf($scope.city.countrycode);
+					console.log(index);
+					$scope.country = $scope.countries[index];
+				})
+				/**
+				 * get cities by countrycode
+				 * @type {[type]}
+				 */
+				var countrycode = data.countrycode;
+				cityResource.query({'getCitiesByCountrycode': countrycode}, function(items) {
+					console.log(items);
+					$scope.cities = items.map(function (item) {
+						return item.cityname;
+					});
+				})
 				/**
 				 *  get masterlabel and sublabels
 				 */
@@ -215,8 +261,46 @@ angular.module('cmsAppApp')
 				}, function(data) {
 					$scope.sublabels = data;
 				})
-			})
 
+			})
+			/**
+			 * changeContinent by select directior ng-change
+			 * @param  {Object} city      city
+			 * @param  {Object} continent name and value
+			 */
+			$scope.changeContinent = function(city, continent) {
+				$scope.city = city;
+				$scope.city.continents = continent.name;
+				$scope.city.continentscode = continent.value;
+			}
+			$scope.setCountries = function(continent) {
+				var continentcode = continent.value;
+				countryResource.query({'getCountriesByContient': continentcode}, function(items) {
+					console.log(items);
+					$scope.countries = items.map(function(item) {
+						return {
+							name: item.cn_name,
+							countrycode: item.code
+						}
+					});
+				})
+			}
+			$scope.changeCountry = function(city, country) {
+				$scope.city = city;
+				$scope.city.countryname = country.name;
+				$scope.city.countrycode = country.countrycode;
+			}
+			$scope.setCities = function(country) {
+				var countrycode = country.countrycode;
+				cityResource.query({'getCitiesByCountrycode': countrycode}, function(items) {
+					$scope.cities = items.map(function(item) {
+						return item.cityname;
+					})
+				})
+			}
+			/**
+			 * edit tips, introduces, traffic, these are array data
+			 */
 			$scope.atip = {};
 			$scope.addTip = function(tip, items, type) {
 
@@ -269,18 +353,41 @@ angular.module('cmsAppApp')
 					}
 					$scope.sublabelsopts.push(label);
 				});
+
 			})
 
 			$scope.fixMasterlabel = function(labelid) {
+				console.log(labelid);
 				$scope.city.masterLabel = labelid;
 			}
-			$scope.addSublabel = function(labelid) {
-				if ($scope.city.subLabel) {
+			$scope.addSublabel = function(labelid, sublabels) {
+				$scope.sublabels = sublabels;
+				if ($scope.city.subLabel.indexOf(labelid) < 0) {
 					$scope.city.subLabel.push(labelid);
-				} else {
-					$scope.city.subLabel = [];
-					$scope.city.subLabel.push(labelid);
-				}
+					labelResource.get({
+						id: labelid
+					}, function(data) {
+						console.log(data);
+						$scope.sublabels.push(data);
+					})
+				} 
+				// else {
+				// 	$scope.city.subLabel = [];
+				// 	$scope.city.subLabel.push(labelid);
+				// 	labelResource.get({
+				// 		id: labelid
+				// 	}, function(data) {
+				// 		console.log(data);
+				// 		$scope.sublabels.push(data);
+				// 	})
+				// }
+			} 
+			$scope.delSublabel = function(sublabel, sublabels) {
+				console.log(sublabel);
+				var index = $scope.city.subLabel.indexOf(sublabel._id);
+				$scope.city.subLabel.splice(index, 1);
+				$scope.sublabels = sublabels;
+				$scope.sublabels.splice(index, 1);
 			}
 			/**
 			 * save city
@@ -309,14 +416,71 @@ angular.module('cmsAppApp')
 			 * scroll to one anchor by id
 			 * @param  {string} id DOM id
 			 */
+		$scope.test = '121213';
 			$scope.scrollTo = function(id) {
 				$location.hash(id);
 				$anchorScroll();
 			}
 		}
-	]);
+	])
+	.controller('FileUploadCtrl', ['$scope', 'FileUploader', function($scope, FileUploader) {
 
-var ModalInstanceCtrl = function($scope, $modalInstance, edituserResource, cityname) {
+		$scope.test = '121213';
+		var uploader = $scope.uploader = new FileUploader({
+            url: 'upload.php'
+        });
+
+        // FILTERS
+
+        uploader.filters.push({
+            name: 'imageFilter',
+            fn: function(item /*{File|FileLikeObject}*/, options) {
+                var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+            }
+        });
+
+        // CALLBACKS
+
+        uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
+            console.info('onWhenAddingFileFailed', item, filter, options);
+        };
+        uploader.onAfterAddingFile = function(fileItem) {
+            console.info('onAfterAddingFile', fileItem);
+            console.info($scope.uploader.queue)
+        };
+        uploader.onAfterAddingAll = function(addedFileItems) {
+            console.info('onAfterAddingAll', addedFileItems);
+        };
+        uploader.onBeforeUploadItem = function(item) {
+            console.info('onBeforeUploadItem', item);
+        };
+        uploader.onProgressItem = function(fileItem, progress) {
+            console.info('onProgressItem', fileItem, progress);
+        };
+        uploader.onProgressAll = function(progress) {
+            console.info('onProgressAll', progress);
+        };
+        uploader.onSuccessItem = function(fileItem, response, status, headers) {
+            console.info('onSuccessItem', fileItem, response, status, headers);
+        };
+        uploader.onErrorItem = function(fileItem, response, status, headers) {
+            console.info('onErrorItem', fileItem, response, status, headers);
+        };
+        uploader.onCancelItem = function(fileItem, response, status, headers) {
+            console.info('onCancelItem', fileItem, response, status, headers);
+        };
+        uploader.onCompleteItem = function(fileItem, response, status, headers) {
+            console.info('onCompleteItem', fileItem, response, status, headers);
+        };
+        uploader.onCompleteAll = function() {
+            console.info('onCompleteAll');
+        };
+
+        console.info('uploader', uploader);
+	}]);
+
+var ModalInstanceCtrl = function($scope, $modalInstance, edituserResource, city) {
 	/**
 	 * get chinese editors
 	 * @return {array}    return chinese editors
@@ -341,9 +505,14 @@ var ModalInstanceCtrl = function($scope, $modalInstance, edituserResource, cityn
 	}, function(items) {
 		$scope.editusers_en = items;
 	})
-	$scope.cityname = cityname;
+	$scope.city = city;
 
-	$scope.ok = function() {
+	/**
+	 * apoint task to one editor
+	 */
+	$scope.task = {};
+	$scope.qq = 30;
+	$scope.sendtask = function(task) {
 		$modalInstance.close();
 	};
 

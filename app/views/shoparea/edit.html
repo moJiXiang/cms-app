@@ -1,0 +1,106 @@
+<div class="col-lg-9">
+	<form action="" class="form-horizontal">
+		<div class="bs-callout bs-callout-info" id="a1">
+			<h4>区域基本信息</h4>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<div class="form-group">
+				    <div class="input-group">
+				     	<div class="input-group-addon">国家</div>
+						<select class="form-control" ng-model="continent" ng-options="item.name for item in continents" ng-change="changeContinent(city, continent);setCountries(continent);">
+						</select>
+				    </div>
+				</div>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<div class="form-group">
+				    <div class="input-group">
+				     	<div class="input-group-addon">区域名称</div>
+				      	<input class="form-control" type="text" ng-model="shoparea.area_name">
+				    </div>
+				</div>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<div class="form-group">
+				    <div class="input-group">
+				     	<div class="input-group-addon">区域英文名称</div>
+				      	<input class="form-control" type="text" ng-model="shoparea.area_enname">
+				    </div>
+				</div>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<div class="form-group">
+				    <div class="input-group">
+				     	<div class="input-group-addon">地址</div>
+				      	<input class="form-control" type="text" ng-model="shoparea.address">
+				    </div>
+				</div>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<div class="form-group">
+				    <div class="input-group">
+				     	<div class="input-group-addon">电话</div>
+				      	<input class="form-control" type="text" ng-model="shoparea.tel">
+				    </div>
+				</div>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<div class="form-group">
+				    <div class="input-group">
+				     	<div class="input-group-addon">网址</div>
+				      	<input class="form-control" type="text" ng-model="shoparea.website">
+				    </div>
+				</div>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+				<div class="form-group">
+				    <div class="input-group">
+				      <div class="input-group-addon">纬度</div>
+				      <input class="form-control" type="text" ng-model="shoparea.latitude">
+				    </div>
+				</div>
+			    <div class="form-group">
+				    <div class="input-group">
+				      <div class="input-group-addon">经度</div>
+				      <input class="form-control" type="text" ng-model="shoparea.longitude">
+				    </div>
+				</div>
+			</div>
+		</div>
+		<div class="bs-callout bs-callout-info" id="a2">
+			<h4>标签</h4>
+		</div>
+		<div class="bs-callout bs-callout-info" id="a3">
+			<h4>开放时间</h4>
+			<text-angular ng-model="shoparea.open_time"></text-angular>
+		</div>
+		<div class="bs-callout bs-callout-info" id="a4">
+			<h4>介绍</h4>
+			<text-angular ng-model="shoparea.area_introduce"></text-angular>
+		</div>
+		<div class="bs-callout bs-callout-info" id="a5">
+			<h4>交通</h4>
+			<text-angular ng-model="shoparea.traffic"></text-angular>
+		</div>
+		<div class="bs-callout bs-callout-info" id="a6">
+			<h4>小贴士</h4>
+			<text-angular ng-model="shoparea.tips"></text-angular>
+		</div>
+	</form>
+</div>
+<div class="col-lg-3">
+	<div class="editbtns affix">
+		<button type="button" ng-click="save()" class="btn btn-success">保存</button>
+		<a href="#/citylist" class="btn btn-default">返回</a>
+	</div>
+	<nav id="citynavaffix" class="citynav affix">
+		<ul>
+			<li><h2>{{shoparea.area_name}}</h2></li>
+			<li><a ng-click="scrollTo('a1')">区域基本信息</a></li>
+			<li><a ng-click="scrollTo('a2')">标签</a></li>
+			<li><a ng-click="scrollTo('a3')">开放时间</a></li>
+			<li><a ng-click="scrollTo('a4')">介绍</a></li>
+			<li><a ng-click="scrollTo('a5')">交通</a></li>
+			<li><a ng-click="scrollTo('a6')">小贴士</a></li>
+		</ul>
+	</nav>
+</div>

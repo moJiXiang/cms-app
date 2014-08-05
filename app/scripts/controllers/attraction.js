@@ -14,7 +14,7 @@ angular.module('cmsAppApp')
 		 */
 		attractionResource.count({}, function(data) {
 			$scope.totalItems = data.result;
-			$scope.numPages   = Math.round(data.result / 20);
+			$scope.numPages   = Math.ceil(data.result / 20);
 		})
 		$scope.currentPage = 1;
 		$scope.maxSize     = 5;

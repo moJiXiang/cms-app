@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
-var app = angular.module('cmsAppApp', ['ngAnimate', 'ngCookies', 'ngResource', 'ngRoute', 'ngSanitize', 'ngTouch', 'ngGrid', 'ui.bootstrap','textAngular'])
+var app = angular.module('cmsAppApp', ['ngAnimate', 'ngCookies', 'ngResource', 'ngRoute', 'ngSanitize', 'ngTouch', 'ngGrid', 'ui.bootstrap','textAngular','angularFileUpload'])
 
 app.config(['$routeProvider', '$locationProvider', '$resourceProvider', function ($routeProvider, $locationProvider, $resourceProvider) {
 
@@ -43,6 +43,10 @@ app.config(['$routeProvider', '$locationProvider', '$resourceProvider', function
     .when('/citylist/addnewcity',{
       templateUrl: 'views/city/edit.html',
       controller: 'CityNewCtrl'
+    })
+    .when('/citylist/:cityId/fileupload',{
+      templateUrl: 'views/city/fileupload.html',
+      controller: 'FileUploadCtrl'
     })
     /**
      * attraction routes

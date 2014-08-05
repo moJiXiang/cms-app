@@ -14,7 +14,7 @@ angular.module('cmsAppApp')
 		 */
 		restaurantResource.count({}, function(data) {
 			$scope.totalItems = data.result;
-			$scope.numPages   = Math.round(data.result / 20);
+			$scope.numPages   = Math.ceil(data.result / 20);
 		})
 		$scope.currentPage = 1;
 		$scope.maxSize     = 5;
@@ -31,7 +31,7 @@ angular.module('cmsAppApp')
 
 				restaurantResource.count({criteria: {'name': {'$regex': val, '$options': 'i'}}}, function(data) {
 					$scope.totalItems = data.result;
-					$scope.numPages   = Math.round(data.result / 20);
+					$scope.numPages   = Math.ceil(data.result / 20);
 				})
 				console.log(items)
 				$scope.restaurants = items;

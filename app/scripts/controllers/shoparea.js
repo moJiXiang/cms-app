@@ -18,7 +18,7 @@ angular.module('cmsAppApp')
 		 */
 		areaResource.count({}, function(data) {
 			$scope.totalItems = data.result;
-			$scope.numPages   = Math.round(data.result / 20);
+			$scope.numPages   = Math.ceil(data.result / 20);
 		})
 		$scope.currentPage = 1;
 		$scope.maxSize     = 5;
@@ -35,7 +35,7 @@ angular.module('cmsAppApp')
 			return areaResource.query({criteria: { value: val }, cmd: "queryByName"}, function(items) {
 				areaResource.count({criteria: {'name': {'$regex': val, '$options': 'i'}}}, function(data) {
 					$scope.totalItems = data.result;
-					$scope.numPages   = Math.round(data.result / 20);
+					$scope.numPages   = Math.ceil(data.result / 20);
 				})
 				$scope.shopareas = items;
 				return [];
@@ -45,8 +45,13 @@ angular.module('cmsAppApp')
 	.controller('ShopareaDetailCtrl', ['$scope', function($scope) {
 
 	}])
-	.controller('ShopareaEditCtrl', ['$scope', function($scope) {
-
+	.controller('ShopareaEditCtrl', ['$scope', '$routeParams', 'areaResource', "cmspublicfn", function($scope, $routeParams, areaResource, cmspublicfn) {
+		$scope.scrollTo = function(id) {
+			cmspublicfn.scrollTo(id);
+		}
+		areaResource.get({id: $routeParams.shopareaId}, function(shoparea) {
+			$scope.shoparea = shoparea;
+		})
 	}])
 	.controller('ShopareaNewCtrl', ['$scope', function($scope) {
 

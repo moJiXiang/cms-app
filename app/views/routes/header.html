@@ -5,14 +5,46 @@
 	</a>
   
 </div> -->
+<div>
+	<div ng-controller="notifierController" class="notifier">
+		<alert ng-repeat="currentmsg in current()" type="{{currentmsg.type}}" close="dismiss($index)">{{currentmsg.msg}}</alert>
+	</div>
+	<div id="other">
+	  
+		<a href="#"><span id="bulut"></span></a>
+		<a href="#"><span id="yorum"></span><div id="yorum_sayi">7</div></a>
+		<a href="#"><span id="zil"></span></a>
+	  
+	</div>
 
-<div ng-controller="notifierController" class="notifier">
-	<alert ng-repeat="currentmsg in current()" type="{{currentmsg.type}}" close="dismiss($index)">{{currentmsg.msg}}</alert>
-</div>
-<div id="other">
-  
-	<a href="#"><span id="bulut"></span></a>
-	<a href="#"><span id="yorum"></span><div id="yorum_sayi">7</div></a>
-	<a href="#"><span id="zil"></span></a>
-  
+
+	<div class="modal " id="loginWindow" ng-controller="loginController">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+	        <h4 class="modal-title">Login</h4>
+	      </div>
+	      <div class="modal-body">
+	      	<div class="form-group">
+	      		<label>Username
+	      			<input type="text" class="form-control" placeholder="Any" ng-model="username">
+	      		</label>
+	      	</div>
+	      	<div class="form-group">
+	      		<label>Password
+	      			<input type="text" class="form-control" placeholder="Any" ng-model="password">
+	      		</label>
+	      	</div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary" ng-click="save()" data-dismiss="modal">Login</button>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+	<script type="text/javascript">
+	$('#loginWindow').modal({show: false});
+	</script>
 </div>

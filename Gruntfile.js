@@ -73,7 +73,8 @@ module.exports = function (grunt) {
         livereload: 35729
       },
       proxies: [
-        {context: '/rest', host: 'localhost', port: 3003, https: false, changeOrigin: false}
+        {context: '/rest', host: 'localhost', port: 3003, https: false, changeOrigin: false},
+        {context: '/login', host: 'localhost', port: 3003, https: false, changeOrigin: false}
         // {context: '/rest', host: 'localhost', port: 3003, https: false, changeOrigin: false, rewrite: {'^/' : '/app/'}}
       ],
       livereload: {

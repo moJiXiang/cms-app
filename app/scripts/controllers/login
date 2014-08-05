@@ -1,0 +1,13 @@
+'use strict';
+
+/**
+ * @ngdoc function
+ * @name cmsAppApp.controller:MainCtrl
+ * @description
+ * # MainCtrl
+ * Controller of the cmsAppApp
+ */
+angular.module('cmsAppApp').controller('loginController', ['$scope', '$modal', 'metaResource', function ($scope, $modal, metaResource) {
+
+    $('#loginWindow').show();
+}]);

@@ -118,7 +118,7 @@
 		    </div>
 			<input type="checkbox" class="commentbtn" ng-model="short_introduce" >
 			<h4>一句话简介</h4>
-			<pre>{{city.short_introduce}}</pre>
+			<pre ng-bind-html="city.short_introduce"></pre>
 
 		</div>
 		<div class="bs-callout bs-callout-info" id="a8">
@@ -130,7 +130,7 @@
 		    </div>
 			<input type="checkbox" class="commentbtn" ng-model="attraction_overview" >
 			<h4>景点概述</h4>
-			<pre>{{city.attraction_overview}}</pre>
+			<pre ng-bind-html="city.attraction_overview"></pre>
 		</div>
 		<div class="bs-callout bs-callout-info" id="a9">
 			<div class="alert alert-warning" ng-show="restaurant_overview">
@@ -141,7 +141,7 @@
 		    </div>
 			<input type="checkbox" class="commentbtn" ng-model="restaurant_overview" >
 			<h4>餐馆概述</h4>
-			<pre>{{city.restaurant_overview}}</pre>
+			<pre ng-bind-html="city.restaurant_overview"></pre>
 		</div>
 		<div class="bs-callout bs-callout-info" id="a10">
 			<div class="alert alert-warning" ng-show="shopping_overview">
@@ -152,7 +152,7 @@
 		    </div>
 			<input type="checkbox" class="commentbtn" ng-model="shopping_overview" >
 			<h4>购物概述</h4>
-			<pre>{{city.shopping_overview}}</pre>
+			<pre ng-bind-html="city.shopping_overview"></pre>
 		</div>
 
 		<div class="bs-callout bs-callout-info" id="a11">
@@ -166,7 +166,7 @@
 			<h4>简介</h4>
 			<div class="bs-callout bs-callout-info bs-small" ng-repeat="introduce in city.introduce">
 				<h4>{{introduce.intrItemTitle}}</h4>
-				<pre>{{introduce.intrItemContent}}</pre>
+				<pre ng-bind-html="introduce.intrItemContent"></pre>
 			</div>
 		</div>
 
@@ -181,7 +181,7 @@
 			<h4>小贴士</h4>
 			<div class="bs-callout bs-callout-info bs-small" ng-repeat="tip in city.tips">
 				<h4>{{tip.tipItemTitle}}</h4>
-				<pre>{{tip.tipItemContent}}</pre>
+				<pre ng-bind-html="tip.tipItemContent"></pre>
 			</div>
 		</div>
 
@@ -196,7 +196,7 @@
 			<h4>交通</h4>
 			<div class="bs-callout bs-callout-info bs-small" ng-repeat="traffic in city.traffic">
 				<h4>{{traffic.traItemTitle}}</h4>
-				<pre>{{traffic.traItemTitle}}</pre>
+				<pre ng-bind-html="traffic.traItemTitle"></pre>
 			</div>
 		</div>
 
@@ -209,7 +209,7 @@
 		    </div>
 			<input type="checkbox" class="commentbtn" ng-model="en_info.short_introduce" >
 			<h4>short introduce</h4>
-			<pre>{{city.en_info.short_introduce}}</pre>
+			<pre ng-bind-html="city.en_info.short_introduce"></pre>
 			
 		</div>
 		<div class="bs-callout bs-callout-danger" id="a15">
@@ -221,7 +221,7 @@
 		    </div>
 			<input type="checkbox" class="commentbtn" ng-model="en_info.attraction_overview" >
 			<h4>attraction overview</h4>
-			<pre>{{city.en_info.attraction_overview}}</pre>
+			<pre ng-bind-html="city.en_info.attraction_overview"></pre>
 		</div>
 		<div class="bs-callout bs-callout-danger" id="a16">
 			<div class="alert alert-warning" ng-show="en_info.restaurant_overview">
@@ -232,7 +232,7 @@
 		    </div>
 			<input type="checkbox" class="commentbtn" ng-model="en_info.restaurant_overview" >
 			<h4>restaurant overview</h4>
-			<pre>{{city.en_info.restaurant_overview}}</pre>
+			<pre ng-bind-html="city.en_info.restaurant_overview"></pre>
 		</div>
 		<div class="bs-callout bs-callout-danger" id="a17">
 			<div class="alert alert-warning" ng-show="en_info.shopping_overview">
@@ -243,7 +243,7 @@
 		    </div>
 			<input type="checkbox" class="commentbtn" ng-model="en_info.shopping_overview" >
 			<h4>shopping overview</h4>
-			<pre>{{city.en_info.shopping_overview}}</pre>
+			<pre ng-bind-html="city.en_info.shopping_overview"></pre>
 		</div>
 
 		<div class="bs-callout bs-callout-danger" id="a18">
@@ -257,7 +257,7 @@
 			<h4>introduce</h4>
 			<div class="bs-callout bs-callout-danger bs-small" ng-repeat="introduce in city.en_info.introduce">
 				<h4>{{introduce.intrItemTitle}}</h4>
-				<pre>{{introduce.intrItemContent}}</pre>
+				<pre ng-bind-html="introduce.intrItemContent"></pre>
 			</div>
 		</div>
 
@@ -272,7 +272,7 @@
 			<h4>tips</h4>
 			<div class="bs-callout bs-callout-danger bs-small" ng-repeat="tip in city.en_info.tips">
 				<h4>{{tip.tipItemTitle}}</h4>
-				<pre>{{tip.tipItemContent}}</pre>
+				<pre ng-bind-html="tip.tipItemContent"></pre>
 			</div>
 		</div>
 
@@ -287,7 +287,7 @@
 			<h4>traffic</h4>
 			<div class="bs-callout bs-callout-danger bs-small" ng-repeat="traffic in city.en_info.traffic">
 				<h4>{{traffic.traItemTitle}}</h4>
-				<pre>{{traffic.traItemTitle}}</pre>
+				<pre ng-bind-html="traffic.traItemContent"></pre>
 			</div>
 		</div>
 	</div>

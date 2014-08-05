@@ -32,7 +32,7 @@
 				<div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">大洲</div>
-				      <input class="form-control" type="text" value="{{city.continents}}">
+				      <input class="form-control" type="text" ng-model='city.continents'>
 				    </div>
 				</div>
 			</div>
@@ -40,7 +40,7 @@
 				<div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">国家</div>
-				      <input class="form-control" type="text" value="{{city.countryname}}">
+				      <input class="form-control" type="text" ng-model='city.countryname'>
 				    </div>
 				</div>
 			</div>
@@ -48,7 +48,7 @@
 				<div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">城市名（中文）</div>
-				      <input class="form-control" type="text" value="{{city.cityname}}">
+				      <input class="form-control" type="text" ng-model="city.cityname">
 				    </div>
 				</div>
 			</div>
@@ -56,7 +56,7 @@
 				<div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">城市名（英文）</div>
-				      <input class="form-control" type="text" value="{{city.cityname_en}}">
+				      <input class="form-control" type="text" ng-model="city.cityname_en">
 				    </div>
 				</div>
 			</div>
@@ -64,7 +64,7 @@
 				<div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">城市名（拼音）</div>
-				      <input class="form-control" type="text" value="{{city.cityname_py}}">
+				      <input class="form-control" type="text" ng-model="city.cityname_py">
 				    </div>
 				</div>
 			</div>
@@ -72,7 +72,7 @@
 				<div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">城市WEOID</div>
-				      <input class="form-control" type="text" value="{{city.weoid || '无'}}">
+				      <input class="form-control" type="text" ng-model="city.weoid">
 				    </div>
 				</div>
 			</div>
@@ -80,13 +80,13 @@
 				<div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">纬度</div>
-				      <input class="form-control" type="text" value="{{city.latitude}}">
+				      <input class="form-control" type="text" ng-model="city.latitude">
 				    </div>
 				</div>
 			    <div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">经度</div>
-				      <input class="form-control" type="text" value="{{city.longitude}}">
+				      <input class="form-control" type="text" ng-model="city.longitude">
 				    </div>
 				</div>
 			</div>
@@ -97,7 +97,7 @@
 				<div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">推荐天数</div>
-				      <input class="form-control" type="text" value="{{city.recommand_day}}">
+				      <input class="form-control" type="text" ng-model="city.recommand_day">
 				    </div>
 				</div>
 			</div>
@@ -105,7 +105,7 @@
 				<div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">推荐强度</div>
-				      <input class="form-control" type="text" value="{{city.recommand_intensity}}">
+				      <input class="form-control" type="text" ng-model="city.recommand_intensity">
 				    </div>
 				</div>
 			</div>
@@ -127,15 +127,15 @@
 				<div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">推荐出发点</div>
-				      <input class="form-control" type="text" value="{{city.recommand_center.name}}">
+				      <input class="form-control" type="text" ng-model="city.recommand_center.name">
 				    </div>
 				    <div class="input-group">
 				      <div class="input-group-addon">纬度</div>
-				      <input class="form-control" type="text" value="{{city.recommand_center.latitude}}">
+				      <input class="form-control" type="text" ng-model="city.recommand_center.latitude">
 				    </div>
 				    <div class="input-group">
 				      <div class="input-group-addon">经度</div>
-				      <input class="form-control" type="text" value="{{city.recommand_center.longitude}}">
+				      <input class="form-control" type="text" ng-model="city.recommand_center.longitude">
 				    </div>
 				</div>
 			</div>
@@ -170,19 +170,19 @@
 		</div>
 		<div class="bs-callout bs-callout-info" id="a7">
 			<h4>一句话简介</h4>
-			<text-angular ng-model="short_introduce"></text-angular>
+			<text-angular ng-model="city.short_introduce"></text-angular>
 		</div>
 		<div class="bs-callout bs-callout-info" id="a8">
 			<h4>景点概述</h4>
-			<text-angular name="attraction_overview" ng-model="attraction_overview"></text-angular>
+			<text-angular ng-model="city.attraction_overview"></text-angular>
 		</div>
 		<div class="bs-callout bs-callout-info" id="a9">
 			<h4>餐馆概述</h4>
-			<text-angular name="restaurant_overview" ng-model="restaurant_overview"></text-angular>
+			<text-angular ng-model="city.restaurant_overview"></text-angular>
 		</div>
 		<div class="bs-callout bs-callout-info" id="a10">
 			<h4>购物概述</h4>
-			<text-angular name="shopping_overview" ng-model="shopping_overview"></text-angular>
+			<text-angular ng-model="city.shopping_overview"></text-angular>
 		</div>
 
 		<div class="bs-callout bs-callout-info" id="a11">
@@ -191,7 +191,7 @@
 				<div class="form-group">
 				    <h4 class="col-sm-2">标题</h4>
 				    <div class="col-sm-10">
-						<text-angular name="intrItemTitle" ng-model="atip.intrItemTitle"></text-angular>
+				       <input type="text" class="form-control" ng-model="atip.intrItemTitle">
 				    </div>
 				</div>
 				<div class="form-group">
@@ -208,7 +208,7 @@
 			</div>
 			<div class="bs-callout bs-callout-info bs-small" ng-repeat="introduce in city.introduce">
 				<h4>{{introduce.intrItemTitle}}</h4>
-				<pre>{{introduce.intrItemContent}}</pre>
+				<pre ng-bind-html="introduce.intrItemContent"></pre>
 				<button type="button" class="btn btn-default" ng-click="editTip(introduce, 'introduce')">编辑</button>
 				<button type="button" class="btn btn-danger" ng-click="removeTip(introduce, 'introduce')">删除</button>
 			</div>
@@ -220,13 +220,13 @@
 				<div class="form-group">
 				    <h4 class="col-sm-2">标题</h4>
 				    <div class="col-sm-10">
-						<text-angular name="tipItemTitle" ng-model="atip.tipItemTitle"></text-angular>
+				      <input type="text" class="form-control" ng-model="atip.tipItemTitle">
 				    </div>
 				</div>
 				<div class="form-group">
 				    <h4 class="col-sm-2">内容</h4>
 				    <div class="col-sm-10">
-						<textarea class="form-control" rows="3" ng-model="atip.tipItemContent"></textarea>
+						<text-angular name="tipItemContent" ng-model="atip.tipItemContent"></text-angular>
 				    </div>
 				</div>
 				<div class="form-group">
@@ -237,7 +237,7 @@
 			</div>
 			<div class="bs-callout bs-callout-info bs-small" ng-repeat="tip in city.tips">
 				<h4>{{tip.tipItemTitle}}</h4>
-				<pre>{{tip.tipItemContent}}</pre>
+				<pre ng-bind-html="tip.tipItemContent"></pre>
 				<button type="button" class="btn btn-default" ng-click="editTip(tip, 'tips')">编辑</button>
 				<button type="button" class="btn btn-danger" ng-click="removeTip(tip, 'tips')">删除</button>
 			</div>
@@ -255,8 +255,7 @@
 				<div class="form-group">
 				    <h4 class="col-sm-2">内容</h4>
 				    <div class="col-sm-10">
-						<text-angular name="htmlcontent1" ng-model="atip.traItemContent"></text-angular>
-
+						<text-angular name="traItemContent" ng-model="atip.traItemContent"></text-angular>
 						<!-- <textarea class="form-control" rows="3" ng-model="atip.traItemContent"></textarea> -->
 				    </div>
 				</div>
@@ -276,19 +275,19 @@
 
 		<div class="bs-callout bs-callout-danger" id="a14">
 			<h4>short introduce</h4>
-			<textarea class="form-control" rows="3">{{city.en_info.short_introduce}}</textarea>
+			<text-angular ng-model="city.en_info.short_introduce"></text-angular>
 		</div>
 		<div class="bs-callout bs-callout-danger" id="a15">
 			<h4>attraction overview</h4>
-			<textarea class="form-control" rows="3">{{city.en_info.attraction_overview}}</textarea>
+			<text-angular ng-model="city.en_info.attraction_overview"></text-angular>
 		</div>
 		<div class="bs-callout bs-callout-danger" id="a16">
 			<h4>restaurant overview</h4>
-			<textarea class="form-control" rows="3">{{city.en_info.restaurant_overview}}</textarea>
+			<text-angular ng-model="city.en_info.restaurant_overview"></text-angular>
 		</div>
 		<div class="bs-callout bs-callout-danger" id="a17">
 			<h4>shopping overview</h4>
-			<textarea class="form-control" rows="3">{{city.en_info.shopping_overview}}</textarea>
+			<text-angular ng-model="city.en_info.shopping_overview"></text-angular>
 		</div>
 		<div class="bs-callout bs-callout-danger" id="a18">
 			<h4>introduce</h4>
@@ -302,20 +301,20 @@
 				<div class="form-group">
 				    <h4 class="col-sm-2">content</h4>
 				    <div class="col-sm-10">
-						<textarea class="form-control" rows="3" ng-model="atip.intrItemContent"></textarea>
+						<text-angular name="atip.intrItemContent" ng-model="atip.intrItemContent"></text-angular>
 				    </div>
 				</div>
 				<div class="form-group">
 				    <div class="col-sm-offset-2 col-sm-10">
-						<button type="button" class="btn btn-success" ng-click="addTip(atip, 'en_info.introduce')">{{editMode ? "save":"add"}}</button>
+						<button type="button" class="btn btn-success" ng-click="addTip(atip,  'introduce', 'en_info')">{{editMode ? "save":"add"}}</button>
 				    </div>
 			    </div>
 			</div>
 			<div class="bs-callout bs-callout-danger bs-small" ng-repeat="introduce in city.en_info.introduce">
 				<h4>{{introduce.intrItemTitle}}</h4>
-				<pre>{{introduce.intrItemContent}}</pre>
-				<button type="button" class="btn btn-default" ng-click="editTip(introduce, 'en_info.introduce')">edit</button>
-				<button type="button" class="btn btn-danger" ng-click="removeTip(introduce, 'en_info.introduce')">delete</button>
+				<pre ng-bind-html="introduce.intrItemContent"></pre>
+				<button type="button" class="btn btn-default" ng-click="editTip(introduce, 'introduce', 'en_info')">edit</button>
+				<button type="button" class="btn btn-danger" ng-click="removeTip(introduce, 'introduce', 'en_info')">delete</button>
 			</div>
 		</div>
 		<div class="bs-callout bs-callout-danger" id="a19">
@@ -330,20 +329,20 @@
 				<div class="form-group">
 				    <h4 class="col-sm-2">content</h4>
 				    <div class="col-sm-10">
-						<textarea class="form-control" rows="3" ng-model="atip.tipItemContent"></textarea>
+						<text-angular name="atip.tipItemContent" ng-model="atip.tipItemContent"></text-angular>
 				    </div>
 				</div>
 				<div class="form-group">
 				    <div class="col-sm-offset-2 col-sm-10">
-						<button type="button" class="btn btn-success" ng-click="addTip(atip, 'en_info.tips')">{{editMode ? "save":"add"}}</button>
+						<button type="button" class="btn btn-success" ng-click="addTip(atip, 'tips', 'en_info')">{{editMode ? "save":"add"}}</button>
 				    </div>
 			    </div>
 			</div>
 			<div class="bs-callout bs-callout-danger bs-small" ng-repeat="tip in city.en_info.tips">
 				<h4>{{tip.tipItemTitle}}</h4>
-				<pre>{{tip.tipItemContent}}</pre>
-				<button type="button" class="btn btn-default" ng-click="editTip(tip, 'en_info.tips')">edit</button>
-				<button type="button" class="btn btn-danger" ng-click="removeTip(tip, 'en_info.tips')">delete</button>
+				<pre ng-bind-html="tip.tipItemContent"></pre>
+				<button type="button" class="btn btn-default" ng-click="editTip(tip, 'tips', 'en_info')">edit</button>
+				<button type="button" class="btn btn-danger" ng-click="removeTip(tip, 'tips', 'en_info')">delete</button>
 			</div>
 		</div>
 		<div class="bs-callout bs-callout-danger" id="a20">
@@ -358,20 +357,20 @@
 				<div class="form-group">
 				    <h4 class="col-sm-2">content</h4>
 				    <div class="col-sm-10">
-						<textarea class="form-control" rows="3" ng-model="atip.traItemContent"></textarea>
+						<text-angular name="atip.traItemContent" ng-model="atip.traItemContent"></text-angular>
 				    </div>
 				</div>
 				<div class="form-group">
 				    <div class="col-sm-offset-2 col-sm-10">
-						<button type="button" class="btn btn-success" ng-click="addTip(atip, 'en_info.traffic')">{{editMode ? "save":"add"}}</button>
+						<button type="button" class="btn btn-success" ng-click="addTip(atip, 'traffic', 'en_info')">{{editMode ? "save":"add"}}</button>
 				    </div>
 			    </div>
 			</div>
 			<div class="bs-callout bs-callout-danger bs-small" ng-repeat="traffic in city.en_info.traffic">
 				<h4>{{traffic.traItemTitle}}</h4>
-				<pre>{{traffic.traItemContent}}</pre>
-				<button type="button" class="btn btn-default" ng-click="editTip(traffic, 'en_info.traffic')">edit</button>
-				<button type="button" class="btn btn-danger" ng-click="removeTip(traffic, 'en_info.traffic')">delete</button>
+				<pre ng-bind-html="traffic.traItemContent"></pre>
+				<button type="button" class="btn btn-default" ng-click="editTip(traffic, 'traffic', 'en_info')">edit</button>
+				<button type="button" class="btn btn-danger" ng-click="removeTip(traffic, 'traffic', 'en_info')">delete</button>
 			</div>
 		</div>
 	</form>

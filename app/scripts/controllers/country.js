@@ -131,7 +131,10 @@ var editCountryContentCtrl = function($scope, $modalInstance, country, notifierS
 			});
 			$modalInstance.close(country);
 		}).catch(function (res) {
-			
+			notifierService.notify({
+				type: 'success',
+				msg: '更新国际区号失败！错误码' + res.status
+			});
 		})
 	};
 

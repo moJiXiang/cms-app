@@ -10,18 +10,27 @@
  */
 var app = angular.module('cmsAppApp', ['ngAnimate', 'ngCookies', 'ngResource', 'ngRoute', 'ngSanitize', 'ngTouch', 'ngGrid', 'ui.bootstrap','textAngular','angularFileUpload'])
 
-app.config(['$routeProvider', '$locationProvider', '$resourceProvider', function ($routeProvider, $locationProvider, $resourceProvider) {
   //intercept 401 error
-  // $httpProvider.interceptors.push('authenticationInterceptor');
+app.config(['$routeProvider', '$locationProvider', '$resourceProvider', '$httpProvider', function ($routeProvider, $locationProvider, $resourceProvider, $httpProvider) {
+
+  $httpProvider.interceptors.push(function($q, $window, $location) {
+    return {
+      responseError : function(rejection) {
+        if (401 == rejection.status) {
+          // $location.path('/login');
+          $window.location.href = "logon.html";
+          return;
+        }
+        return $q.rejection(rejection);
+      }
+    }
+  });
 
   //configure routeProvider
   $routeProvider
     .when('/', {
       templateUrl: 'views/main.html',
       controller: 'MainCtrl'
-    })
-    .when('/login', {
-      controller: 'loginController'
     })
     /**
      * country routes

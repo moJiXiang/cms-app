@@ -42,8 +42,14 @@ angular.module('cmsAppApp')
 			})
 		}
 	}])
-	.controller('ShopareaDetailCtrl', ['$scope', function($scope) {
-
+	.controller('ShopareaDetailCtrl', ['$scope', '$routeParams', 'areaResource', function($scope, $routeParams, areaResource) {
+		/**
+		 * get area message
+		 * @param  {string} shoparea shoparea id
+		 */
+		areaResource.get({id: $routeParams.shopareaId}, function(shoparea) {
+			$scope.shoparea = shoparea;
+		})
 	}])
 	.controller('ShopareaEditCtrl', ['$scope', '$routeParams', 'areaResource', "cmspublicfn", function($scope, $routeParams, areaResource, cmspublicfn) {
 		$scope.scrollTo = function(id) {
@@ -56,6 +62,22 @@ angular.module('cmsAppApp')
 		areaResource.get({id: $routeParams.shopareaId}, function(shoparea) {
 			$scope.shoparea = shoparea;
 		})
+		$scope.setCoverImage = function(imagename) {
+			console.log($scope.shoparea.cover_image);
+			$scope.shoparea.cover_image = imagename;
+			$scope.shoparea.$update(function() {
+				notifierService.notify({
+					type: 'success',
+					msg: '设置封面图片成功！'
+				})
+			}).catch(function(res) {
+				notifierService.notify({
+					type: 'danger',
+					msg: '设置封面图片失败！错误码' + res.status
+				})
+			})
+
+		}
 		$scope.addTag = function(tag, tags) {
 			$scope.shoparea.tags = tags;
 			if(tags.indexOf(tag) < 0){
@@ -67,34 +89,22 @@ angular.module('cmsAppApp')
 	.controller('ShopareaNewCtrl', ['$scope',  function($scope) {
 
 	}])
-	.controller('ShopareaFileuploadCtrl', ['$scope', 'FileUploader', '$routeParams', 'areaResource', 'notifierService', function($scope, FileUploader, $routeParams, areaResource, notifierService) {
+	.controller('ShopareaFileuploadCtrl', ['$scope', 'FileUploader', '$routeParams', 'areaResource', 'notifierService', 'cmspublicfn', function($scope, FileUploader, $routeParams, areaResource, notifierService, cmspublicfn) {
+		$scope.scrollTo = function(id) {
+			cmspublicfn.scrollTo(id);
+		}
 		// lead turnback button to shoparealist
 		$scope.thislist = 'shoparealist';
-		// get shopareaid ,then get shoparea data, then setCoverImage by shoparea data
+		// // get shopareaid ,then get shoparea data, then setCoverImage by shoparea data
 		var shopareaid = $routeParams.shopareaId;
-		var shoparea = areaResource.get({id: shopareaid});
-		$scope.setCoverImage = function(imagename) {
-			$scope.shoparea = shoparea;
-			console.log($scope.shoparea.cover_image);
-			$scope.shoparea.cover_image = imagename;
-			$scope.shoparea.$update(function () {
-				notifierService.notify({
-					type: 'success',
-					msg: '设置封面图片成功！'
-				})
-			}).catch(function (res) {
-				notifierService.notify({
-					type: 'danger',
-					msg: '设置封面图片失败！错误码' + res.status
-				})
-			})
-
-		}
+		// var shoparea = areaResource.get({id: shopareaid});
+	
 
 		var uploader = $scope.uploader = new FileUploader({
             url: '/area/upload'
         });
 
+		uploader.headers.areaid= shopareaid;
         // FILTERS
 
         uploader.filters.push({

@@ -1,0 +1,86 @@
+<div class="col-lg-9">
+	<form action="" class="form-horizontal">
+		<div class="bs-callout bs-callout-info" id="coverimage">
+			<h4>封面图片</h4>
+			<img ng-src="http://weegotest.b0.upaiyun.com/shoparea/origin/{{cover_image}}" alt="">
+		</div>
+		<div class="bs-callout bs-callout-info" id="images">
+			<h4>区域图片</h4>
+			<img class="img-thumbnail cms-img" ng-src="http://weegotest.b0.upaiyun.com/shoparea/origin/{{img}}" alt="" ng-repeat="img in shoparea.image">
+		</div>
+		<div class="bs-callout bs-callout-info" id="a1">
+			<h4>区域基本信息</h4>
+			<div class="bs-callout bs-callout-warning bs-small">
+		     	<h4>城市</h4>
+		     	<p>{{shoparea.city_name}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+		     	<h4>区域名称</h4>
+		     	<p>{{shoparea.area_name}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+		     	<h4>区域英文名称</h4>
+		     	<p>{{shoparea.area_enname}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+		     	<h4>电话</h4>
+		     	<p>{{shoparea.tel}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+		     	<h4>网址</h4>
+		     	<p>{{shoparea.website}}</p>
+			</div>
+			<div class="bs-callout bs-callout-warning bs-small">
+		      <h4>纬度</h4>
+		      <p>{{shoparea.latitude}}</p>
+		      <h4>经度</h4>
+		      <p>{{shoparea.longitude}}</p>
+			</div>
+		</div>
+		<div class="bs-callout bs-callout-info" id="a2">
+			<h4>标签</h4>
+			<h4 ng-repeat="tag in shoparea.tags">
+				<span class="label label-success">{{tag}}</span>
+			</h4>
+		</div>
+		<div class="bs-callout bs-callout-info" id="a3">
+			<h4>开放时间</h4>
+			<pre ng-bind-html="shoparea.open_time"></pre>
+		</div>
+		<div class="bs-callout bs-callout-info" id="a3">
+			<h4>地址</h4>
+			<pre ng-bind-html="shoparea.address"></pre>
+		</div>
+		<div class="bs-callout bs-callout-info" id="a4">
+			<h4>介绍</h4>
+			<pre ng-bind-html="shoparea.area_introduce"></pre>
+		</div>
+		<div class="bs-callout bs-callout-info" id="a5">
+			<h4>交通</h4>
+			<pre ng-bind-html="shoparea.traffic"></pre>
+		</div>
+		<div class="bs-callout bs-callout-info" id="a6">
+			<h4>小贴士</h4>
+			<pre ng-bind-html="shoparea.tips"></pre>
+		</div>
+	</form>
+</div>
+<div class="col-lg-3">
+	<div class="editbtns affix">
+		<button type="button" ng-click="save()" class="btn btn-success">保存</button>
+		<a href="#/shoparealist" class="btn btn-default">返回</a>
+	</div>
+	<nav id="citynavaffix" class="citynav affix">
+		<ul>
+			<li><h2>{{shoparea.area_name}}</h2></li>
+			<li><a ng-click="scrollTo('coverimage')">封面图片</a></li>
+			<li><a ng-click="scrollTo('images')">区域图片</a></li>
+			<li><a ng-click="scrollTo('a1')">区域基本信息</a></li>
+			<li><a ng-click="scrollTo('a2')">标签</a></li>
+			<li><a ng-click="scrollTo('a3')">开放时间</a></li>
+			<li><a ng-click="scrollTo('a4')">介绍</a></li>
+			<li><a ng-click="scrollTo('a5')">交通</a></li>
+			<li><a ng-click="scrollTo('a6')">小贴士</a></li>
+		</ul>
+	</nav>	
+</div>

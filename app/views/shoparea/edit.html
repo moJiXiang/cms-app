@@ -1,5 +1,20 @@
 <div class="col-lg-9">
 	<form action="" class="form-horizontal">
+		<div class="bs-callout bs-callout-info" id="coverimage">
+			<h4>封面图片</h4>
+			<img class="img-thumbnail cms-img" ng-src="http://weegotest.b0.upaiyun.com/shoparea/origin/{{cover_image}}" alt="">
+		</div>
+		<div class="bs-callout bs-callout-info" id="images">
+			<h4>区域图片</h4>
+			<ul class="setcovercontain">
+				<li ng-repeat="img in shoparea.image">
+					<img class="img-thumbnail cms-img" ng-src="http://weegotest.b0.upaiyun.com/shoparea/origin/{{img}}" alt="" >
+					<button type="button" class="btn btn-default" ng-click="setCoverImg(img)">设为封面</button>
+					<button type="button" class="btn btn-danger" ng-click="delImg(img)">删除该图</button>
+				</li>
+			</ul>
+			<!-- <img class="img-thumbnail" src="http://weegotest.b0.upaiyun.com/shoparea/origin/{{img}}" alt="" ng-repeat="img in shoparea.image"> -->
+		</div>
 		<div class="bs-callout bs-callout-info" id="a1">
 			<h4>区域基本信息</h4>
 			<div class="bs-callout bs-callout-warning bs-small">
@@ -102,11 +117,13 @@
 <div class="col-lg-3">
 	<div class="editbtns affix">
 		<button type="button" ng-click="save()" class="btn btn-success">保存</button>
-		<a href="#/citylist" class="btn btn-default">返回</a>
+		<a href="#/shoparealist" class="btn btn-default">返回</a>
 	</div>
 	<nav id="citynavaffix" class="citynav affix">
 		<ul>
 			<li><h2>{{shoparea.area_name}}</h2></li>
+			<li><a ng-click="scrollTo('coverimage')">封面图片</a></li>
+			<li><a ng-click="scrollTo('images')">区域图片</a></li>
 			<li><a ng-click="scrollTo('a1')">区域基本信息</a></li>
 			<li><a ng-click="scrollTo('a2')">标签</a></li>
 			<li><a ng-click="scrollTo('a3')">开放时间</a></li>

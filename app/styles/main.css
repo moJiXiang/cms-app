@@ -183,3 +183,14 @@ background: #fff;}
 	left: 400px;
 }
 
+.setcovercontain li{
+	float: left;
+	position: relative;
+}
+.setcovercontain .img-thumbnail{
+	display: block;
+}
+.cms-img{
+	height: 200px;
+	margin-bottom: 5px;
+}

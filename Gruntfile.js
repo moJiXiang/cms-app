@@ -74,7 +74,9 @@ module.exports = function (grunt) {
       },
       proxies: [
         {context: '/rest', host: 'localhost', port: 3003, https: false, changeOrigin: false},
-        {context: '/login', host: 'localhost', port: 3003, https: false, changeOrigin: false}
+        {context: '/login', host: 'localhost', port: 3003, https: false, changeOrigin: false},
+        {context: '/logout', host: 'localhost', port: 3003, https: false, changeOrigin: false},
+        {context: '/area/upload', host: 'localhost', port: 3003, https: false, changeOrigin: false}
         // {context: '/rest', host: 'localhost', port: 3003, https: false, changeOrigin: false, rewrite: {'^/' : '/app/'}}
       ],
       livereload: {

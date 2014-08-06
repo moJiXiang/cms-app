@@ -1,12 +1,14 @@
-<div id="f_left">
-  Weego CMS<br />
-  <font style="font-size:11px;color:#666666;">FOR <a href="http://www.weego.me" style="color:#eb5440;" target="_blank">weego.me</a></font>
-</div>
+<div ng-controller="FooterCtrl">
+	<div id="f_left">
+	  Weego CMS<br />
+	  <font style="font-size:11px;color:#666666;">FOR <a href="http://www.weego.me" style="color:#eb5440;" target="_blank">weego.me</a></font>
+	</div>
 
-<div id="f_right">
-  <ul>
-    <li><a href="http://anibor.digeryuzu.com"><span id="user"><font>anibor</font></span></a></li>
-    <li><a href="#"><span id="setting"></span></a></li>
-    <li><a href="#"><span id="exit"></span></a></li>
-  </ul>
+	<div id="f_right">
+	  <ul>
+	    <li><a href=""><span id="user"><font>anibor</font></span></a></li>
+	    <li><a href="#"><span id="setting"></span></a></li>
+	    <li><a ng-click="logout()"><span id="exit"></span></a></li>
+	  </ul>
+	</div>
 </div>

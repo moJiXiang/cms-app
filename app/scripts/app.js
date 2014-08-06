@@ -59,7 +59,7 @@ app.config(['$routeProvider', '$locationProvider', '$resourceProvider', '$httpPr
       controller: 'CityNewCtrl'
     })
     .when('/citylist/:cityId/fileupload',{
-      templateUrl: 'views/city/fileupload.html',
+      templateUrl: 'views/routes/fileupload.html',
       controller: 'FileUploadCtrl'
     })
     /**
@@ -81,6 +81,10 @@ app.config(['$routeProvider', '$locationProvider', '$resourceProvider', '$httpPr
       templateUrl: 'views/attraction/edit.html',
       controller: 'AttractionNewCtrl'
     })
+    .when('/attractionlist/:attractionId/fileupload',{
+      templateUrl: 'views/routes/fileupload.html',
+      controller: 'AttractionFileuploadCtrl'
+    })
     /**
      * restaurant routes
      */
@@ -100,6 +104,10 @@ app.config(['$routeProvider', '$locationProvider', '$resourceProvider', '$httpPr
       templateUrl: 'views/restaurant/edit.html',
       controller: 'RestaurantNewCtrl'
     })
+    .when('/restaurantlist/:restaurantId/fileupload',{
+      templateUrl: 'views/routes/fileupload.html',
+      controller: 'RestaurantFileuploadCtrl'
+    })
     /**
      * shop routes
      */
@@ -118,6 +126,10 @@ app.config(['$routeProvider', '$locationProvider', '$resourceProvider', '$httpPr
     .when('/shoplist/addnewattraction',{
       templateUrl: 'views/shop/edit.html',
       controller: 'ShopNewCtrl'
+    })
+    .when('/shoplist/:shopId/fileupload',{
+      templateUrl: 'views/routes/fileupload.html',
+      controller: 'ShopFileuploadCtrl'
     })
     /**
      * shoparea routes
@@ -139,8 +151,15 @@ app.config(['$routeProvider', '$locationProvider', '$resourceProvider', '$httpPr
       controller: 'ShopareaNewCtrl'
     })
     .when('/shoparealist/:shopareaId/fileupload',{
-      templateUrl: 'views/shoparea/fileupload.html',
+      templateUrl: 'views/routes/fileupload.html',
       controller: 'ShopareaFileuploadCtrl'
+    })
+    /**
+     * editor routes
+     */
+    .when('/userlist', {
+      templateUrl: 'views/user/user.html',
+      controller: 'UserManageCtrl'
     })
 
     .when('/meta',{

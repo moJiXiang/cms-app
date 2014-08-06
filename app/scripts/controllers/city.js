@@ -424,8 +424,7 @@ angular.module('cmsAppApp')
 		}
 	])
 	.controller('FileUploadCtrl', ['$scope', 'FileUploader', function($scope, FileUploader) {
-
-		$scope.test = '121213';
+		$scope.thislist = 'citylist';
 		var uploader = $scope.uploader = new FileUploader({
             url: 'upload.php'
         });

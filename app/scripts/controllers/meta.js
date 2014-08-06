@@ -39,6 +39,7 @@ angular.module('cmsAppApp').controller('metaController', ['$scope', '$modal', 'm
     }
 
     $scope.save = function () {
+        console.log($scope.metas);
         var meta = $scope.meta;
         if (meta._id) {
             meta.$update().then(function (ab) {

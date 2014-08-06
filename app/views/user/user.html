@@ -1,2 +1,59 @@
 
 <!-- A single page for managing entity, both for listing and editing -->
+<button type="button" class="btn btn-default" ng-click="open('')">添加帐户</button>
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>用户名</th>
+			<th>状态</th>
+			<th>角色</th>
+			<th>分组</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="user in users | filter: query">
+			<td>{{user.username}}</td>
+			<td>{{user.status}}</td>
+			<td>
+				<span ng-repeat="role in user.roles" class='label label-primary'>{{role}}</span>
+			</td>
+			<td>
+				<span ng-repeat="group in user.groups" class='label label-primary'>{{group}}</span>
+			</td>
+			<td>
+				<button type="button" class="btn btn-default" ng-click="open('', user)">编辑</button>
+				<button type="button" class="btn btn-danger" ng-click="frozen(user)">冻结</button>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<script type="text/ng-template" id="addUserModal.html">
+	<div class="modal-header">
+        <h3 class="modal-title">添加帐户</h3>
+    </div>
+	<div class="modal-body">
+		<div class="input-group">
+		    <div class="input-group-addon">用户名</div>
+			<input class="form-control" type="text" ng-model="user.username">
+	    </div>
+   		<div class="input-group">
+		    <div class="input-group-addon">密码</div>
+			<input class="form-control" type="password" ng-model="user.password">
+	    </div>
+	    <div class="input-group">
+		    <div class="input-group-addon">角色</div>
+		    <div class="btn-group">
+		    	<label class="btn btn-primary" ng-model="role.isnot" btn-checkbox ng-repeat="role in userroles">{{role.name}}</label>
+			</div>
+	    </div>
+	    <div class="input-group">
+		    <div class="input-group-addon">分组</div>
+			<input class="form-control" type="text" ng-model="user.group" disabled>
+	    </div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="save(user)">保存</button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+	</div>
+</script>

@@ -102,37 +102,37 @@
 				<div class="bs-callout bs-callout-warning bs-small">
 					<h4>推荐白天或晚上</h4>
 					 <div class="btn-group">
-				        <label class="btn btn-primary" ng-model="dayOrNightModel" btn-radio="'1'">白天</label>
-				        <label class="btn btn-primary" ng-model="dayOrNightModel" btn-radio="'0'">晚上</label>
+				        <label class="btn btn-primary" ng-model="attraction.dayornight" btn-radio="'1'">白天</label>
+				        <label class="btn btn-primary" ng-model="attraction.dayornight" btn-radio="'0'">晚上</label>
 				    </div>
 				</div>
 				<div class="bs-callout bs-callout-warning bs-small">
 					<h4>游览时间段</h4>
 					<div class="btn-group">
-				        <label class="btn btn-primary" ng-model="checkModel.am" btn-checkbox>上午</label>
-				        <label class="btn btn-primary" ng-model="checkModel.pm" btn-checkbox>下午</label>
-				        <label class="btn btn-primary" ng-model="checkModel.ev" btn-checkbox>晚上</label>
+				        <label class="btn btn-primary" ng-model="attraction.am" btn-checkbox>上午</label>
+				        <label class="btn btn-primary" ng-model="attraction.pm" btn-checkbox>下午</label>
+				        <label class="btn btn-primary" ng-model="attraction.ev" btn-checkbox>晚上</label>
 				    </div>
 				</div>
 				<div class="bs-callout bs-callout-warning bs-small">
 					<h4>是否推荐</h4>
 					<div class="btn-group">
-				        <label class="btn btn-primary" ng-model="recommandModel" btn-radio="'1'">推荐</label>
-				        <label class="btn btn-primary" ng-model="recommandModel" btn-radio="'0'">不推荐</label>
+				        <label class="btn btn-primary" ng-model="attraction.recommand_flag" btn-radio="'1'">推荐</label>
+				        <label class="btn btn-primary" ng-model="attraction.recommand_flag" btn-radio="'0'">不推荐</label>
 				    </div>
 				</div>
 				<div class="bs-callout bs-callout-warning bs-small">
 					<h4>城市首页显示</h4>
 					<div class="btn-group">
-				        <label class="btn btn-primary" ng-model="indexModel" btn-radio="'1'">显示</label>
-				        <label class="btn btn-primary" ng-model="indexModel" btn-radio="'0'">不显示</label>
+				        <label class="btn btn-primary" ng-model="attraction.index_flag" btn-radio="'1'">显示</label>
+				        <label class="btn btn-primary" ng-model="attraction.index_flag" btn-radio="'0'">不显示</label>
 				    </div>
 				</div>
 				<div class="bs-callout bs-callout-warning bs-small">
 					<h4>是否显示</h4>
 					<div class="btn-group">
-				        <label class="btn btn-primary" ng-model="showModel" btn-radio="1">显示</label>
-				        <label class="btn btn-primary" ng-model="showModel" btn-radio="0">不显示</label>
+				        <label class="btn btn-primary" ng-model="attraction.show_flag" btn-radio="1">显示</label>
+				        <label class="btn btn-primary" ng-model="attraction.show_flag" btn-radio="0">不显示</label>
 				    </div>
 				</div>
 				<div class="bs-callout bs-callout-warning bs-small">
@@ -179,38 +179,38 @@
 			</div>
 			<div class="bs-callout bs-callout-info" id="a6">
 				<h4>一句话简介</h4>
-				<textarea class="form-control" rows="3">{{attraction.short_introduce}}</textarea>
+				<text-angular ng-model="attraction.short_introduce"></text-angular>
 			</div>
 			<div class="bs-callout bs-callout-info" id="a7">
 				<h4>简介</h4>
-				<textarea class="form-control" rows="3">{{attraction.introduce}}</textarea>
+				<text-angular ng-model="attraction.introduce"></text-angular>
 			</div>
 
 			<div class="bs-callout bs-callout-info" id="a8">
 				<h4>小贴士</h4>
-				<textarea class="form-control" rows="3">{{attraction.tips}}</textarea>
+				<text-angular ng-model="attraction.tips"></text-angular>
 			</div>
 
 			<div class="bs-callout bs-callout-info" id="a9">
 				<h4>交通</h4>
-				<textarea class="form-control" rows="3">{{attraction.traffic_info}}</textarea>
+				<text-angular ng-model="attraction.traffic_info"></text-angular>
 			</div>
 
 			<div class="bs-callout bs-callout-danger" id="a10">
 				<h4>short introduce</h4>
-				<textarea class="form-control" rows="3">{{city.en_info.short_introduce}}</textarea>
+				<text-angular ng-model="attraction.en_info.short_introduce"></text-angular>
 			</div>
 			<div class="bs-callout bs-callout-danger" id="a11">
 				<h4>introduce</h4>
-				<textarea class="form-control" rows="3">{{city.en_info.introduce}}</textarea>
+				<text-angular ng-model="attraction.en_info.introduce"></text-angular>
 			</div>
 			<div class="bs-callout bs-callout-danger" id="a12">
 				<h4>tips</h4>
-				<textarea class="form-control" rows="3">{{city.en_info.tips}}</textarea>
+				<text-angular ng-model="attraction.en_info.tips"></text-angular>
 			</div>
 			<div class="bs-callout bs-callout-danger" id="a13">
 				<h4>traffic</h4>
-				<textarea class="form-control" rows="3">{{city.en_info.traffic_info}}</textarea>
+				<text-angular ng-model="attraction.en_info.traffic_info"></text-angular>
 			</div>
 		</form>
 	</div>
@@ -235,6 +235,6 @@
 		</nav>
 		<div class="editbtns affix">
 			<button type="button" ng-click="save()" class="btn btn-success">保存</button>
-			<a href="#/citylist" class="btn btn-default">返回</a>
+			<a href="#/attractionlist" class="btn btn-default">返回</a>
 		</div>
 	</div>

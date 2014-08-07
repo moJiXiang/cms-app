@@ -1,17 +1,17 @@
 	<div class="col-lg-9">
 		<div class="bs-callout bs-callout-info" id="a1">
 			<h4>封面图片</h4>
-			<img src="http://weegotest.b0.upaiyun.com/shop/origin/{{shop.coverImageName}}" alt="" class="img-thumbnail">
+			<img class="img-thumbnail cms-img" src="http://weegotest.b0.upaiyun.com/shop/origin/{{shop.cover_image}}" alt="" class="img-thumbnail">
 		</div>
 		<div class="bs-callout bs-callout-info" id="a2">
 			<h4>图片</h4>
-			<div class="slidemodel">
-			    <carousel interval="myInterval">
-			      <slide ng-repeat="image in shop.image" active="slide.active">
-			        <img ng-src="http://weegotest.b0.upaiyun.com/shop/origin/{{image}}" style="margin:auto;">
-			      </slide>
-			    </carousel>
-			  </div>
+			<ul class="setcovercontain">
+				<li ng-repeat="img in shop.image">
+					<img class="img-thumbnail cms-img" ng-src="http://weegotest.b0.upaiyun.com/shop/origin/{{img}}" alt="" >
+					<button type="button" class="btn btn-default" ng-click="setCoverImage(img)">设为封面</button>
+					<button type="button" class="btn btn-danger" ng-click="delImg(img)">删除该图</button>
+				</li>
+			</ul>
 		</div>
 		<div class="bs-callout bs-callout-info" id="a3">
 			<h4>购物基本信息</h4>
@@ -21,81 +21,135 @@
 			</div>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>店名</h4>
-				<p>{{shop.name}}</p>
+		        <input class="form-control" type="text" ng-model="shop.name">
 			</div>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>购物类型</h4>
-				<p ng-repeat="category in shop.category">{{category.name}}</p>
+				<div class="input-group" ng-repeat="category in shop.category">
+					<input class="form-control" placeholder="{{category.name}}" disabled>
+			        <span class="input-group-btn">
+						<button type="button" class="btn btn-danger" ng-click="delCategory(category)">删除</button>
+			        </span>
+			    </div>
+				<div class="input-group">
+					<select class="form-control" ng-model="selectedcategory" ng-options="item.name for item in categorys">
+						<option value="">-- 选择类型 --</option>
+					</select>
+			        <span class="input-group-btn">
+						<button type="button" class="btn btn-success" ng-click="addCategory(selectedcategory)">增加</button>
+			        </span>
+			    </div>
 			</div>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>购物区域</h4>
-				<p>{{shop.area_name}}</p>
+				<select class="form-control" ng-model="shop" ng-options="item.name for item in shopareas">
+					<option value="">-- 选择区域 --</option>
+				</select>
 			</div>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>是否是大商场</h4>
-				<p>{{shop.is_big}}</p>
+				<div class="btn-group">
+			        <label class="btn btn-primary" ng-model="shop.show_flag" btn-radio="true">是</label>
+			        <label class="btn btn-primary" ng-model="shop.show_flag" btn-radio="false">不是</label>
+			    </div>
 			</div>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>地址</h4>
-				<p>{{shop.address}}</p>
+		        <input class="form-control" type="text" ng-model="shop.address">
 			</div>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>电话</h4>
-				<p>{{shop.tel}}</p>
+		        <input class="form-control" type="text" ng-model="shop.tel">
 			</div>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>网址</h4>
-				<p><a ng-href="{{shop.website}}" target-blank>{{shop.website}}</a></p>
+		        <div class="form-group">
+				    <div class="input-group">
+				      <div class="input-group-addon">http://</div>
+				      <input class="form-control" type="email" ng-model="shop.website">
+				    </div>
+				</div>
 			</div>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>价格描述</h4>
-				<p>{{shop.price_desc}}</p>
+		        <input class="form-control" type="text" ng-model="shop.price_desc">
 			</div>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>价格等级</h4>
 				<i>1:超便宜，2:便宜，3:一般，4:贵，5:超级贵</i>
-				<p>{{shop.price_level}}</p>
+		        <input class="form-control" type="number" ng-model="shop.price_level" min="1" max="5" required>
 			</div>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>经纬度</h4>
-				<p>（{{shop.latitude}}，{{shop.longitude}}）</p>
+				<div class="input-group">
+			      <div class="input-group-addon">纬度</div>
+			      <input class="form-control" type="text" ng-model="shop.latitude">
+			    </div>
+			    <div class="input-group">
+			      <div class="input-group-addon">经度</div>
+			      <input class="form-control" type="text" ng-model="shop.longitude">
+			    </div>
 			</div>
 		</div>
 		<div class="bs-callout bs-callout-info" id="a4">
 			<h4>制定计划相关信息</h4>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>开放时间</h4>
-				<p ng-repeat="opentime in shop.open_time">{{opentime.desc}}</p>
+				{{opentime.weekday}}
+				{{opentime.amtime}}
+				{{opentime.pmtime}}
+				<div class="timepickercontain">
+					<select class="form-control timepickday" ng-model="opentime.weekday" ng-options="item.name for item in weekdays">
+						<option value="">选择周几</option>
+					</select>
+					<timepicker class="cmstimepicker" ng-model="opentime.amtime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+					<h5 class="line">——</h5>
+					<timepicker class="cmstimepicker" ng-model="opentime.pmtime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+					<button type="button" class="btn btn-default addtimebtn" ng-click="delOpentime(opentime)">增加</button>
+				</div>
+				<div class="input-group" ng-repeat="opentime in shop.open_time">
+					<input class="form-control" placeholder="{{opentime.desc}}" disabled>
+			        <span class="input-group-btn">
+						<button type="button" class="btn btn-danger" ng-click="delOpentime(opentime)">删除</button>
+			        </span>
+			    </div>
 			</div>
 		</div>
 		<div class="bs-callout bs-callout-info" id="a5">
 			<h4>排名相关信息</h4>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>排名</h4>
-				<p>{{shop.ranking}}</p>
+		        <input class="form-control" type="number" ng-model="shop.ranking" min="1" required>
 			</div>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>是否推荐</h4>
-				<p>{{shop.recommand_flag == '1' ? '推荐' : '不推荐'}}</p>
+				<div class="btn-group">
+			        <label class="btn btn-primary" ng-model="shop.recommand_flag" btn-radio="true">推荐</label>
+			        <label class="btn btn-primary" ng-model="shop.recommand_flag" btn-radio="false">不推荐</label>
+			    </div>
 			</div>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>是否显示</h4>
-				<p>{{shop.show_flag == '1' ? '显示' : '不显示'}}</p>
+				<div class="btn-group">
+			        <label class="btn btn-primary" ng-model="shop.show_flag" btn-radio="true">显示</label>
+			        <label class="btn btn-primary" ng-model="shop.show_flag" btn-radio="false">不显示</label>
+			    </div>
 			</div>
+			
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>评星</h4>
-				<p>{{shop.rating}}</p>
+		        <input class="form-control" type="text" ng-model="shop.rating">
 			</div>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>评论数</h4>
-				<p>{{shop.reviews}}</p>
+		        <input class="form-control" type="text" ng-model="shop.reviews">
 			</div>
 		</div>
 		<div class="bs-callout bs-callout-info" id="a6">
 			<h4>来自yelp的信息</h4>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>来源链接</h4>
-				<p><a ng-href="{{shop.url}}" target-blank>{{shop.url}}</a></p>
+				<p><a ng-href="{{shop.url}}">{{shop.url}}</a></p>
 			</div>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>总体评分</h4>
@@ -120,7 +174,7 @@
 		    </div>
 			<input type="checkbox" class="commentbtn" ng-model="checked" >
 			<h4>简介</h4>
-			<pre>{{shop.introduce}}</pre>
+			<text-angular ng-model="shop.introduce"></text-angular>
 		</div>
 
 		<div class="bs-callout bs-callout-info" id="a8">
@@ -129,7 +183,7 @@
 		    </div>
 			<input type="checkbox" class="commentbtn" ng-model="checked" >
 			<h4>小贴士</h4>
-			<pre>{{shop.tips}}</pre>
+			<text-angular ng-model="shop.tips"></text-angular>
 		</div>
 
 		<div class="bs-callout bs-callout-info" id="a9">
@@ -147,7 +201,7 @@
 		    </div>
 			<input type="checkbox" class="commentbtn" ng-model="checked" >
 			<h4>introduce</h4>
-			<pre>{{shop.en_info.introduce}}</pre>
+			<text-angular ng-model="shop.en_info.introduce"></text-angular>
 		</div>
 
 		<div class="bs-callout bs-callout-danger" id="a11">
@@ -156,6 +210,7 @@
 		    </div>
 			<input type="checkbox" class="commentbtn" ng-model="checked" >
 			<h4>tips</h4>
+			<text-angular ng-model="shop.en_info.tips"></text-angular>
 			<pre>{{shop.en_info.tips}}</pre>
 		</div>
 
@@ -165,7 +220,7 @@
 		    </div>
 			<input type="checkbox" class="commentbtn" ng-model="checked" >
 			<h4>comments</h4>
-			<pre>{{shop.en_info.comments}}</pre>
+			<text-angular ng-model="shop.en_info.comments"></text-angular>
 		</div>
 	</div>
 	<div class="col-lg-3">
@@ -187,6 +242,7 @@
 			</ul>
 		</nav>
 		<div class="editbtns affix">
+			<button type="button" ng-click="save()" class="btn btn-success">保存</button>
 			<a href="#/shoplist" class="btn btn-default">返回</a>
 		</div>
 	</div>

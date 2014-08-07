@@ -147,15 +147,9 @@ angular.module('cmsAppApp')
 
 		}
 	])
-	.controller('CityDetailCtrl', ['$scope', '$http', '$routeParams', '$location', '$anchorScroll', 'cityResource', 'labelResource',
-		function($scope, $http, $routeParams, $location, $anchorScroll, cityResource, labelResource) {
-			/**
-			 *  scroll to anchor
-			 */
-			$scope.scrollTo = function(id) {
-				$location.hash(id);
-				$anchorScroll();
-			}
+	.controller('CityDetailCtrl', ['$scope', '$http', '$routeParams', 'cityResource', 'labelResource',
+		function($scope, $http, $routeParams, cityResource, labelResource) {
+			
 			cityResource.get({
 				id: $routeParams.cityId
 			}, function(data) {
@@ -181,16 +175,9 @@ angular.module('cmsAppApp')
 			})
 		}
 	])
-	.controller('CityEditCtrl', ["$scope", "$http", "$routeParams", "$location", "$anchorScroll", "countryResource", "cityResource", "labelResource", 'notifierService',
-		function($scope, $http, $routeParams, $location, $anchorScroll, countryResource, cityResource, labelResource, notifierService) {
-			/**
-			 * scroll to one anchor by id
-			 * @param  {string} id DOM id
-			 */
-			$scope.scrollTo = function(id) {
-				$location.hash(id);
-				$anchorScroll();
-			}
+	.controller('CityEditCtrl', ["$scope", "$http", "$routeParams", "countryResource", "cityResource", "labelResource", 'notifierService',
+		function($scope, $http, $routeParams, countryResource, cityResource, labelResource, notifierService) {
+			
 			cityResource.get({
 				id: $routeParams.cityId
 			}, function(data) {
@@ -477,7 +464,7 @@ angular.module('cmsAppApp')
         };
 
         console.info('uploader', uploader);
-	}]);
+	}])
 	.controller('FileUploadCitybgimgCtrl', ['$scope', 'FileUploader', function($scope, FileUploader) {
 			$scope.thislist = 'citylist';
 			var uploader = $scope.uploader = new FileUploader({
@@ -532,7 +519,7 @@ angular.module('cmsAppApp')
 	        };
 
 	        console.info('uploader', uploader);
-		}]);
+		}])
 
 var ModalInstanceCtrl = function($scope, $modalInstance, edituserResource, city) {
 	/**

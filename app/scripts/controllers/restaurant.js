@@ -117,8 +117,9 @@ angular.module('cmsAppApp')
          * update restaurant
          */
         $scope.save = function() {
+            console.log($scope.restaurant)
             var restaurant = $scope.restaurant;
-            restaurant.$update.then(function () {
+            restaurant.$update().then(function () {
                 notifierService.notify({
                     type: 'success',
                     msg: '更新餐馆成功！'

@@ -38,21 +38,51 @@ angular.module('cmsAppApp')
 			})
 		}
 	}])
-	.controller('ShopDetailCtrl', ['$scope', function($scope) {
-
+	.controller('ShopDetailCtrl', ['$scope', '$routeParams', 'shoppingResource', function($scope, $routeParams, shoppingResource) {
+        var shopid = $routeParams.shopId;
+        
+        shoppingResource.get({id: shopid}, function(shop) {
+            console.log(shop);
+            $scope.shop = shop;
+        })
 	}])
-	.controller('ShopEditCtrl', ['$scope', function($scope) {
-
+	.controller('ShopEditCtrl', ['$scope', '$routeParams', 'shoppingResource', 'notifierService', function($scope, $routeParams, shoppingResource, notifierService) {
+        var shopid = $routeParams.shopId;
+        
+        shoppingResource.get({id: shopid}, function(shop) {
+            console.log(shop);
+            $scope.shop = shop;
+        })
+        /**
+         * update shop
+         */
+        $scope.save = function() {
+            console.log($scope.shop)
+            var shop = $scope.shop;
+            shop.$update().then(function () {
+                notifierService.notify({
+                    type: 'success',
+                    msg: '更新购物成功！'
+                })
+            }).catch(function () {
+                notifierService.notify({
+                    type: 'danger',
+                    msg: '更新购物失败！错误码' + res.status
+                })
+            })
+        }
 	}])
 	.controller('ShopNewCtrl', ['$scope', function($scope) {
 
 	}])
 	.controller('ShopFileuploadCtrl', ['$scope','FileUploader', function($scope, FileUploader) {
 		$scope.thislist = 'shoplist';
+        $scope.thisitem = $routeParams.shopId;      
 		var uploader = $scope.uploader = new FileUploader({
             url: 'upload.php'
         });
-
+        uploader.headers.resshopid = $routeParams.shopId;
+        uploader.headers.type = '2';
         // FILTERS
 
         uploader.filters.push({

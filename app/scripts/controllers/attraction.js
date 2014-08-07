@@ -33,38 +33,16 @@ angular.module('cmsAppApp')
 			})
 		}
 	}])
-	.controller('AttractionDetailCtrl', ['$scope', '$routeParams', '$location', '$anchorScroll', 'attractionResource', function($scope, $routeParams, $location, $anchorScroll, attractionResource) {
-		/**
-		 *  scroll to anchor
-	  	 */
-	  	$scope.scrollTo = function(id){
-	    	$location.hash(id);
-	    	$anchorScroll();
-	    }
+	.controller('AttractionDetailCtrl', ['$scope', '$routeParams', 'attractionResource', function($scope, $routeParams, attractionResource) {
+
 		attractionResource.get({id: $routeParams.attractionId}, function(data) {
 			$scope.attraction = data;
 		})
 	}])
-	.controller('AttractionEditCtrl', ['$scope', '$routeParams', '$location', '$anchorScroll', 'attractionResource', 'labelResource', function($scope, $routeParams, $location, $anchorScroll, attractionResource, labelResource) {
-		/**
-		 *  scroll to anchor
-	  	 */
-	  	$scope.scrollTo = function(id){
-	    	$location.hash(id);
-	    	$anchorScroll();
-	    }
+	.controller('AttractionEditCtrl', ['$scope', '$routeParams', 'attractionResource', 'labelResource', 'notifierService', function($scope, $routeParams, attractionResource, labelResource, notifierService) {
+		
 		attractionResource.get({id: $routeParams.attractionId}, function(data) {
 			$scope.attraction = data;
-			$scope.dayOrNightModel = data.dayornight;
-			$scope.checkModel = {
-				am: data.am,
-				pm: data.pm,
-				ev: data.ev
-			}
-			$scope.recommandModel = data.recommand_flag;
-			$scope.indexModel = data.index_flag;
-			$scope.showModel = data.show_flag;
-
 			/**
 			 *  get masterlabel and sublabels 
 			 */
@@ -115,6 +93,25 @@ angular.module('cmsAppApp')
 				$scope.sublabelsopts.push(label);
 			});
 		})
+
+		/**
+		 * save city
+		 */
+		$scope.save = function() {
+			var attraction = $scope.attraction;
+			attraction.$update().then(function() {
+				notifierService.notify({
+					type: 'success',
+					msg: '更新景点成功！'
+				})
+			}).catch(function(res) {
+				notifierService.notify({
+					type: 'danger',
+					msg: '更新景点失败！错误码' + res.status
+				})
+			})
+		}
+
 	}])
 	.controller('AttractionFileuploadCtrl', ['$scope', 'FileUploader', function($scope, FileUploader) {
 		$scope.thislist = 'attractionlist';

@@ -156,7 +156,7 @@ background: #fff;}
 .citynav{
 	top: 100px;
 }
-.citynav a{
+.citynav li{
 	display: block;
 	padding: 4px 20px;
 	font-size: 13px;
@@ -165,7 +165,7 @@ background: #fff;}
 	cursor: pointer;
 	border-left: 1px solid #fff;
 }
-.citynav a:hover{
+.citynav li:hover, .citynav li.active{
 	color: #563d7c;
 	text-decoration: none;
 	background-color: transparent;
@@ -193,4 +193,25 @@ background: #fff;}
 .cms-img{
 	height: 200px;
 	margin-bottom: 5px;
+}
+.cmstimepicker {
+	float: left;
+
+}
+.timepickercontain{
+	width: 100%;
+	height: 105px;
+}
+.addtimebtn{
+	margin-top: 34px;
+	margin-left: 5px;
+}
+.line{
+	float: left;
+	margin: 43px 5px 0 5px;
+}
+.timepickday{
+	float: left;
+	width: 110px;
+	margin: 34px 5px 0 0;
 }

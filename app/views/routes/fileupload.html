@@ -7,7 +7,8 @@
                 <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" -->
                 <input type="file" nv-file-select="" uploader="uploader" multiple  /><br/>
 
-                <a class="btn btn-primary" ng-href="#/{{thislist}}">返回</a>
+                <a class="btn btn-primary" ng-href="#/{{thislist}}">返回列表</a>
+                <a class="btn btn-primary" ng-href="#/{{thislist}}/{{thisitem}}/edit">返回编辑图片</a>
             </div>
 
         </div>
@@ -55,9 +56,6 @@
                             </button>
                             <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
                                 <span class="glyphicon glyphicon-ban-circle"></span> 取消
-                            </button>
-                            <button type="button" class="btn btn-danger btn-xs" ng-click="setCoverImage(item.file.name)">
-                                <span class="glyphicon glyphicon-star"></span> 设为封面
                             </button>
                             <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
                                 <span class="glyphicon glyphicon-trash"></span> 移除

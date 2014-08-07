@@ -71,16 +71,16 @@
 		<a href="#/shoparealist" class="btn btn-default">返回</a>
 	</div>
 	<nav id="citynavaffix" class="citynav affix">
+		<h2>{{shoparea.area_name}}</h2>
 		<ul>
-			<li><h2>{{shoparea.area_name}}</h2></li>
-			<li><a ng-click="scrollTo('coverimage')">封面图片</a></li>
-			<li><a ng-click="scrollTo('images')">区域图片</a></li>
-			<li><a ng-click="scrollTo('a1')">区域基本信息</a></li>
-			<li><a ng-click="scrollTo('a2')">标签</a></li>
-			<li><a ng-click="scrollTo('a3')">开放时间</a></li>
-			<li><a ng-click="scrollTo('a4')">介绍</a></li>
-			<li><a ng-click="scrollTo('a5')">交通</a></li>
-			<li><a ng-click="scrollTo('a6')">小贴士</a></li>
+			<li scroll-on-click>封面图片</li>
+			<li scroll-on-click>区域图片</li>
+			<li scroll-on-click>区域基本信息</li>
+			<li scroll-on-click>标签</li>
+			<li scroll-on-click>开放时间</li>
+			<li scroll-on-click>介绍</li>
+			<li scroll-on-click>交通</li>
+			<li scroll-on-click>小贴士</li>
 		</ul>
 	</nav>	
 </div>

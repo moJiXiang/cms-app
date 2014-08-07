@@ -51,10 +51,7 @@ angular.module('cmsAppApp')
 			$scope.shoparea = shoparea;
 		})
 	}])
-	.controller('ShopareaEditCtrl', ['$scope', '$routeParams', 'areaResource', "cmspublicfn", function($scope, $routeParams, areaResource, cmspublicfn) {
-		$scope.scrollTo = function(id) {
-			cmspublicfn.scrollTo(id);
-		}
+	.controller('ShopareaEditCtrl', ['$scope', '$http', '$routeParams', 'areaResource', 'notifierService', function($scope, $http, $routeParams, areaResource, notifierService) {
 		/**
 		 * get area message
 		 * @param  {string} shoparea shoparea id
@@ -63,6 +60,7 @@ angular.module('cmsAppApp')
 			$scope.shoparea = shoparea;
 		})
 		$scope.setCoverImage = function(imagename) {
+			console.log(imagename);
 			console.log($scope.shoparea.cover_image);
 			$scope.shoparea.cover_image = imagename;
 			$scope.shoparea.$update(function() {
@@ -76,8 +74,30 @@ angular.module('cmsAppApp')
 					msg: '设置封面图片失败！错误码' + res.status
 				})
 			})
-
 		}
+
+		$scope.delImg = function (imagename) {
+			var index = $scope.shoparea.image.indexOf(imagename);
+			if (index >= 0) {
+				$scope.shoparea.image.splice(index, 1);
+			}
+			// first delete image from serve and upyun
+			$http.get('/delareaimg/'+ $scope.shoparea._id +'/' + imagename).success(function() {
+				// then delete image from database
+				$scope.shoparea.$update(function() {
+					notifierService.notify({
+						type: 'success',
+						msg: '删除图片成功！'
+					})
+				}).catch(function(res) {
+					notifierService.notify({
+						type: 'danger',
+						msg: '删除图片失败！错误码' + res.status
+					})
+				})
+			})
+		}
+		// add shoparea tag
 		$scope.addTag = function(tag, tags) {
 			$scope.shoparea.tags = tags;
 			if(tags.indexOf(tag) < 0){
@@ -89,22 +109,18 @@ angular.module('cmsAppApp')
 	.controller('ShopareaNewCtrl', ['$scope',  function($scope) {
 
 	}])
-	.controller('ShopareaFileuploadCtrl', ['$scope', 'FileUploader', '$routeParams', 'areaResource', 'notifierService', 'cmspublicfn', function($scope, FileUploader, $routeParams, areaResource, notifierService, cmspublicfn) {
-		$scope.scrollTo = function(id) {
-			cmspublicfn.scrollTo(id);
-		}
+	.controller('ShopareaFileuploadCtrl', ['$scope', 'FileUploader', '$routeParams', 'areaResource', 'notifierService', function($scope, FileUploader, $routeParams, areaResource, notifierService) {
 		// lead turnback button to shoparealist
 		$scope.thislist = 'shoparealist';
-		// // get shopareaid ,then get shoparea data, then setCoverImage by shoparea data
-		var shopareaid = $routeParams.shopareaId;
-		// var shoparea = areaResource.get({id: shopareaid});
+		$scope.thisitem = $routeParams.shopareaId;		
 	
 
 		var uploader = $scope.uploader = new FileUploader({
             url: '/area/upload'
         });
 
-		uploader.headers.areaid= shopareaid;
+		// get shopareaid ,then get shoparea data, then setCoverImage by shoparea data
+		uploader.headers.areaid= $routeParams.shopareaId;
         // FILTERS
 
         uploader.filters.push({

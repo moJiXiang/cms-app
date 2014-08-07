@@ -39,21 +39,111 @@ angular.module('cmsAppApp')
 			})
 		}
 	}])
-	.controller('RestaurantDetailCtrl', ['$scope', function($scope) {
-
+	.controller('RestaurantDetailCtrl', ['$scope', '$routeParams', 'restaurantResource', function($scope, $routeParams, restaurantResource) {
+        
+        restaurantResource.get({id: $routeParams.restaurantId}, function(data) {
+            $scope.restaurant = data;
+        })
 	}])
-	.controller('RestaurantEditCtrl', ['$scope', function($scope) {
-
+	.controller('RestaurantEditCtrl', ['$scope', '$routeParams', 'restaurantResource', 'categoryResource', 'notifierService', function($scope, $routeParams, restaurantResource, categoryResource, notifierService) {
+        var categoryArr = [];
+        restaurantResource.get({id: $routeParams.restaurantId}, function(data) {
+            $scope.restaurant = data;
+            categoryArr = $scope.restaurant.category.map(function(item) {
+                return item._id;
+            })
+        })
+        categoryResource.query({criteria:{ type: 1 }}, function(items) {
+            console.log(items);
+            $scope.categorys = items;
+        })
+        $scope.delCategory = function(category) {
+            var index = categoryArr.indexOf(category._id);
+            $scope.restaurant.category.splice(index, 1);
+        }
+        $scope.addCategory = function(category) {
+            console.log(category);
+            console.log(categoryArr);
+            var index = categoryArr.indexOf(category._id);
+            console.log(index);
+            if(index < 0) {
+                $scope.restaurant.category.push(category);
+                categoryArr.push(category._id);
+            }
+        }
+        // date picker
+        $scope.amtime = new Date();
+        $scope.pmtime = new Date();
+        $scope.hstep = 1;
+        $scope.mstep = 15;
+        $scope.ismeridian = true;
+        // init time picker data
+        $scope.weekdays = [
+            {
+                name: '周一',
+                value: '1'
+            },
+            {
+                name: '周二',
+                value: '2'
+            },
+            {
+                name: '周三',
+                value: '3'
+            },
+            {
+                name: '周四',
+                value: '4'
+            },
+            {
+                name: '周五',
+                value: '5'
+            },
+            {
+                name: '周六',
+                value: '6'
+            },
+            {
+                name: '周七',
+                value: '7'
+            }
+        ] 
+        $scope.opentime = {
+            weekday : '',
+            amtime : '',
+            pmtime : ''
+        }
+        /**
+         * update restaurant
+         */
+        $scope.save = function() {
+            var restaurant = $scope.restaurant;
+            restaurant.$update.then(function () {
+                notifierService.notify({
+                    type: 'success',
+                    msg: '更新餐馆成功！'
+                })
+            }).catch(function () {
+                notifierService.notify({
+                    type: 'danger',
+                    msg: '更新餐馆失败！错误码' + res.status
+                })
+            })
+        }
 	}])
 	.controller('RestaurantNewCtrl', ['$scope', function($scope) {
 
 	}])
-	.controller('RestaurantFileuploadCtrl', ['$scope', 'FileUploader', function($scope, FileUploader) {
+	.controller('RestaurantFileuploadCtrl', ['$scope', 'FileUploader', '$routeParams', function($scope, FileUploader, $routeParams) {
 		$scope.thislist = 'restaurantlist';
+        $scope.thisitem = $routeParams.restaurantId;
+
 		var uploader = $scope.uploader = new FileUploader({
-            url: 'upload.php'
+            url: '/postLifeImage'
         });
 
+        uploader.headers.resshopid = $routeParams.restaurantId;
+        uploader.headers.type = '1';
         // FILTERS
 
         uploader.filters.push({

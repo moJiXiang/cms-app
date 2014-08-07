@@ -477,7 +477,7 @@ angular.module('cmsAppApp')
         };
 
         console.info('uploader', uploader);
-	}]);
+	}])
 	.controller('FileUploadCitybgimgCtrl', ['$scope', 'FileUploader', function($scope, FileUploader) {
 			$scope.thislist = 'citylist';
 			var uploader = $scope.uploader = new FileUploader({

@@ -410,11 +410,14 @@ angular.module('cmsAppApp')
 			}
 		}
 	])
-	.controller('FileUploadCtrl', ['$scope', 'FileUploader', function($scope, FileUploader) {
+	.controller('FileUploadCtrl', ['$scope', 'FileUploader', '$routeParams', function($scope, FileUploader, $routeParams) {
 		$scope.thislist = 'citylist';
+		$scope.thisitem = $routeParams.shopareaId;		
 		var uploader = $scope.uploader = new FileUploader({
             url: '/citypic/upload'
         });
+
+		uploader.headers.cityid= $routeParams.cityId;
 
         // FILTERS
 
@@ -467,9 +470,11 @@ angular.module('cmsAppApp')
 	}])
 	.controller('FileUploadCitybgimgCtrl', ['$scope', 'FileUploader', function($scope, FileUploader) {
 			$scope.thislist = 'citylist';
+			$scope.thisitem = $routeParams.shopareaId;		
 			var uploader = $scope.uploader = new FileUploader({
-	            url: 'upload.php'
+	            url: '/citypic/upload_background_img'
 	        });
+			uploader.headers.cityid= $routeParams.cityId;
 
 	        // FILTERS
 

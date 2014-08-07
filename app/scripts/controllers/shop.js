@@ -40,7 +40,6 @@ angular.module('cmsAppApp')
 	}])
 	.controller('ShopDetailCtrl', ['$scope', '$routeParams', 'shoppingResource', function($scope, $routeParams, shoppingResource) {
         var shopid = $routeParams.shopId;
-        
         shoppingResource.get({id: shopid}, function(shop) {
             console.log(shop);
             $scope.shop = shop;
@@ -75,11 +74,11 @@ angular.module('cmsAppApp')
 	.controller('ShopNewCtrl', ['$scope', function($scope) {
 
 	}])
-	.controller('ShopFileuploadCtrl', ['$scope','FileUploader', function($scope, FileUploader) {
+	.controller('ShopFileuploadCtrl', ['$scope', '$routeParams', 'FileUploader', function($scope, $routeParams, FileUploader) {
 		$scope.thislist = 'shoplist';
         $scope.thisitem = $routeParams.shopId;      
 		var uploader = $scope.uploader = new FileUploader({
-            url: 'upload.php'
+            url: '/postLifeImage'
         });
         uploader.headers.resshopid = $routeParams.shopId;
         uploader.headers.type = '2';

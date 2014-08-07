@@ -73,7 +73,7 @@ module.exports = function (grunt) {
         livereload: 35729
       },
       proxies: [
-        {context: ['/rest', '/login', '/logout', '/area', '/u', 'postLifeImage','/delareaimg' ,'/citypic'], host: 'localhost', port: 3003, https: false, changeOrigin: false}
+        {context: ['/rest', '/login', '/logout', '/area', '/u', 'postLifeImage','/delareaimg' ,'/citypic', '/attractionpic'], host: 'localhost', port: 3003, https: false, changeOrigin: false}
       ],
       livereload: {
         options: {
@@ -198,7 +198,7 @@ module.exports = function (grunt) {
         flow: {
           html: {
             steps: {
-              js: ['concat', 'uglifyjs'],
+              js: ['concat'],
               css: ['cssmin']
             },
             post: {}
@@ -404,7 +404,7 @@ module.exports = function (grunt) {
     'copy:dist',
     'cdnify',
     'cssmin',
-    'uglify',
+    // 'uglify',
     'filerev',
     'usemin',
     'htmlmin'

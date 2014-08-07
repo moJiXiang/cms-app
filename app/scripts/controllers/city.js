@@ -147,15 +147,9 @@ angular.module('cmsAppApp')
 
 		}
 	])
-	.controller('CityDetailCtrl', ['$scope', '$http', '$routeParams', '$location', '$anchorScroll', 'cityResource', 'labelResource',
-		function($scope, $http, $routeParams, $location, $anchorScroll, cityResource, labelResource) {
-			/**
-			 *  scroll to anchor
-			 */
-			$scope.scrollTo = function(id) {
-				$location.hash(id);
-				$anchorScroll();
-			}
+	.controller('CityDetailCtrl', ['$scope', '$http', '$routeParams', 'cityResource', 'labelResource',
+		function($scope, $http, $routeParams, cityResource, labelResource) {
+			
 			cityResource.get({
 				id: $routeParams.cityId
 			}, function(data) {
@@ -181,16 +175,9 @@ angular.module('cmsAppApp')
 			})
 		}
 	])
-	.controller('CityEditCtrl', ["$scope", "$http", "$routeParams", "$location", "$anchorScroll", "countryResource", "cityResource", "labelResource", 'notifierService',
-		function($scope, $http, $routeParams, $location, $anchorScroll, countryResource, cityResource, labelResource, notifierService) {
-			/**
-			 * scroll to one anchor by id
-			 * @param  {string} id DOM id
-			 */
-			$scope.scrollTo = function(id) {
-				$location.hash(id);
-				$anchorScroll();
-			}
+	.controller('CityEditCtrl', ["$scope", "$http", "$routeParams", "countryResource", "cityResource", "labelResource", 'notifierService',
+		function($scope, $http, $routeParams, countryResource, cityResource, labelResource, notifierService) {
+			
 			cityResource.get({
 				id: $routeParams.cityId
 			}, function(data) {
@@ -423,11 +410,14 @@ angular.module('cmsAppApp')
 			}
 		}
 	])
-	.controller('FileUploadCtrl', ['$scope', 'FileUploader', function($scope, FileUploader) {
+	.controller('FileUploadCtrl', ['$scope', 'FileUploader', '$routeParams', function($scope, FileUploader, $routeParams) {
 		$scope.thislist = 'citylist';
+		$scope.thisitem = $routeParams.shopareaId;		
 		var uploader = $scope.uploader = new FileUploader({
             url: '/citypic/upload'
         });
+
+		uploader.headers.cityid= $routeParams.cityId;
 
         // FILTERS
 
@@ -480,9 +470,11 @@ angular.module('cmsAppApp')
 	}])
 	.controller('FileUploadCitybgimgCtrl', ['$scope', 'FileUploader', function($scope, FileUploader) {
 			$scope.thislist = 'citylist';
+			$scope.thisitem = $routeParams.shopareaId;		
 			var uploader = $scope.uploader = new FileUploader({
-	            url: 'upload.php'
+	            url: '/citypic/upload_background_img'
 	        });
+			uploader.headers.cityid= $routeParams.cityId;
 
 	        // FILTERS
 

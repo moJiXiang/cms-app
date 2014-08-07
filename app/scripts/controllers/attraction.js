@@ -116,11 +116,13 @@ angular.module('cmsAppApp')
 			});
 		})
 	}])
-	.controller('AttractionFileuploadCtrl', ['$scope', 'FileUploader', function($scope, FileUploader) {
+	.controller('AttractionFileuploadCtrl', ['$scope', 'FileUploader', '$routeParams', function($scope, FileUploader, $routeParams) {
 		$scope.thislist = 'attractionlist';
+		$scope.thisitem = $routeParams.attractionId;		
 		var uploader = $scope.uploader = new FileUploader({
-            url: 'upload.php'
+            url: '/attractionpic/upload'
         });
+		uploader.headers.attractionid= $routeParams.attractionId;
 
         // FILTERS
 

@@ -2,14 +2,14 @@
 		<form class="form-horizontal" role="form">
 			<div class="bs-callout bs-callout-info" id="a1">
 				<h4>封面图片</h4>
-				<img src="http://weegotest.b0.upaiyun.com/city/imgsizeC2/{{city.coverImageName}}" alt="" class="img-thumbnail">
+				<img src="http://weegotest.b0.upaiyun.com/attractions/origin/{{attraction.coverImageName}}" alt="" class="img-thumbnail">
 			</div>
 			<div class="bs-callout bs-callout-info" id="a2">
 				<h4>图片</h4>
 				<div class="slidemodel">
 				    <carousel interval="myInterval">
-				      <slide ng-repeat="image in city.image" active="slide.active">
-				        <img ng-src="http://weegotest.b0.upaiyun.com/city/imgsizeC2/{{image}}" style="margin:auto;">
+				      <slide ng-repeat="image in attraction.image" active="slide.active">
+				        <img ng-src="http://weegotest.b0.upaiyun.com/attractions/origin/{{image}}" style="margin:auto;">
 				      </slide>
 				    </carousel>
 				  </div>

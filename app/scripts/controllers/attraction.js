@@ -117,7 +117,7 @@ angular.module('cmsAppApp')
 		$scope.thislist = 'attractionlist';
 		$scope.thisitem = $routeParams.attractionId;		
 		var uploader = $scope.uploader = new FileUploader({
-            url: '/attractionpic/upload'
+            url: '/postimage'
         });
 		uploader.headers.attractionid= $routeParams.attractionId;
 

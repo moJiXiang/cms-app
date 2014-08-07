@@ -73,7 +73,7 @@ module.exports = function (grunt) {
         livereload: 35729
       },
       proxies: [
-        {context: ['/rest', '/login', '/logout', '/area', '/u', 'postLifeImage','/delareaimg' ,'/citypic', '/attractionpic'], host: 'localhost', port: 3003, https: false, changeOrigin: false}
+        {context: ['/rest', '/login', '/logout', '/area', '/u', '/postLifeImage','/delareaimg' ,'/citypic', '/postimage'], host: 'localhost', port: 3003, https: false, changeOrigin: false}
       ],
       livereload: {
         options: {

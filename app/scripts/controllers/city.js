@@ -412,7 +412,7 @@ angular.module('cmsAppApp')
 	])
 	.controller('FileUploadCtrl', ['$scope', 'FileUploader', '$routeParams', function($scope, FileUploader, $routeParams) {
 		$scope.thislist = 'citylist';
-		$scope.thisitem = $routeParams.shopareaId;		
+		$scope.thisitem = $routeParams.cityId;		
 		var uploader = $scope.uploader = new FileUploader({
             url: '/citypic/upload'
         });
@@ -468,9 +468,9 @@ angular.module('cmsAppApp')
 
         console.info('uploader', uploader);
 	}])
-	.controller('FileUploadCitybgimgCtrl', ['$scope', 'FileUploader', function($scope, FileUploader) {
+	.controller('FileUploadCitybgimgCtrl', ['$scope', 'FileUploader','$routeParams', function($scope, FileUploader, $routeParams) {
 			$scope.thislist = 'citylist';
-			$scope.thisitem = $routeParams.shopareaId;		
+			$scope.thisitem = $routeParams.cityId;		
 			var uploader = $scope.uploader = new FileUploader({
 	            url: '/citypic/upload_background_img'
 	        });

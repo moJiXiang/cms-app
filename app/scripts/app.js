@@ -10,21 +10,22 @@
  */
 var app = angular.module('cmsAppApp', ['ngAnimate', 'ngCookies', 'ngResource', 'ngRoute', 'ngSanitize', 'ngTouch', 'ngGrid', 'ui.bootstrap','textAngular','angularFileUpload'])
 
+app.factory('authenticationInterceptor', ['$q', '$window', '$location', function($q, $window, $location) {
+  return {
+    responseError : function(rejection) {
+      if (401 == rejection.status) {
+        // $location.path('/login');
+        $window.location.href = "logon.html";
+        return;
+      }
+      return $q.rejection(rejection);
+    }
+  }
+}]);
   //intercept 401 error
 app.config(['$routeProvider', '$locationProvider', '$resourceProvider', '$httpProvider', function ($routeProvider, $locationProvider, $resourceProvider, $httpProvider) {
 
-  $httpProvider.interceptors.push(function($q, $window, $location) {
-    return {
-      responseError : function(rejection) {
-        if (401 == rejection.status) {
-          // $location.path('/login');
-          $window.location.href = "logon.html";
-          return;
-        }
-        return $q.rejection(rejection);
-      }
-    }
-  });
+  $httpProvider.interceptors.push('authenticationInterceptor');
 
   //configure routeProvider
   $routeProvider

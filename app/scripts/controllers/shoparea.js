@@ -60,8 +60,6 @@ angular.module('cmsAppApp')
 			$scope.shoparea = shoparea;
 		})
 		$scope.setCoverImage = function(imagename) {
-			console.log(imagename);
-			console.log($scope.shoparea.cover_image);
 			$scope.shoparea.cover_image = imagename;
 			$scope.shoparea.$update(function() {
 				notifierService.notify({

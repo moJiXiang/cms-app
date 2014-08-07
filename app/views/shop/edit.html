@@ -1,13 +1,13 @@
 	<div class="col-lg-9">
 		<div class="bs-callout bs-callout-info" id="a1">
 			<h4>封面图片</h4>
-			<img class="img-thumbnail cms-img" src="http://weegotest.b0.upaiyun.com/shop/origin/{{shop.cover_image}}" alt="" class="img-thumbnail">
+			<img class="img-thumbnail cms-img" ng-rc="http://weegotest.b0.upaiyun.com/shopping/origin/{{shop.cover_image}}" alt="" class="img-thumbnail">
 		</div>
 		<div class="bs-callout bs-callout-info" id="a2">
 			<h4>图片</h4>
 			<ul class="setcovercontain">
 				<li ng-repeat="img in shop.image">
-					<img class="img-thumbnail cms-img" ng-src="http://weegotest.b0.upaiyun.com/shop/origin/{{img}}" alt="" >
+					<img class="img-thumbnail cms-img" ng-src="http://weegotest.b0.upaiyun.com/shopping/origin/{{img}}" alt="" >
 					<button type="button" class="btn btn-default" ng-click="setCoverImage(img)">设为封面</button>
 					<button type="button" class="btn btn-danger" ng-click="delImg(img)">删除该图</button>
 				</li>

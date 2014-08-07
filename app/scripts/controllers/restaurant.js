@@ -45,7 +45,7 @@ angular.module('cmsAppApp')
             $scope.restaurant = data;
         })
 	}])
-	.controller('RestaurantEditCtrl', ['$scope', '$routeParams', 'restaurantResource', 'categoryResource', 'notifierService', function($scope, $routeParams, restaurantResource, categoryResource, notifierService) {
+	.controller('RestaurantEditCtrl', ['$scope', '$http' ,'$routeParams', 'restaurantResource', 'categoryResource', 'notifierService', function($scope, $http, $routeParams, restaurantResource, categoryResource, notifierService) {
         var categoryArr = [];
         restaurantResource.get({id: $routeParams.restaurantId}, function(data) {
             $scope.restaurant = data;
@@ -53,6 +53,42 @@ angular.module('cmsAppApp')
                 return item._id;
             })
         })
+        $scope.setCoverImage = function(imagename) {
+            $scope.restaurant.cover_image = imagename;
+            $scope.restaurant.$update(function() {
+                notifierService.notify({
+                    type: 'success',
+                    msg: '设置封面图片成功！'
+                })
+            }).catch(function(res) {
+                notifierService.notify({
+                    type: 'danger',
+                    msg: '设置封面图片失败！错误码' + res.status
+                })
+            })
+        }
+
+        $scope.delImg = function (imagename) {
+            var index = $scope.restaurant.image.indexOf(imagename);
+            if (index >= 0) {
+                $scope.restaurant.image.splice(index, 1);
+            }
+            // first delete image from serve and upyun
+            $http.get('/delUploadImageLife/'+ $scope.restaurant._id +'/' + imagename + '/' + $scope.restaurant.type).success(function() {
+                // then delete image from database
+                $scope.restaurant.$update(function() {
+                    notifierService.notify({
+                        type: 'success',
+                        msg: '删除图片成功！'
+                    })
+                }).catch(function(res) {
+                    notifierService.notify({
+                        type: 'danger',
+                        msg: '删除图片失败！错误码' + res.status
+                    })
+                })
+            })
+        }
         categoryResource.query({criteria:{ type: 1 }}, function(items) {
             console.log(items);
             $scope.categorys = items;

@@ -2,28 +2,26 @@
 	<form class="form-horizontal" role="form">
 		<div class="bs-callout bs-callout-info" id="a1">
 			<h4>封面图片</h4>
-			<img src="http://weegotest.b0.upaiyun.com/city/imgsizeC2/{{city.coverImageName}}" alt="" class="img-thumbnail">
+			<img class="img-thumbnail cms-img" ng-src="http://weegotest.b0.upaiyun.com/city/imgsizeC2/{{city.coverImageName}}" alt="" class="img-thumbnail">
 		</div>
 		<div class="bs-callout bs-callout-info" id="a2">
 			<h4>图片</h4>
-			<!-- <img ng-repeat="image in city.image" src="http://weegotest.b0.upaiyun.com/city/imgsizeC2/{{image}}" alt="" class="img-thumbnail"> -->
-			<div class="slidemodel">
-			    <carousel interval="myInterval">
-			      <slide ng-repeat="image in city.image" active="slide.active">
-			        <img ng-src="http://weegotest.b0.upaiyun.com/city/imgsizeC2/{{image}}" style="margin:auto;">
-			      </slide>
-			    </carousel>
-			  </div>
+			<ul class="setcovercontain">
+				<li ng-repeat="img in city.image">
+					<img class="img-thumbnail cms-img" ng-src="http://weegotest.b0.upaiyun.com/city/imgsizeC2/{{img}}" alt="" >
+					<button type="button" class="btn btn-default" ng-click="setCoverImage(img)">设为封面</button>
+					<button type="button" class="btn btn-danger" ng-click="delImg(img)">删除该图</button>
+				</li>
+			</ul>
 		</div>
 		<div class="bs-callout bs-callout-info" id="a3">
 			<h4>城市背景大图</h4>
-			<div class="slidemodel">
-			    <carousel interval="myInterval">
-			      <slide ng-repeat="image in city.backgroundimage" active="slide.active">
-			        <img ng-src="http://weegotest.b0.upaiyun.com/city/imgsizeC1/{{image}}" style="margin:auto;">
-			      </slide>
-			    </carousel>
-			</div>
+			<ul class="setcovercontain">
+				<li ng-repeat="img in city.backgroundimage">
+					<img class="img-thumbnail cms-img" ng-src="http://weegotest.b0.upaiyun.com/city/imgsizeC1/{{img}}" alt="" >
+					<button type="button" class="btn btn-danger" ng-click="delBgImg(img)">删除该图</button>
+				</li>
+			</ul>
 		</div>
 
 		<div class="bs-callout bs-callout-info" id="a4">
@@ -32,7 +30,7 @@
 				<div class="form-group">
 				    <div class="input-group">
 				     	<div class="input-group-addon">大洲</div>
-						<select class="form-control" ng-model="continent" ng-options="item.name for item in continents" ng-change="changeContinent(city, continent);setCountries(continent);">
+						<select class="form-control" ng-model="continent" ng-options="item.name for item in continents" ng-change="changeContinent(continent);setCountries(continent);">
 						</select>
 				    </div>
 				</div>
@@ -41,7 +39,7 @@
 				<div class="form-group">
 				    <div class="input-group">
 				      	<div class="input-group-addon">国家</div>
-						<select class="form-control" ng-model="country" ng-options="item.name for item in countries" ng-change="changeCountry(city, country);setCities(country)"></select>
+						<select class="form-control" ng-model="country" ng-options="item.name for item in countries" ng-change="changeCountry(country);setCities(country)"></select>
 				    </div>
 				</div>
 			</div>

@@ -39,7 +39,7 @@ angular.module('cmsAppApp')
 			$scope.attraction = data;
 		})
 	}])
-	.controller('AttractionEditCtrl', ['$scope', '$routeParams', 'attractionResource', 'labelResource', 'notifierService', function($scope, $routeParams, attractionResource, labelResource, notifierService) {
+	.controller('AttractionEditCtrl', ['$scope', '$http' ,'$routeParams', 'attractionResource', 'labelResource', 'notifierService', function($scope, $http, $routeParams, attractionResource, labelResource, notifierService) {
 		
 		attractionResource.get({id: $routeParams.attractionId}, function(data) {
 			$scope.attraction = data;
@@ -55,6 +55,43 @@ angular.module('cmsAppApp')
 				$scope.sublabels = data;
 			})
 		})
+        $scope.setCoverImage = function(imagename) {
+            $scope.attraction.coverImageName = imagename;
+            $scope.attraction.$update(function() {
+                notifierService.notify({
+                    type: 'success',
+                    msg: '设置封面图片成功！'
+                })
+            }).catch(function(res) {
+                notifierService.notify({
+                    type: 'danger',
+                    msg: '设置封面图片失败！错误码' + res.status
+                })
+            })
+        }
+
+        $scope.delImg = function (imagename) {
+            var index = $scope.attraction.image.indexOf(imagename);
+            if (index >= 0) {
+                $scope.attraction.image.splice(index, 1);
+            }
+            // first delete image from serve and upyun
+            $http.get('/delUploadImage/'+ $scope.attraction._id +'/' + imagename).success(function() {
+                console.log(imagename);
+                // then delete image from database
+                $scope.attraction.$update(function() {
+                    notifierService.notify({
+                        type: 'success',
+                        msg: '删除图片成功！'
+                    })
+                }).catch(function(res) {
+                    notifierService.notify({
+                        type: 'danger',
+                        msg: '删除图片失败！错误码' + res.status
+                    })
+                })
+            })
+        }
 
 		/**
 	  	 * get masterlabels

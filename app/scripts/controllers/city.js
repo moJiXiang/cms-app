@@ -175,63 +175,14 @@ angular.module('cmsAppApp')
 			})
 		}
 	])
-	.controller('CityEditCtrl', ["$scope", "$http", "$routeParams", "countryResource", "cityResource", "labelResource", 'notifierService',
-		function($scope, $http, $routeParams, countryResource, cityResource, labelResource, notifierService) {
+	.controller('CityEditCtrl', ["$scope", "$http", "$routeParams", "countryResource", "cityResource", "labelResource", 'notifierService', 'selectCityService',
+		function($scope, $http, $routeParams, countryResource, cityResource, labelResource, notifierService, selectCityService) {
 			
 			cityResource.get({
 				id: $routeParams.cityId
 			}, function(data) {
 				$scope.city = data;
-				/**
-				 * default continents
-				 */
-				$scope.continents = [
-					{name: "亚洲", value: "AS"},
-					{name: "欧洲", value: "EU"},
-					{name: "美洲", value: "NA"},
-					{name: "南美", value: "SA"},
-					{name: "非洲", value: "AF"},
-					{name: "大洋洲", value: "OC"}
-				]
-				var continentsArray = $scope.continents.map(function (item) {
-					return item.name;
-				})
-				// city.continents maybe null
-				var index = continentsArray.indexOf($scope.city.continents)
-				$scope.continent =　$scope.continents[index];
-				$scope.city.continents = $scope.continent.name;
-				$scope.city.continentscode = $scope.continent.value;
-				/**
-				 * get countries by continentscode
-				 */
-				var continentscode = data.continentscode;
-				countryResource.query({'getCountriesByContient': continentscode}, function(items) {
-					console.log(items);
-					$scope.countries = items.map(function (item) {
-						return {
-							name: item.cn_name,
-							countrycode: item.code
-						}
-					});
-					var countriesArray = items.map(function (item) {
-						return item.code;
-					})
-					console.log(countriesArray, $scope.city.countrycode);
-					var index = countriesArray.indexOf($scope.city.countrycode);
-					console.log(index);
-					$scope.country = $scope.countries[index];
-				})
-				/**
-				 * get cities by countrycode
-				 * @type {[type]}
-				 */
-				var countrycode = data.countrycode;
-				cityResource.query({'getCitiesByCountrycode': countrycode}, function(items) {
-					console.log(items);
-					$scope.cities = items.map(function (item) {
-						return item.cityname;
-					});
-				})
+				
 				/**
 				 *  get masterlabel and sublabels
 				 */
@@ -250,30 +201,20 @@ angular.module('cmsAppApp')
 				})
 
 			})
+			$scope.continents = selectCityService.getContinents();
 			/**
 			 * changeContinent by select directior ng-change
 			 * @param  {Object} city      city
 			 * @param  {Object} continent name and value
 			 */
-			$scope.changeContinent = function(city, continent) {
-				$scope.city = city;
+			$scope.changeContinent = function(continent) {
 				$scope.city.continents = continent.name;
-				$scope.city.continentscode = continent.value;
 			}
 			$scope.setCountries = function(continent) {
 				var continentcode = continent.value;
-				countryResource.query({'getCountriesByContient': continentcode}, function(items) {
-					console.log(items);
-					$scope.countries = items.map(function(item) {
-						return {
-							name: item.cn_name,
-							countrycode: item.code
-						}
-					});
-				})
+				$scope.countries = selectCityService.getCountriesByContinent();
 			}
-			$scope.changeCountry = function(city, country) {
-				$scope.city = city;
+			$scope.changeCountry = function(country) {
 				$scope.city.countryname = country.name;
 				$scope.city.countrycode = country.countrycode;
 			}
@@ -285,6 +226,75 @@ angular.module('cmsAppApp')
 					})
 				})
 			}
+			/**
+			 * set coverimage of the city
+			 * @param {string} imagename like 121423425.jpg
+			 */
+			$scope.setCoverImage = function(imagename) {
+				$scope.city.coverImageName = imagename;
+				$scope.city.$update(function() {
+					notifierService.notify({
+						type: 'success',
+						msg: '设置封面图片成功！'
+					})
+				}).catch(function(res) {
+					notifierService.notify({
+						type: 'danger',
+						msg: '设置封面图片失败！错误码' + res.status
+					})
+				})
+			}
+			/**
+			 * delImg iamge of city image array
+			 * @param  {string} imagename image's name
+			 */
+			$scope.delImg = function (imagename) {
+				var index = $scope.city.image.indexOf(imagename);
+				if (index >= 0) {
+					$scope.city.image.splice(index, 1);
+				}
+				// firstly delete image from serve and upyun
+				$http.get('/delCoverImage/'+ $scope.city._id +'/' + imagename).success(function() {
+					// then delete image from database
+					$scope.city.$update(function() {
+						notifierService.notify({
+							type: 'success',
+							msg: '删除图片成功！'
+						})
+					}).catch(function(res) {
+						notifierService.notify({
+							type: 'danger',
+							msg: '删除图片失败！错误码' + res.status
+						})
+					})
+				})
+			}
+			/**
+			 * delImg iamge of city backgroundimage array
+			 * @param  {string} imagename backgroundimage's name
+			 */
+			$scope.delBgImg = function (imagename) {
+				var index = $scope.city.backgroundimage.indexOf(imagename);
+				if (index >= 0) {
+					$scope.city.backgroundimage.splice(index, 1);
+				}
+				// firstly delete image from serve and upyun
+				$http.get('/delBackgroundImage/'+ $scope.city._id +'/' + imagename).success(function() {
+					// then delete image from database
+					$scope.city.$update(function() {
+						notifierService.notify({
+							type: 'success',
+							msg: '删除图片成功！'
+						})
+					}).catch(function(res) {
+						notifierService.notify({
+							type: 'danger',
+							msg: '删除图片失败！错误码' + res.status
+						})
+					})
+				})
+			}
+			
 			/**
 			 * edit tips, introduces, traffic, these are array data
 			 */
@@ -397,16 +407,17 @@ angular.module('cmsAppApp')
 
 		}
 	])
-	.controller('CityNewCtrl', ['$scope', "$location", "$anchorScroll",
-		function($scope, $location, $anchorScroll) {
-			/**
-			 * scroll to one anchor by id
-			 * @param  {string} id DOM id
-			 */
-		$scope.test = '121213';
-			$scope.scrollTo = function(id) {
-				$location.hash(id);
-				$anchorScroll();
+	.controller('CityNewCtrl', ['$scope', "cityResource","notifierService",
+		function($scope, cityResource, notifierService) {
+
+			$scope.save = function(){
+				var city = $scope.city;
+				cityResource.save(city, function () {
+					notifierService.notify({
+						type: 'success',
+						msg: 'Add new city success!'
+					})
+				})
 			}
 		}
 	])

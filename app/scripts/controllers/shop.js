@@ -45,13 +45,49 @@ angular.module('cmsAppApp')
             $scope.shop = shop;
         })
 	}])
-	.controller('ShopEditCtrl', ['$scope', '$routeParams', 'shoppingResource', 'notifierService', function($scope, $routeParams, shoppingResource, notifierService) {
+	.controller('ShopEditCtrl', ['$scope', '$http' ,'$routeParams', 'shoppingResource', 'notifierService', function($scope, $http, $routeParams, shoppingResource, notifierService) {
         var shopid = $routeParams.shopId;
         
         shoppingResource.get({id: shopid}, function(shop) {
             console.log(shop);
             $scope.shop = shop;
         })
+        $scope.setCoverImage = function(imagename) {
+            $scope.shop.cover_image = imagename;
+            $scope.shop.$update(function() {
+                notifierService.notify({
+                    type: 'success',
+                    msg: '设置封面图片成功！'
+                })
+            }).catch(function(res) {
+                notifierService.notify({
+                    type: 'danger',
+                    msg: '设置封面图片失败！错误码' + res.status
+                })
+            })
+        }
+
+        $scope.delImg = function (imagename) {
+            var index = $scope.shop.image.indexOf(imagename);
+            if (index >= 0) {
+                $scope.shop.image.splice(index, 1);
+            }
+            // first delete image from serve and upyun
+            $http.get('/delUploadImageLife/'+ $scope.shop._id +'/' + imagename + '/' + $scope.shop.type).success(function() {
+                // then delete image from database
+                $scope.shop.$update(function() {
+                    notifierService.notify({
+                        type: 'success',
+                        msg: '删除图片成功！'
+                    })
+                }).catch(function(res) {
+                    notifierService.notify({
+                        type: 'danger',
+                        msg: '删除图片失败！错误码' + res.status
+                    })
+                })
+            })
+        }
         /**
          * update shop
          */

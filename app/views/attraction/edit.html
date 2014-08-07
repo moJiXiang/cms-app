@@ -2,17 +2,17 @@
 		<form class="form-horizontal" role="form">
 			<div class="bs-callout bs-callout-info" id="a1">
 				<h4>封面图片</h4>
-				<img src="http://weegotest.b0.upaiyun.com/attractions/origin/{{attraction.coverImageName}}" alt="" class="img-thumbnail">
+				<img class="img-thumbnail cms-img" ng-src="http://weegotest.b0.upaiyun.com/attractions/origin/{{attraction.coverImageName}}" alt="" class="img-thumbnail">
 			</div>
 			<div class="bs-callout bs-callout-info" id="a2">
 				<h4>图片</h4>
-				<div class="slidemodel">
-				    <carousel interval="myInterval">
-				      <slide ng-repeat="image in attraction.image" active="slide.active">
-				        <img ng-src="http://weegotest.b0.upaiyun.com/attractions/origin/{{image}}" style="margin:auto;">
-				      </slide>
-				    </carousel>
-				  </div>
+				<ul class="setcovercontain">
+					<li ng-repeat="img in attraction.image">
+						<img class="img-thumbnail cms-img" ng-src="http://weegotest.b0.upaiyun.com/attractions/origin/{{img}}" alt="" >
+						<button type="button" class="btn btn-default" ng-click="setCoverImage(img)">设为封面</button>
+						<button type="button" class="btn btn-danger" ng-click="delImg(img)">删除该图</button>
+					</li>
+				</ul>
 			</div>
 
 			<div class="bs-callout bs-callout-info" id="a3">

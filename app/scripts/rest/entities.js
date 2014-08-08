@@ -14,7 +14,6 @@ var unwrap = function (body) {
 //ATTENTION!! DON'T EDIT, BELOW CODES ARE GENERATED , SEE codegen.js
 
 
-
 //model : areas
 app.factory('areaResource', ['$resource', function ($resource) {
 
@@ -376,6 +375,27 @@ app.factory('metaResource', ['$resource', function ($resource) {
 app.factory('countryResource', ['$resource', function ($resource) {
 
     var Model =  $resource('/rest/countrys/:id', {id:'@_id'}, {
+        query : {method: 'GET', isArray: true, transformResponse: unwrap},
+        count : {method: 'GET', params: {countNum:true}},
+        get   : {method: 'GET', transformResponse: unwrap},
+        update: {method: 'PUT', transformResponse: unwrap}
+    });
+
+    angular.extend(Model.prototype, {
+        hasId : function () {
+            return !!this._id;
+        }
+    });
+    
+    return Model;
+}]);
+
+
+
+//model : tasks
+app.factory('taskResource', ['$resource', function ($resource) {
+
+    var Model =  $resource('/rest/tasks/:id', {id:'@_id'}, {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},

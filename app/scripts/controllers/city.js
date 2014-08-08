@@ -175,8 +175,8 @@ angular.module('cmsAppApp')
 			})
 		}
 	])
-	.controller('CityEditCtrl', ["$scope", "$http", "$routeParams", "countryResource", "cityResource", "labelResource", 'notifierService', 'selectCityService',
-		function($scope, $http, $routeParams, countryResource, cityResource, labelResource, notifierService, selectCityService) {
+	.controller('CityEditCtrl', ["$scope", "$http", "$routeParams", "countryResource", "cityResource", "labelResource", 'notifierService', 'selectCityService', 'seletTagService',
+		function($scope, $http, $routeParams, countryResource, cityResource, labelResource, notifierService, selectCityService, seletTagService) {
 			
 			cityResource.get({
 				id: $routeParams.cityId
@@ -184,47 +184,37 @@ angular.module('cmsAppApp')
 				$scope.city = data;
 				
 				/**
-				 *  get masterlabel and sublabels
+				 *  get masterlabel and sublabels of the city
 				 */
 				if (data.masterLabel) {
-					labelResource.get({
-						id: data.masterLabel
-					}, function(data) {
-						$scope.masterlabel = data.label;
-					})
+					$scope.masterlabel = seletTagService.getMasterLabel(data.masterLabel)
 				}
-				labelResource.query({
-					city: $routeParams.cityId,
-					cmd: 'listByCity'
-				}, function(data) {
-					$scope.sublabels = data;
-				})
-
+				$scope.subLabels = seletTagService.getCitySublabels($routeParams.cityId);
 			})
-			$scope.continents = selectCityService.getContinents();
 			/**
 			 * changeContinent by select directior ng-change
 			 * @param  {Object} city      city
 			 * @param  {Object} continent name and value
 			 */
+			$scope.continents = selectCityService.getContinents();
 			$scope.changeContinent = function(continent) {
 				$scope.city.continents = continent.name;
+				$scope.city.continentscode = continent.value;
 			}
 			$scope.setCountries = function(continent) {
-				var continentcode = continent.value;
-				$scope.countries = selectCityService.getCountriesByContinent();
+				$scope.countries = selectCityService.getCountriesByContinent(continent);
 			}
 			$scope.changeCountry = function(country) {
-				$scope.city.countryname = country.name;
-				$scope.city.countrycode = country.countrycode;
+				$scope.city.countryname = country.cn_name;
+				$scope.city.countrycode = country.code;
 			}
 			$scope.setCities = function(country) {
-				var countrycode = country.countrycode;
-				cityResource.query({'getCitiesByCountrycode': countrycode}, function(items) {
-					$scope.cities = items.map(function(item) {
-						return item.cityname;
-					})
-				})
+				$scope.cities = selectCityService.getCitiesByCountry(country);
+				console.log($scope.cities)
+			}
+			$scope.changeCity = function (city) {
+				$scope.city.cityname = city.cityname;
+				$scope.city.cityid = city._id;
 			}
 			/**
 			 * set coverimage of the city
@@ -314,48 +304,14 @@ angular.module('cmsAppApp')
 			$scope.removeTip = function(tip, items) {
 				$scope.city[items].splice($scope.city[items].indexOf(tip), 1);
 			}
-			/**
-			 * get masterlabels
-			 * @return {array}  data is result returned
-			 */
-			labelResource.query({
-				criteria: {
-					level: '1'
-				}
-			}, function(data) {
-				$scope.masterlabels = [];
-				angular.forEach(data, function(item) {
-					var label = {
-						name: item.label,
-						_id: item._id
-					};
-					$scope.masterlabels.push(label);
-				});
-			})
+			
 
-			/**
-			 * get sublabels
-			 * @return {array}  data is result returned
-			 */
-			labelResource.query({
-				criteria: {
-					level: '2'
-				}
-			}, function(data) {
-				$scope.sublabelsopts = [];
-				angular.forEach(data, function(item) {
-					var label = {
-						name: item.label,
-						_id: item._id
-					}
-					$scope.sublabelsopts.push(label);
-				});
-
-			})
-
-			$scope.fixMasterlabel = function(labelid) {
-				console.log(labelid);
-				$scope.city.masterLabel = labelid;
+			
+			// masterlabels and sublabels 
+			$scope.masterlabels = seletTagService.getMasterLabels();
+			$scope.fixMasterlabel = function(label) {
+				console.log(label);
+				$scope.city.masterLabel = label._id;
 			}
 			$scope.addSublabel = function(labelid, sublabels) {
 				$scope.sublabels = sublabels;
@@ -368,16 +324,6 @@ angular.module('cmsAppApp')
 						$scope.sublabels.push(data);
 					})
 				} 
-				// else {
-				// 	$scope.city.subLabel = [];
-				// 	$scope.city.subLabel.push(labelid);
-				// 	labelResource.get({
-				// 		id: labelid
-				// 	}, function(data) {
-				// 		console.log(data);
-				// 		$scope.sublabels.push(data);
-				// 	})
-				// }
 			} 
 			$scope.delSublabel = function(sublabel, sublabels) {
 				console.log(sublabel);
@@ -407,8 +353,34 @@ angular.module('cmsAppApp')
 
 		}
 	])
-	.controller('CityNewCtrl', ['$scope', "cityResource","notifierService",
-		function($scope, cityResource, notifierService) {
+	.controller('CityNewCtrl', ['$scope', "cityResource","notifierService", "selectCityService",
+		function($scope, cityResource, notifierService, selectCityService) {
+			/**
+			 * changeContinent by select directior ng-change
+			 * @param  {Object} city      city
+			 * @param  {Object} continent name and value
+			 */
+			$scope.city = {};
+			$scope.continents = selectCityService.getContinents();
+			$scope.changeContinent = function(continent) {
+				$scope.city.continents = continent.name;
+				$scope.city.continentscode = continent.value;
+			}
+			$scope.setCountries = function(continent) {
+				$scope.countries = selectCityService.getCountriesByContinent(continent);
+			}
+			$scope.changeCountry = function(country) {
+				$scope.city.countryname = country.cn_name;
+				$scope.city.countrycode = country.code;
+			}
+			$scope.setCities = function(country) {
+				$scope.cities = selectCityService.getCitiesByCountry(country);
+				console.log($scope.cities)
+			}
+			$scope.changeCity = function (city) {
+				$scope.city.cityname = city.cityname;
+				$scope.city.cityid = city._id;
+			}
 
 			$scope.save = function(){
 				var city = $scope.city;
@@ -419,6 +391,7 @@ angular.module('cmsAppApp')
 					})
 				})
 			}
+
 		}
 	])
 	.controller('FileUploadCtrl', ['$scope', 'FileUploader', '$routeParams', function($scope, FileUploader, $routeParams) {

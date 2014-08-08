@@ -47,68 +47,7 @@ app.factory('notifierService', [function () {
 }]);
 
 app.factory('selectCityService', ['countryResource', 'cityResource', function (countryResource, cityResource) {
-    // /**
-    //  * default continents
-    //  */
-    // $scope.continents = [
-    //     {name: "亚洲", value: "AS"},
-    //     {name: "欧洲", value: "EU"},
-    //     {name: "美洲", value: "NA"},
-    //     {name: "南美", value: "SA"},
-    //     {name: "非洲", value: "AF"},
-    //     {name: "大洋洲", value: "OC"}
-    // ]
-    // var continentsArray = $scope.continents.map(function (item) {
-    //     return item.name;
-    // })
-    // // city.continents maybe null
-    // var index = continentsArray.indexOf($scope.city.continents);
-    // $scope.continent =　$scope.continents[index];
-    // $scope.city.continents = $scope.continent.name;
-    // $scope.city.continentscode = $scope.continent.value;
-    // /**
-    //  * get countries by continentscode
-    //  */
-    // var continentscode = data.continentscode;
-    // countryResource.query({'getCountriesByContient': continentscode}, function(items) {
-    //     console.log(items);
-    //     $scope.countries = items.map(function (item) {
-    //         return {
-    //             name: item.cn_name,
-    //             countrycode: item.code
-    //         }
-    //     });
-    //     var countriesArray = items.map(function (item) {
-    //         return item.code;
-    //     })
-    //     console.log(countriesArray, $scope.city.countrycode);
-    //     var index = countriesArray.indexOf($scope.city.countrycode);
-    //     console.log(index);
-    //     $scope.country = $scope.countries[index];
-    // })
-    // /**
-    //  * get cities by countrycode
-    //  * @type {[type]}
-    //  */
-    // var countrycode = data.countrycode;
-    // cityResource.query({'getCitiesByCountrycode': countrycode}, function(items) {
-    //     console.log(items);
-    //     $scope.cities = items.map(function (item) {
-    //         return item.cityname;
-    //     });
-    // })
-    /***********************************************/
-    // var continents = [
-    //     {name: "亚洲", value: "AS"},
-    //     {name: "欧洲", value: "EU"},
-    //     {name: "美洲", value: "NA"},
-    //     {name: "南美", value: "SA"},
-    //     {name: "非洲", value: "AF"},
-    //     {name: "大洋洲", value: "OC"}
-    // ]
-    // var continentsArray = continents.map(function (item) {
-    //     return item.name;
-    // })
+    var cities = [];
     return {
         getContinents : function () {
             return [
@@ -122,21 +61,47 @@ app.factory('selectCityService', ['countryResource', 'cityResource', function (c
         },
         getCountriesByContinent : function (continent) {
             var continentcode = continent.value;
-            return countryResource.query({"getCountriesByContinent": continentcode}).map(function (item) {
-                return {
-                    name : item.cn_name,
-                    code : item.code
-                }
-            });
+            return countryResource.query({"getCountriesByContinent": continentcode})
         },
         getCitiesByCountry : function (country) {
             var countrycode = country.code;
-            return  cityResource.query({'getCitiesByCountrycode': countrycode}).map(function (item) {
-                return {
-                    name : item.cityname,
-                    id : item._id
+            return cityResource.query({'getCitiesByCountrycode': countrycode})
+        }
+    }
+}]);
+
+app.factory('seletTagService', ['labelResource', function (labelResource) {
+    return {
+        getMasterLabel : function (labelid) {
+            return labelResource.get({
+                id: labelid
+            })
+        },
+        getCitySublabels : function (cityid) {
+            return labelResource.query({city: cityid, cmd: 'listByCity'});
+        },
+        getMasterLabels : function () {
+            /**
+             * get masterlabels
+             * @return {array}  data is result returned
+             */
+            return labelResource.query({
+                criteria: {
+                    level: '1'
+                }
+            })
+        },
+
+        getSubLabels : function () {
+            /**
+             * get sublabels
+             * @return {array}  data is result returned
+             */
+            return labelResource.query({
+                criteria: {
+                    level: '2'
                 }
             })
         }
     }
-}]);
+}])

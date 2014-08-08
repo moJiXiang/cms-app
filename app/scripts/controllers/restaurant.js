@@ -45,7 +45,7 @@ angular.module('cmsAppApp')
             $scope.restaurant = data;
         })
 	}])
-	.controller('RestaurantEditCtrl', ['$scope', '$http' ,'$routeParams', 'restaurantResource', 'categoryResource', 'notifierService', function($scope, $http, $routeParams, restaurantResource, categoryResource, notifierService) {
+	.controller('RestaurantEditCtrl', ['$scope', '$http' ,'$routeParams', 'restaurantResource', 'categoryResource', 'notifierService', 'selectCityService', function($scope, $http, $routeParams, restaurantResource, categoryResource, notifierService, selectCityService) {
         var categoryArr = [];
         restaurantResource.get({id: $routeParams.restaurantId}, function(data) {
             $scope.restaurant = data;
@@ -89,6 +89,26 @@ angular.module('cmsAppApp')
                 })
             })
         }
+
+        /**
+         * changeContinent by select directior ng-change
+         * @param  {Object} city      city
+         * @param  {Object} continent name and value
+         */
+        $scope.continents = selectCityService.getContinents();
+        $scope.setCountries = function(continent) {
+            $scope.countries = selectCityService.getCountriesByContinent(continent);
+        }
+        $scope.setCities = function(country) {
+            $scope.cities = selectCityService.getCitiesByCountry(country);
+            console.log($scope.cities)
+        }
+        $scope.changeCity = function (city) {
+            $scope.restaurant.city_name = city.cityname;
+            $scope.restaurant.city_id = city._id;
+        }
+
+
         categoryResource.query({criteria:{ type: 1 }}, function(items) {
             console.log(items);
             $scope.categorys = items;
@@ -169,7 +189,23 @@ angular.module('cmsAppApp')
         }
 	}])
 	.controller('RestaurantNewCtrl', ['$scope', function($scope) {
-
+        /**
+         * changeContinent by select directior ng-change
+         * @param  {Object} city      city
+         * @param  {Object} continent name and value
+         */
+        $scope.continents = selectCityService.getContinents();
+        $scope.setCountries = function(continent) {
+            $scope.countries = selectCityService.getCountriesByContinent(continent);
+        }
+        $scope.setCities = function(country) {
+            $scope.cities = selectCityService.getCitiesByCountry(country);
+            console.log($scope.cities)
+        }
+        $scope.changeCity = function (city) {
+            $scope.restaurant.city_name = city.cityname;
+            $scope.restaurant.city_id = city._id;
+        }
 	}])
 	.controller('RestaurantFileuploadCtrl', ['$scope', 'FileUploader', '$routeParams', function($scope, FileUploader, $routeParams) {
 		$scope.thislist = 'restaurantlist';

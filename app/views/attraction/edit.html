@@ -18,11 +18,20 @@
 			<div class="bs-callout bs-callout-info" id="a3">
 				<h4>景点基本信息</h4>
 				<div class="bs-callout bs-callout-warning bs-small">
-					<div class="form-group">
-					    <div class="input-group">
-					      <div class="input-group-addon">城市名（中文）</div>
-					      <input class="form-control" type="email" value="{{attraction.cityname}}">
-					    </div>
+					<h4>城市</h4>
+					<h5>{{attraction.cityname}}</h5>
+					<div class="col-sm-4">
+						<select class="form-control" ng-model="continent" ng-options="item.name for item in continents" ng-change="setCountries(continent);">
+							<option value="">-- choose continent --</option>
+						</select>
+					</div>
+					<div class="col-sm-4">
+						<select class="form-control" ng-model="country" ng-options="item.cn_name for item in countries" ng-change="setCities(country)">
+							<option value="">-- choose country --</option>
+						</select>
+					</div>
+					<div class="col-sm-4">
+				        <select class="form-control" ng-model="city" ng-options="item.cityname for item in cities" ng-change="changeCity(city)"></select>
 					</div>
 				</div>
 				<div class="bs-callout bs-callout-warning bs-small">

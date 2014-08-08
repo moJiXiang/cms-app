@@ -39,7 +39,7 @@ angular.module('cmsAppApp')
 			$scope.attraction = data;
 		})
 	}])
-	.controller('AttractionEditCtrl', ['$scope', '$http' ,'$routeParams', 'attractionResource', 'labelResource', 'notifierService', function($scope, $http, $routeParams, attractionResource, labelResource, notifierService) {
+	.controller('AttractionEditCtrl', ['$scope', '$http' ,'$routeParams', 'attractionResource', 'labelResource', 'notifierService', 'selectCityService', function($scope, $http, $routeParams, attractionResource, labelResource, notifierService, selectCityService) {
 		
 		attractionResource.get({id: $routeParams.attractionId}, function(data) {
 			$scope.attraction = data;
@@ -92,7 +92,23 @@ angular.module('cmsAppApp')
                 })
             })
         }
-
+        /**
+         * changeContinent by select directior ng-change
+         * @param  {Object} city      city
+         * @param  {Object} continent name and value
+         */
+        $scope.continents = selectCityService.getContinents();
+        $scope.setCountries = function(continent) {
+            $scope.countries = selectCityService.getCountriesByContinent(continent);
+        }
+        $scope.setCities = function(country) {
+            $scope.cities = selectCityService.getCitiesByCountry(country);
+            console.log($scope.cities)
+        }
+        $scope.changeCity = function (city) {
+            $scope.attraction.cityname = city.cityname;
+            $scope.attraction.cityid = city._id;
+        }
 		/**
 	  	 * get masterlabels
 	  	 * @return {array}  data is result returned

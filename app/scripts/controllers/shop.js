@@ -45,7 +45,7 @@ angular.module('cmsAppApp')
             $scope.shop = shop;
         })
 	}])
-	.controller('ShopEditCtrl', ['$scope', '$http' ,'$routeParams', 'shoppingResource', 'notifierService', function($scope, $http, $routeParams, shoppingResource, notifierService) {
+	.controller('ShopEditCtrl', ['$scope', '$http' ,'$routeParams', 'shoppingResource', 'notifierService', 'selectCityService',function($scope, $http, $routeParams, shoppingResource, notifierService, selectCityService) {
         var shopid = $routeParams.shopId;
         
         shoppingResource.get({id: shopid}, function(shop) {
@@ -87,6 +87,23 @@ angular.module('cmsAppApp')
                     })
                 })
             })
+        }
+        /**
+         * changeContinent by select directior ng-change
+         * @param  {Object} city      city
+         * @param  {Object} continent name and value
+         */
+        $scope.continents = selectCityService.getContinents();
+        $scope.setCountries = function(continent) {
+            $scope.countries = selectCityService.getCountriesByContinent(continent);
+        }
+        $scope.setCities = function(country) {
+            $scope.cities = selectCityService.getCitiesByCountry(country);
+            console.log($scope.cities)
+        }
+        $scope.changeCity = function (city) {
+            $scope.shop.city_name = city.cityname;
+            $scope.shop.city_id = city._id;
         }
         /**
          * update shop

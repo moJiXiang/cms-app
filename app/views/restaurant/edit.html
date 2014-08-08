@@ -17,7 +17,21 @@
 			<h4>餐馆基本信息</h4>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>城市</h4>
-				<p>{{restaurant.city_name}}</p>
+				<h5>{{restaurant.city_name}}</h5>
+				<div class="col-sm-4">
+					<select class="form-control" ng-model="continent" ng-options="item.name for item in continents" ng-change="setCountries(continent);">
+						<option value="">-- choose continent --</option>
+					</select>
+				</div>
+				<div class="col-sm-4">
+					<select class="form-control" ng-model="country" ng-options="item.cn_name for item in countries" ng-change="setCities(country)">
+						<option value="">-- choose country --</option>
+					</select>
+				</div>
+				<div class="col-sm-4">
+			        <select class="form-control" ng-model="city" ng-options="item.cityname for item in cities" ng-change="changeCity(city)"></select>
+				</div>
+
 			</div>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>餐馆名</h4>

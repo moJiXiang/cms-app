@@ -51,7 +51,7 @@ angular.module('cmsAppApp')
 			$scope.shoparea = shoparea;
 		})
 	}])
-	.controller('ShopareaEditCtrl', ['$scope', '$http', '$routeParams', 'areaResource', 'notifierService', function($scope, $http, $routeParams, areaResource, notifierService) {
+	.controller('ShopareaEditCtrl', ['$scope', '$http', '$routeParams', 'areaResource', 'notifierService', 'selectCityService', function($scope, $http, $routeParams, areaResource, notifierService, selectCityService) {
 		/**
 		 * get area message
 		 * @param  {string} shoparea shoparea id
@@ -95,6 +95,25 @@ angular.module('cmsAppApp')
 				})
 			})
 		}
+
+        /**
+         * changeContinent by select directior ng-change
+         * @param  {Object} city      city
+         * @param  {Object} continent name and value
+         */
+        $scope.continents = selectCityService.getContinents();
+        $scope.setCountries = function(continent) {
+            $scope.countries = selectCityService.getCountriesByContinent(continent);
+        }
+        $scope.setCities = function(country) {
+            $scope.cities = selectCityService.getCitiesByCountry(country);
+            console.log($scope.cities)
+        }
+        $scope.changeCity = function (city) {
+            $scope.shoparea.city_name = city.cityname;
+            $scope.shoparea.city_id = city._id;
+        }
+
 		// add shoparea tag
 		$scope.addTag = function(tag, tags) {
 			$scope.shoparea.tags = tags;
@@ -103,6 +122,20 @@ angular.module('cmsAppApp')
 			}
 			$scope.tag="";
 		}
+        $scope.save = function () {
+            var shoparea = $scope.shoparea;
+            shoparea.$update().then(function () {
+                notifierService.notify({
+                    type: 'success',
+                    msg: 'update shoparea success!'
+                })
+            }).catch(function () {
+                notifierService.notify({
+                    type: 'danger',
+                    msg: 'update shoparea failed!error:' + res.status
+                })
+            })
+        }
 	}])
 	.controller('ShopareaNewCtrl', ['$scope',  function($scope) {
 

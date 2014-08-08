@@ -153,38 +153,33 @@
 					</div>
 				</div>
 			</div>
-			<div class="bs-callout bs-callout-info" id="a5">
+			<div class="bs-callout bs-callout-info" id="a6">
 				<h4>标签</h4>
 				<div class="bs-callout bs-callout-warning bs-small">
 					<h4>主标签</h4>
-					<p>{{masterlabel}}</p>
+					<p>{{masterlabel.label}}</p>
 					<div class="input-group">
-						<select class="form-control" ng-model="selectedMasterItem" ng-options="item as item.name for item in masterlabels"></select>
-				        <span class="input-group-btn">
-							<button type="button" class="btn btn-success" ng-click="fixMasterlabel(selectedMasterItem._id)">修改</button>
-				        </span>
+				      	<div class="input-group-addon">主标签</div>
+						<select class="form-control" ng-model="masterlabel" ng-options="item.label for item in masterlabels" ng-change="fixMasterlabel(masterlabel)">
+							<option value="">-- choose master label --</option>
+						</select>
 				    </div>
 				</div>
 				<div class="bs-callout bs-callout-warning bs-small">
 					<h4>子标签</h4>
-                    <div class="input-group" ng-repeat="sublabel in sublabels">
+	                <div class="input-group" ng-repeat="sublabel in sublabels">
 						<input class="form-control" placeholder="{{sublabel.label}}" disabled>
 				        <span class="input-group-btn">
-							<button type="button" class="btn btn-danger">删除</button>
+							<button type="button" class="btn btn-danger" ng-click="delSublabel(sublabel)">删除</button>
 				        </span>
 				    </div>
 					<div class="input-group">
-						<select class="form-control" ng-model="selectedSubItem" ng-options="item as item.name for item in sublabelsopts"></select>
+						<select class="form-control" ng-model="selectedSubItem" ng-options="item.label for item in sublabelitems"></select>
 				        <span class="input-group-btn">
-							<button type="button" class="btn btn-success" ng-click="addSublabel(selectedSubItem._id)">增加</button>
+							<button type="button" class="btn btn-success" ng-click="addSublabel(selectedSubItem)">增加</button>
 				        </span>
 				    </div>
 				</div>
-				<script type="text/ng-template" id="customTemplate.html">
-				  <a>
-				      <span bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
-				  </a>
-				</script>
 			</div>
 			<div class="bs-callout bs-callout-info" id="a6">
 				<h4>一句话简介</h4>

@@ -189,7 +189,7 @@ angular.module('cmsAppApp')
 				if (data.masterLabel) {
 					$scope.masterlabel = seletTagService.getMasterLabel(data.masterLabel)
 				}
-				$scope.subLabels = seletTagService.getCitySublabels($routeParams.cityId);
+				$scope.sublabels = seletTagService.getItemSublabels($routeParams.cityId, 'city');
 			})
 			/**
 			 * changeContinent by select directior ng-change
@@ -309,28 +309,18 @@ angular.module('cmsAppApp')
 			
 			// masterlabels and sublabels 
 			$scope.masterlabels = seletTagService.getMasterLabels();
+			$scope.sublabelitems = seletTagService.getSubLabels();
 			$scope.fixMasterlabel = function(label) {
-				console.log(label);
 				$scope.city.masterLabel = label._id;
 			}
-			$scope.addSublabel = function(labelid, sublabels) {
-				$scope.sublabels = sublabels;
-				if ($scope.city.subLabel.indexOf(labelid) < 0) {
-					$scope.city.subLabel.push(labelid);
-					labelResource.get({
-						id: labelid
-					}, function(data) {
-						console.log(data);
-						$scope.sublabels.push(data);
-					})
-				} 
+			$scope.addSublabel = function(label) {
+				if ($scope.city.subLabel.indexOf(label._id) < 0) {
+					$scope.city.subLabel.push(label._id);
+				}
+				$scope.sublabels.push(label);
 			} 
-			$scope.delSublabel = function(sublabel, sublabels) {
-				console.log(sublabel);
-				var index = $scope.city.subLabel.indexOf(sublabel._id);
+			$scope.delSublabel = function(sublabel) {
 				$scope.city.subLabel.splice(index, 1);
-				$scope.sublabels = sublabels;
-				$scope.sublabels.splice(index, 1);
 			}
 			/**
 			 * save city
@@ -510,33 +500,8 @@ angular.module('cmsAppApp')
 	        console.info('uploader', uploader);
 		}])
 
-var ModalInstanceCtrl = function($scope, $modalInstance, edituserResource, city) {
-	/**
-	 * get chinese editors
-	 * @return {array}    return chinese editors
-	 */
-	edituserResource.query({
-		group: 0,
-		type: 1,
-		cmd: "listChineseEditors"
-	}, function(items) {
-		console.log(items);
-		$scope.editusers_zh = items;
-	})
-
-	/**
-	 * get english editors
-	 * @return {array}   return english editors
-	 */
-	edituserResource.query({
-		group: 1,
-		type: 1,
-		cmd: "listEnglishEditors"
-	}, function(items) {
-		$scope.editusers_en = items;
-	})
+var ModalInstanceCtrl = function($scope, $modalInstance, getUserService, city) {
 	$scope.city = city;
-
 	/**
 	 * apoint task to one editor
 	 */

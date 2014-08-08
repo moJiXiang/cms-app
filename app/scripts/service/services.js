@@ -77,8 +77,12 @@ app.factory('seletTagService', ['labelResource', function (labelResource) {
                 id: labelid
             })
         },
-        getCitySublabels : function (cityid) {
-            return labelResource.query({city: cityid, cmd: 'listByCity'});
+        getItemSublabels : function (itemid, type) {
+        	if(type == 'city') {
+        		return labelResource.query({city: itemid, cmd: 'listByCity'});
+        	}else {
+        		return labelResource.query({attraction: itemid, cmd: 'listByAttraction'});
+        	}
         },
         getMasterLabels : function () {
             /**
@@ -104,4 +108,8 @@ app.factory('seletTagService', ['labelResource', function (labelResource) {
             })
         }
     }
+}])
+
+app.factory('getUserService', ['userResource', function (userResource) {
+	
 }])

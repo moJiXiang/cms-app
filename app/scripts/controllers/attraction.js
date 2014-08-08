@@ -39,21 +39,17 @@ angular.module('cmsAppApp')
 			$scope.attraction = data;
 		})
 	}])
-	.controller('AttractionEditCtrl', ['$scope', '$http' ,'$routeParams', 'attractionResource', 'labelResource', 'notifierService', 'selectCityService', function($scope, $http, $routeParams, attractionResource, labelResource, notifierService, selectCityService) {
+	.controller('AttractionEditCtrl', ['$scope', '$http' ,'$routeParams', 'attractionResource', 'labelResource', 'notifierService', 'selectCityService', 'seletTagService', function($scope, $http, $routeParams, attractionResource, labelResource, notifierService, selectCityService, seletTagService) {
 		
 		attractionResource.get({id: $routeParams.attractionId}, function(data) {
 			$scope.attraction = data;
 			/**
-			 *  get masterlabel and sublabels 
+			 *  get masterlabel and sublabels of the city
 			 */
-			if(data.masterLabel) {
-				labelResource.get({id: data.masterLabel}, function(data) {
-					$scope.masterlabel = data.label;
-				})
+			if (data.masterLabel) {
+				$scope.masterlabel = seletTagService.getMasterLabel(data.masterLabel)
 			}
-			labelResource.query({attraction: $routeParams.attractionId, cmd:'listByAttraction'}, function(data){
-				$scope.sublabels = data;
-			})
+			$scope.sublabels = seletTagService.getItemSublabels($routeParams.attractionId, 'attraction');
 		})
         $scope.setCoverImage = function(imagename) {
             $scope.attraction.coverImageName = imagename;
@@ -99,7 +95,9 @@ angular.module('cmsAppApp')
          */
         $scope.continents = selectCityService.getContinents();
         $scope.setCountries = function(continent) {
+        	console.log(continent);
             $scope.countries = selectCityService.getCountriesByContinent(continent);
+            console.log($scope.countries);
         }
         $scope.setCities = function(country) {
             $scope.cities = selectCityService.getCitiesByCountry(country);
@@ -109,46 +107,25 @@ angular.module('cmsAppApp')
             $scope.attraction.cityname = city.cityname;
             $scope.attraction.cityid = city._id;
         }
-		/**
-	  	 * get masterlabels
-	  	 * @return {array}  data is result returned
-	  	 */
-	  	labelResource.query({
-	  		criteria: {
-	  			level: '1'
-	  		}
-	  	}, function(data) {
-	  		$scope.masterlabels = [];
-	  		angular.forEach(data, function(item) {
-	  			var label = {
-	  				name: item.label,
-	  				_id: item._id
-	  			};
-	  			$scope.masterlabels.push(label);
-	  		});
-	  	})
-
-	  	/**
-	  	 * get sublabels
-	  	 * @return {array}  data is result returned
-	  	 */
-		labelResource.query({
-			criteria: {
-				level: '2'
+		
+		// masterlabels and sublabels 
+		$scope.masterlabels = seletTagService.getMasterLabels();
+		$scope.sublabelitems = seletTagService.getSubLabels();
+		$scope.fixMasterlabel = function(label) {
+			$scope.attraction.masterLabel = label._id;
+		}
+		$scope.addSublabel = function(label) {
+			console.log($scope.attraction.subLabel);
+			if ($scope.attraction.subLabel.indexOf(label._id) < 0) {
+				$scope.attraction.subLabel.push(label._id);
 			}
-		}, function(data) {
-			$scope.sublabelsopts = [];
-			angular.forEach(data, function(item) {
-				var label = {
-					name: item.label,
-					_id: item._id
-				}
-				$scope.sublabelsopts.push(label);
-			});
-		})
-
+			$scope.sublabels.push(label);
+		} 
+		$scope.delSublabel = function(sublabel) {
+			$scope.attraction.subLabel.splice(index, 1);
+		}
 		/**
-		 * save city
+		 * save attraction
 		 */
 		$scope.save = function() {
 			var attraction = $scope.attraction;

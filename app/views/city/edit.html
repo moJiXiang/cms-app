@@ -161,13 +161,13 @@
                 <div class="input-group" ng-repeat="sublabel in sublabels">
 					<input class="form-control" placeholder="{{sublabel.label}}" disabled>
 			        <span class="input-group-btn">
-						<button type="button" class="btn btn-danger" ng-click="delSublabel(sublabel, sublabels)">删除</button>
+						<button type="button" class="btn btn-danger" ng-click="delSublabel(sublabel)">删除</button>
 			        </span>
 			    </div>
 				<div class="input-group">
-					<select class="form-control" ng-model="selectedSubItem" ng-options="item as item.name for item in sublabelsopts"></select>
+					<select class="form-control" ng-model="selectedSubItem" ng-options="item.label for item in sublabelitems"></select>
 			        <span class="input-group-btn">
-						<button type="button" class="btn btn-success" ng-click="addSublabel(selectedSubItem._id, sublabels)">增加</button>
+						<button type="button" class="btn btn-success" ng-click="addSublabel(selectedSubItem)">增加</button>
 			        </span>
 			    </div>
 			</div>

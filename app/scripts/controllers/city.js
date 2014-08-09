@@ -175,8 +175,8 @@ angular.module('cmsAppApp')
 			})
 		}
 	])
-	.controller('CityEditCtrl', ["$scope", "$http", "$routeParams", "countryResource", "cityResource", "labelResource", 'notifierService', 'selectCityService', 'seletTagService',
-		function($scope, $http, $routeParams, countryResource, cityResource, labelResource, notifierService, selectCityService, seletTagService) {
+	.controller('CityEditCtrl', ["$scope", "$http", "$routeParams", "countryResource", 'auditingResource', "cityResource", "labelResource", 'notifierService', 'getUserService' ,'getAuditService', 'selectCityService', 'seletTagService',
+		function($scope, $http, $routeParams, countryResource, auditingResource, cityResource, labelResource, notifierService, getUserService, getAuditService, selectCityService, seletTagService) {
 			
 			cityResource.get({
 				id: $routeParams.cityId
@@ -190,7 +190,15 @@ angular.module('cmsAppApp')
 					$scope.masterlabel = seletTagService.getMasterLabel(data.masterLabel)
 				}
 				$scope.sublabels = seletTagService.getItemSublabels($routeParams.cityId, 'city');
+				getAuditService.getAudit({id: data._id}, function (items) {
+					$scope.audit = items[0];
+					console.log(items);
+				});
+				getAuditService.getTaskEditor({id: data._id, type: 4, en: false}, function (items) {
+					$scope.editor = items[0];
+				});
 			})
+			// $scope.editor
 			/**
 			 * changeContinent by select directior ng-change
 			 * @param  {Object} city      city
@@ -322,6 +330,37 @@ angular.module('cmsAppApp')
 			$scope.delSublabel = function(sublabel) {
 				$scope.city.subLabel.splice(index, 1);
 			}
+
+			getUserService.getUsers({type: 'auditor'}, function (items) {
+				$scope.auditors = items;	
+			});
+
+			$scope.postAudit = function () {
+				if(!$scope.audit._id){
+					var audit = $scope.audit;
+					audit.item_id = $scope.city._id;
+					audit.type = 4;
+					audit.name = $scope.city.cityname;
+					audit.status = 1;
+					audit.en = false;
+					audit.editorname = $scope.editor.editor_name;
+					audit.editorid = $scope.editor.editor_id;
+					audit.auditorname = $scope.audit.auditor.editor_name;
+					audit.auditorid = $scope.audit.auditor.editor_id;
+					auditingResource.save(audit, function (item) {
+						$scope.audit = audit;
+						notifierService.notify({
+							type: 'success',
+							msg: '  send to '+ item.auditorname
+						})
+					})
+				} else {
+					notifierService.notify({
+						type: 'danger',
+						msg: 'You can not send this item to auditor anymore!'
+					})
+				}
+			}
 			/**
 			 * save city
 			 */
@@ -343,6 +382,26 @@ angular.module('cmsAppApp')
 
 		}
 	])
+	.controller('CityEditEnCtrl', ['$scope', "$routeParams", 'cityResource' ,'getAuditService', 'getUserService', function ($scope, $routeParams, cityResource, getAuditService, getUserService) {
+		cityResource.get({
+			id: $routeParams.cityId
+		}, function(data) {
+			$scope.city = data;
+
+			getAuditService.getAudit({id: data._id}, function (items) {
+				$scope.audit = items[0];
+			});
+			getAuditService.getTaskEditor({id: data._id, type: 4, en: true}, function (items) {
+				$scope.editor = items[0];
+			});
+		})
+		/**
+		 * get auditors by type
+		 */
+		getUserService.getUsers({type: 'auditor'}, function (items) {
+			$scope.auditors = items;	
+		});
+	}])
 	.controller('CityNewCtrl', ['$scope', "cityResource","notifierService", "selectCityService",
 		function($scope, cityResource, notifierService, selectCityService) {
 			/**
@@ -500,17 +559,94 @@ angular.module('cmsAppApp')
 	        console.info('uploader', uploader);
 		}])
 
-var ModalInstanceCtrl = function($scope, $modalInstance, getUserService, city) {
+var ModalInstanceCtrl = function($scope, $modalInstance, taskResource, getUserService, city, notifierService) {
 	$scope.city = city;
-	/**
-	 * apoint task to one editor
-	 */
-	$scope.task = {};
-	$scope.qq = 30;
-	$scope.sendtask = function(task) {
-		$modalInstance.close();
+	taskResource.query({criteria:{city_id : city._id}}, function (items) {
+		$scope.tasks = items;
+	})
+	$scope.newtask = {
+		city_id : city._id,
+		city_name : city.cityname
 	};
+	$scope.types = [{
+		type: '0',
+		name : 'attraction'
+	},{
+		type: '1',
+		name : 'restaurant'
+	},{
+		type : '2',
+		name : 'shop'
+	},
+	{
+		type : '3',
+		name : 'shoparea'
+	},{
+		type : '4',
+		name : 'city'
+	}]
+	$scope.language = [{
+		isen : true,
+		name : 'english'
+	},{
+		isen : false,
+		name : 'chinese'
+	}]
+	$scope.setUserBylan = function (en) {
+		if (en) {
+			getUserService.getUsers({type: 'en-editor'}, function (users) {
+				$scope.editusers = users;
+			});
+		} else {
+			getUserService.getUsers({type: 'zh-editor'}, function (users) {
+				$scope.editusers = users;
+			});
+		}
+	}
+	
+	// send 10 type task to save , firstly format these object to expect data
+	$scope.sendTask = function(task) {
+		console.log(task);
+		if(task._id) {
+			task.$update().then(function () {
+				notifierService.notify({
+					type: 'success',
+					msg: 'Edit task success!'
+				})
+			}).catch (function () {
+				notifierService.notify({
+					type: 'success',
+					msg: 'New task success!'
+				})
+			})
+		} else {
+			var task = formatTask(task);
 
+			taskResource.save(task, function () {
+				$scope.tasks.push(task);
+				notifierService.notify({
+					type: 'success',
+					msg: 'send task success!'
+				})
+			})
+		}
+	};
+	$scope.editTask = function (task) {
+		$scope.newtask = task;
+	}
+	// turn obj attribute editor to editor_id and editor_name
+	var formatTask = function (obj) {
+		var task = {};
+		if(obj._id) task._id = obj._id ;
+		task.city_id = obj.city_id;
+		task.city_name = obj.city_name;
+		task.editor_id = obj.editor.editor_id;
+		task.editor_name = obj.editor.editor_name;
+		task.type = obj.type.type;
+		task.en = obj.en.isen;
+		task.minnum = obj.minnum;
+		return task;										
+	}
 	$scope.cancel = function() {
 		$modalInstance.dismiss('cancel');
 	};

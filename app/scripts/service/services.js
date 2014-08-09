@@ -91,7 +91,7 @@ app.factory('seletTagService', ['labelResource', function (labelResource) {
              */
             return labelResource.query({
                 criteria: {
-                    level: '1'
+                   level: '1'
                 }
             })
         },
@@ -111,5 +111,34 @@ app.factory('seletTagService', ['labelResource', function (labelResource) {
 }])
 
 app.factory('getUserService', ['userResource', function (userResource) {
-	
+    return {
+        getUsers : function (opt, cb) {
+            var editorsArr = [];
+	        userResource.query({roles: opt.type}, function (items) {
+                editorsArr = items.map(function (item) {
+                    return {
+                        editor_id : item._id,
+                        editor_name : item.username
+                    }
+                })
+                cb(editorsArr);
+            });
+        }
+    }
+}])
+
+app.factory('getAuditService', ['auditingResource', 'taskResource', function (auditingResource, taskResource) {
+    return {
+        getAudit : function (opt, cb) {
+
+            auditingResource.query({item_id: opt.id}, function (items) {
+                cb(items);
+            });
+        },
+        getTaskEditor : function (opt, cb) {
+            taskResource.query({criteria:{city_id: opt.id, type: opt.type, en: opt.en}}, function (items) {
+                cb(items);
+            });
+        }
+    }
 }])

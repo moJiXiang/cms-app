@@ -15,6 +15,10 @@ var unwrap = function (body) {
 
 
 
+
+
+
+
 //model : areas
 app.factory('areaResource', ['$resource', function ($resource) {
 
@@ -22,7 +26,8 @@ app.factory('areaResource', ['$resource', function ($resource) {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
-        update: {method: 'PUT', transformResponse: unwrap}
+        update: {method: 'PUT', transformResponse: unwrap},
+        save: {method: 'POST', transformResponse: unwrap}
     });
 
     angular.extend(Model.prototype, {
@@ -43,7 +48,8 @@ app.factory('categoryResource', ['$resource', function ($resource) {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
-        update: {method: 'PUT', transformResponse: unwrap}
+        update: {method: 'PUT', transformResponse: unwrap},
+        save: {method: 'POST', transformResponse: unwrap}
     });
 
     angular.extend(Model.prototype, {
@@ -64,7 +70,8 @@ app.factory('pathResource', ['$resource', function ($resource) {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
-        update: {method: 'PUT', transformResponse: unwrap}
+        update: {method: 'PUT', transformResponse: unwrap},
+        save: {method: 'POST', transformResponse: unwrap}
     });
 
     angular.extend(Model.prototype, {
@@ -85,7 +92,8 @@ app.factory('taskResource', ['$resource', function ($resource) {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
-        update: {method: 'PUT', transformResponse: unwrap}
+        update: {method: 'PUT', transformResponse: unwrap},
+        save: {method: 'POST', transformResponse: unwrap}
     });
 
     angular.extend(Model.prototype, {
@@ -106,7 +114,8 @@ app.factory('attractionResource', ['$resource', function ($resource) {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
-        update: {method: 'PUT', transformResponse: unwrap}
+        update: {method: 'PUT', transformResponse: unwrap},
+        save: {method: 'POST', transformResponse: unwrap}
     });
 
     angular.extend(Model.prototype, {
@@ -127,7 +136,8 @@ app.factory('cityResource', ['$resource', function ($resource) {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
-        update: {method: 'PUT', transformResponse: unwrap}
+        update: {method: 'PUT', transformResponse: unwrap},
+        save: {method: 'POST', transformResponse: unwrap}
     });
 
     angular.extend(Model.prototype, {
@@ -148,7 +158,8 @@ app.factory('labelResource', ['$resource', function ($resource) {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
-        update: {method: 'PUT', transformResponse: unwrap}
+        update: {method: 'PUT', transformResponse: unwrap},
+        save: {method: 'POST', transformResponse: unwrap}
     });
 
     angular.extend(Model.prototype, {
@@ -169,7 +180,8 @@ app.factory('permResource', ['$resource', function ($resource) {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
-        update: {method: 'PUT', transformResponse: unwrap}
+        update: {method: 'PUT', transformResponse: unwrap},
+        save: {method: 'POST', transformResponse: unwrap}
     });
 
     angular.extend(Model.prototype, {
@@ -190,7 +202,8 @@ app.factory('taskquestionResource', ['$resource', function ($resource) {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
-        update: {method: 'PUT', transformResponse: unwrap}
+        update: {method: 'PUT', transformResponse: unwrap},
+        save: {method: 'POST', transformResponse: unwrap}
     });
 
     angular.extend(Model.prototype, {
@@ -211,7 +224,8 @@ app.factory('auditingResource', ['$resource', function ($resource) {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
-        update: {method: 'PUT', transformResponse: unwrap}
+        update: {method: 'PUT', transformResponse: unwrap},
+        save: {method: 'POST', transformResponse: unwrap}
     });
 
     angular.extend(Model.prototype, {
@@ -232,7 +246,8 @@ app.factory('edituserResource', ['$resource', function ($resource) {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
-        update: {method: 'PUT', transformResponse: unwrap}
+        update: {method: 'PUT', transformResponse: unwrap},
+        save: {method: 'POST', transformResponse: unwrap}
     });
 
     angular.extend(Model.prototype, {
@@ -253,7 +268,8 @@ app.factory('lifetagResource', ['$resource', function ($resource) {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
-        update: {method: 'PUT', transformResponse: unwrap}
+        update: {method: 'PUT', transformResponse: unwrap},
+        save: {method: 'POST', transformResponse: unwrap}
     });
 
     angular.extend(Model.prototype, {
@@ -274,7 +290,8 @@ app.factory('restaurantResource', ['$resource', function ($resource) {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
-        update: {method: 'PUT', transformResponse: unwrap}
+        update: {method: 'PUT', transformResponse: unwrap},
+        save: {method: 'POST', transformResponse: unwrap}
     });
 
     angular.extend(Model.prototype, {
@@ -295,7 +312,8 @@ app.factory('userResource', ['$resource', function ($resource) {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
-        update: {method: 'PUT', transformResponse: unwrap}
+        update: {method: 'PUT', transformResponse: unwrap},
+        save: {method: 'POST', transformResponse: unwrap}
     });
 
     angular.extend(Model.prototype, {
@@ -316,7 +334,8 @@ app.factory('bigtypeResource', ['$resource', function ($resource) {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
-        update: {method: 'PUT', transformResponse: unwrap}
+        update: {method: 'PUT', transformResponse: unwrap},
+        save: {method: 'POST', transformResponse: unwrap}
     });
 
     angular.extend(Model.prototype, {
@@ -337,7 +356,8 @@ app.factory('entertainmentResource', ['$resource', function ($resource) {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
-        update: {method: 'PUT', transformResponse: unwrap}
+        update: {method: 'PUT', transformResponse: unwrap},
+        save: {method: 'POST', transformResponse: unwrap}
     });
 
     angular.extend(Model.prototype, {
@@ -358,7 +378,8 @@ app.factory('metaResource', ['$resource', function ($resource) {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
-        update: {method: 'PUT', transformResponse: unwrap}
+        update: {method: 'PUT', transformResponse: unwrap},
+        save: {method: 'POST', transformResponse: unwrap}
     });
 
     angular.extend(Model.prototype, {
@@ -379,7 +400,8 @@ app.factory('countryResource', ['$resource', function ($resource) {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
-        update: {method: 'PUT', transformResponse: unwrap}
+        update: {method: 'PUT', transformResponse: unwrap},
+        save: {method: 'POST', transformResponse: unwrap}
     });
 
     angular.extend(Model.prototype, {
@@ -400,7 +422,8 @@ app.factory('shoppingResource', ['$resource', function ($resource) {
         query : {method: 'GET', isArray: true, transformResponse: unwrap},
         count : {method: 'GET', params: {countNum:true}},
         get   : {method: 'GET', transformResponse: unwrap},
-        update: {method: 'PUT', transformResponse: unwrap}
+        update: {method: 'PUT', transformResponse: unwrap},
+        save: {method: 'POST', transformResponse: unwrap}
     });
 
     angular.extend(Model.prototype, {

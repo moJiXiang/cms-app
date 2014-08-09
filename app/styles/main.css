@@ -153,8 +153,12 @@ background: #fff;}
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
+.auditmsg{
+	width: 300px;
+	top: 120px;
+}
 .citynav{
-	top: 100px;
+	top: 240px;
 }
 .citynav li{
 	display: block;

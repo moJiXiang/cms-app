@@ -127,11 +127,11 @@ app.factory('getUserService', ['userResource', function (userResource) {
     }
 }])
 
-app.factory('getAuditService', ['auditingResource', 'taskResource', function (auditingResource, taskResource) {
+app.factory('AuditService', ['auditingResource', 'taskResource', 'notifierService', function (auditingResource, taskResource, notifierService) {
     return {
         getAudit : function (opt, cb) {
 
-            auditingResource.query({item_id: opt.id}, function (items) {
+            auditingResource.query({criteria:{item_id: opt.id, en: opt.en}}, function (items) {
                 cb(items);
             });
         },
@@ -139,6 +139,40 @@ app.factory('getAuditService', ['auditingResource', 'taskResource', function (au
             taskResource.query({criteria:{city_id: opt.id, type: opt.type, en: opt.en}}, function (items) {
                 cb(items);
             });
+        },
+        postAudit : function (opt, cb) {
+            console.log(opt);
+            if(!opt.editor){
+                notifierService.notify({
+                    type: 'danger',
+                    msg: 'This city has not be appointed to any editor! You should ask Admin!'
+                })
+            }
+            if(!opt.audit._id){
+                var audit = opt.audit;
+                audit.item_id = opt.item_id;
+                audit.type = opt.type;
+                audit.name = opt.name;
+                audit.status = opt.status;
+                audit.en = opt.en;
+                audit.editorname = opt.editor.editor_name;
+                audit.editorid = opt.editor.editor_id;
+                audit.auditorname = opt.audit.auditor.editor_name;
+                audit.auditorid = opt.audit.auditor.editor_id;
+                cb(audit);
+                auditingResource.save(audit, function (item) {
+                    notifierService.notify({
+                        type: 'success',
+                        msg: '  send to '+ item.auditorname
+                    })
+                })
+            } else {
+                notifierService.notify({
+                    type: 'danger',
+                    msg: 'You can not send this item to auditor anymore!'
+                })
+            }
         }
     }
 }])
+

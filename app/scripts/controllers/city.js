@@ -175,8 +175,8 @@ angular.module('cmsAppApp')
 			})
 		}
 	])
-	.controller('CityEditCtrl', ["$scope", "$http", "$routeParams", "countryResource", 'auditingResource', "cityResource", "labelResource", 'notifierService', 'getUserService' ,'getAuditService', 'selectCityService', 'seletTagService',
-		function($scope, $http, $routeParams, countryResource, auditingResource, cityResource, labelResource, notifierService, getUserService, getAuditService, selectCityService, seletTagService) {
+	.controller('CityEditCtrl', ["$scope", "$http", "$routeParams", "countryResource", 'auditingResource', "cityResource", "labelResource", 'notifierService', 'getUserService' ,'AuditService', 'selectCityService', 'seletTagService',
+		function($scope, $http, $routeParams, countryResource, auditingResource, cityResource, labelResource, notifierService, getUserService, AuditService, selectCityService, seletTagService) {
 			
 			cityResource.get({
 				id: $routeParams.cityId
@@ -190,11 +190,11 @@ angular.module('cmsAppApp')
 					$scope.masterlabel = seletTagService.getMasterLabel(data.masterLabel)
 				}
 				$scope.sublabels = seletTagService.getItemSublabels($routeParams.cityId, 'city');
-				getAuditService.getAudit({id: data._id}, function (items) {
+				AuditService.getAudit({id: data._id, en: false}, function (items) {
 					$scope.audit = items[0];
 					console.log(items);
 				});
-				getAuditService.getTaskEditor({id: data._id, type: 4, en: false}, function (items) {
+				AuditService.getTaskEditor({id: data._id, type: 4, en: false}, function (items) {
 					$scope.editor = items[0];
 				});
 			})
@@ -335,31 +335,25 @@ angular.module('cmsAppApp')
 				$scope.auditors = items;	
 			});
 
-			$scope.postAudit = function () {
-				if(!$scope.audit._id){
-					var audit = $scope.audit;
-					audit.item_id = $scope.city._id;
-					audit.type = 4;
-					audit.name = $scope.city.cityname;
-					audit.status = 1;
-					audit.en = false;
-					audit.editorname = $scope.editor.editor_name;
-					audit.editorid = $scope.editor.editor_id;
-					audit.auditorname = $scope.audit.auditor.editor_name;
-					audit.auditorid = $scope.audit.auditor.editor_id;
-					auditingResource.save(audit, function (item) {
-						$scope.audit = audit;
-						notifierService.notify({
-							type: 'success',
-							msg: '  send to '+ item.auditorname
-						})
-					})
-				} else {
-					notifierService.notify({
-						type: 'danger',
-						msg: 'You can not send this item to auditor anymore!'
-					})
-				}
+			/**
+			 * get auditors by type
+			 */
+			getUserService.getUsers({type: 'auditor'}, function (items) {
+				$scope.auditors = items;	
+			});
+			$scope.postAudit = function(){
+				AuditService.postAudit({
+					audit : $scope.audit,
+					item_id : $scope.city._id,
+					type : 4,
+					name : $scope.city.cityname,
+					status : 1,
+					en : false,
+					editor : $scope.editor,
+					auditor : $scope.audit
+				}, function (item) {
+					$scope.audit = item;
+				})
 			}
 			/**
 			 * save city
@@ -382,16 +376,16 @@ angular.module('cmsAppApp')
 
 		}
 	])
-	.controller('CityEditEnCtrl', ['$scope', "$routeParams", 'cityResource' ,'getAuditService', 'getUserService', function ($scope, $routeParams, cityResource, getAuditService, getUserService) {
+	.controller('CityEditEnCtrl', ['$scope', "$routeParams", 'cityResource' ,'AuditService', 'getUserService', function ($scope, $routeParams, cityResource, AuditService, getUserService) {
 		cityResource.get({
 			id: $routeParams.cityId
 		}, function(data) {
 			$scope.city = data;
 
-			getAuditService.getAudit({id: data._id}, function (items) {
+			AuditService.getAudit({id: data._id, en: false}, function (items) {
 				$scope.audit = items[0];
 			});
-			getAuditService.getTaskEditor({id: data._id, type: 4, en: true}, function (items) {
+			AuditService.getTaskEditor({id: data._id, type: 4, en: true}, function (items) {
 				$scope.editor = items[0];
 			});
 		})
@@ -401,6 +395,40 @@ angular.module('cmsAppApp')
 		getUserService.getUsers({type: 'auditor'}, function (items) {
 			$scope.auditors = items;	
 		});
+		$scope.postAudit = function (){
+			AuditService.postAudit({
+				audit : $scope.audit,
+				item_id : $scope.city._id,
+				type : 4,
+				name : $scope.city.cityname,
+				status : 1,
+				en : true,
+				editor : $scope.editor,
+				auditor : $scope.audit
+			}, function (item) {
+				console.log(item);
+				$scope.audit = item;
+			})
+		}
+
+		/**
+		 * save city
+		 */
+		$scope.save = function() {
+			var city = $scope.city;
+			console.log(city);
+			city.$update().then(function() {
+				notifierService.notify({
+					type: 'success',
+					msg: '更新城市成功！'
+				})
+			}).catch(function(res) {
+				notifierService.notify({
+					type: 'danger',
+					msg: '更新城市失败！错误码' + res.status
+				})
+			})
+		}
 	}])
 	.controller('CityNewCtrl', ['$scope', "cityResource","notifierService", "selectCityService",
 		function($scope, cityResource, notifierService, selectCityService) {

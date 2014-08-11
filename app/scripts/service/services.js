@@ -111,5 +111,34 @@ app.factory('seletTagService', ['labelResource', function (labelResource) {
 }])
 
 app.factory('getUserService', ['userResource', function (userResource) {
-	
+	/**
+	 * get chinese editors
+	 * @return {array}    return chinese editors
+	 */
+	edituserResource.query({
+		group: 0,
+		type: 1,
+		cmd: "listChineseEditors"
+	}, function(items) {
+		console.log(items);
+		$scope.editusers_zh = items;
+	})
+
+	/**
+	 * get english editors
+	 * @return {array}   return english editors
+	 */
+	edituserResource.query({
+		group: 1,
+		type: 1,
+		cmd: "listEnglishEditors"
+	}, function(items) {
+		$scope.editusers_en = items;
+	})
+
+	return {
+		getZhUsers : function () {
+			userResource.query(criteria: {})
+		}
+	}
 }])

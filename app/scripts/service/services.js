@@ -147,6 +147,12 @@ app.factory('AuditService', ['auditingResource', 'taskResource', 'notifierServic
                     type: 'danger',
                     msg: 'This city has not be appointed to any editor! You should ask Admin!'
                 })
+            } 
+            if(!opt.auditor){
+                notifierService.notify({
+                    type: 'danger',
+                    msg: 'You should appoint one auditor!'
+                })
             }
             if(!opt.audit._id){
                 var audit = opt.audit;
@@ -169,9 +175,10 @@ app.factory('AuditService', ['auditingResource', 'taskResource', 'notifierServic
             } else {
                 notifierService.notify({
                     type: 'danger',
-                    msg: 'You can not send this item to auditor anymore!'
+                    msg: 'You can not send this item to '+ opt.audit.auditor.editor_name +' anymore!'
                 })
             }
+            
         }
     }
 }])

@@ -350,7 +350,7 @@ angular.module('cmsAppApp')
 					status : 1,
 					en : false,
 					editor : $scope.editor,
-					auditor : $scope.audit
+					auditor : $scope.audit.auditor
 				}, function (item) {
 					$scope.audit = item;
 				})
@@ -404,7 +404,7 @@ angular.module('cmsAppApp')
 				status : 1,
 				en : true,
 				editor : $scope.editor,
-				auditor : $scope.audit
+				auditor : $scope.audit.auditor
 			}, function (item) {
 				console.log(item);
 				$scope.audit = item;

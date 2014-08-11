@@ -20,13 +20,24 @@ angular.module('cmsAppApp')
 		$scope.maxSize     = 5;
 		$scope.pageChanged = function() {
 			restaurantResource.query({offset: ($scope.currentPage - 1) * 20}, function(items) {
+                items.forEach(function (item) {
+                    item.imagecount = item.image.length;
+                })
 				$scope.restaurants = items;
 			})
 		}
 		/**
 		 * search filter
 		 */
-		$scope.getItem = function(val) {
+        $scope.getRestaurantsBycity = function (val) {
+
+            return restaurantResource.query({city_name: val}, function (items) {
+                console.log(items);
+                $scope.restaurants = items;
+                return [];
+            })
+        }
+		$scope.getRestaurant = function(val) {
 			return restaurantResource.query({criteria: { value: val }, cmd: "queryByName"}, function(items) {
 
 				restaurantResource.count({criteria: {'name': {'$regex': val, '$options': 'i'}}}, function(data) {

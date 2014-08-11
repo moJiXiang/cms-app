@@ -55,6 +55,10 @@ app.config(['$routeProvider', '$locationProvider', '$resourceProvider', '$httpPr
       templateUrl: 'views/city/edit.html',
       controller: 'CityEditCtrl'
     })
+    .when('/citylist/:cityId/edit_en',{
+      templateUrl: 'views/city/edit_en.html',
+      controller: 'CityEditEnCtrl'
+    })
     .when('/citylist/addnewcity',{
       templateUrl: 'views/city/edit.html',
       controller: 'CityNewCtrl'
@@ -170,6 +174,11 @@ app.config(['$routeProvider', '$locationProvider', '$resourceProvider', '$httpPr
     .when('/meta',{
       templateUrl: 'views/meta/meta.html',
       controller: 'metaController'
+    })
+
+    .when('/task/:cityid/:type', {
+      templateUrl: 'views/audit/auditlist.html',
+      controller: 'AuditListCtrl'
     })
     .otherwise({
       redirectTo: '/'

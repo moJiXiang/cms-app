@@ -24,6 +24,7 @@ var names = [
 {n: 'entertainment', ns: 'entertainments'}, 
 {n: 'meta', ns: 'metas'}, 
 {n: 'country', ns: 'countrys'}, 
+{n: 'task', ns: 'tasks'}, 
 {n: 'shopping', ns:'shoppings'}
 ];
 

@@ -1,22 +1,21 @@
-<div class="modal-header">
-	<input type="text" ng-model="asyncSelected" placeholder="输入:niuyue" typeahead="result for result in getItem($viewValue)" class="form-control searchcitybtn" typeahead-wait-ms="1000">
-	<div class="col-sm-2">
-		<div class="input-group">
-	   	<div class="input-group-addon">中文编辑</div>
-	   	<select class="form-control" ng-model="edituserModel" ng-options="edituser as edituser.username for edituser in editusers_zh"></select>
-	</div>
-	</div>
-	<div class="col-sm-2">
-		<div class="input-group">
-	   	<div class="input-group-addon">英文编辑</div>
-			<select class="form-control" ng-model="edituserModel" ng-options="edituser as edituser.username for edituser in editusers_en"></select>
-	</div>
-	</div>
-	<a type="button" class="btn btn-default" ng-href="#/citylist/addnewcity">新增城市</a>
-	<pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm paginationmodel" boundary-links="true" ng-change="pageChanged()" ng-init="pageChanged()"></pagination>
-	<div class="col-sm-1 pagenum">
-		<pre>Page: {{currentPage}}/{{numPages ? numPages : 1}}</pre>
-	</div>
+<input type="text" ng-model="cityname" placeholder="input city name" typeahead="result for result in getRestaurantsBycity($viewValue)" class="form-control searchcitybtn" typeahead-wait-ms="1000">
+
+<input type="text" ng-model="resname" placeholder="输入:niuyue" typeahead="result for result in getRestaurant($viewValue)" class="form-control searchcitybtn" typeahead-wait-ms="1000">
+<div class="col-sm-2">
+	<div class="input-group">
+   	<div class="input-group-addon">中文编辑</div>
+   	<select class="form-control" ng-model="edituserModel" ng-options="edituser as edituser.username for edituser in editusers_zh"></select>
+</div>
+</div>
+<div class="col-sm-2">
+	<div class="input-group">
+   	<div class="input-group-addon">英文编辑</div>
+		<select class="form-control" ng-model="edituserModel" ng-options="edituser as edituser.username for edituser in editusers_en"></select>
+</div>
+</div>
+<pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm paginationmodel" boundary-links="true" ng-change="pageChanged()" ng-init="pageChanged()"></pagination>
+<div class="col-sm-2 pagenum">
+	<pre>Page: {{currentPage}}/{{numPages ? numPages : 1}}</pre>
 </div>
 <table class="table table-hover">
 	<thead>
@@ -29,6 +28,7 @@
 			<th>英文审核</th>
 			<th>英文编辑</th>
 			<th>英文审核状态</th>
+			<th>images num</th>
 			<th>操作</th>
 		</tr>
 	</thead>
@@ -42,6 +42,7 @@
 			<td>{{restaurant.en_info.editorname}}</td>
 			<td>{{restaurant.en_info.auditorname}}</td>
 			<td>{{restaurant.en_info.status}}</td>
+			<td>{{restaurant.imagecount}}</td>
 			<td>
 				<a type="button" href="#/restaurantlist/{{restaurant._id}}/edit" class="btn btn-default">编辑</a>
 				<a type="button" href="#/restaurantlist/{{restaurant._id}}/detail" class="btn btn-default">预览</a>
@@ -51,3 +52,6 @@
 		</tr>
 	</tbody>
 </table>
+<div class="modal-footer">
+	<a type="button" class="btn btn-primary" ng-href="#/citylist/addnewcity">新增城市</a>
+</div>

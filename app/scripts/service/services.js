@@ -91,7 +91,7 @@ app.factory('seletTagService', ['labelResource', function (labelResource) {
              */
             return labelResource.query({
                 criteria: {
-                    level: '1'
+                   level: '1'
                 }
             })
         },
@@ -111,34 +111,76 @@ app.factory('seletTagService', ['labelResource', function (labelResource) {
 }])
 
 app.factory('getUserService', ['userResource', function (userResource) {
-	/**
-	 * get chinese editors
-	 * @return {array}    return chinese editors
-	 */
-	edituserResource.query({
-		group: 0,
-		type: 1,
-		cmd: "listChineseEditors"
-	}, function(items) {
-		console.log(items);
-		$scope.editusers_zh = items;
-	})
 
-	/**
-	 * get english editors
-	 * @return {array}   return english editors
-	 */
-	edituserResource.query({
-		group: 1,
-		type: 1,
-		cmd: "listEnglishEditors"
-	}, function(items) {
-		$scope.editusers_en = items;
-	})
-
-	return {
-		getZhUsers : function () {
-			userResource.query(criteria: {})
-		}
-	}
+    return {
+        getUsers : function (opt, cb) {
+            var editorsArr = [];
+	        userResource.query({roles: opt.type}, function (items) {
+                editorsArr = items.map(function (item) {
+                    return {
+                        editor_id : item._id,
+                        editor_name : item.username
+                    }
+                })
+                cb(editorsArr);
+            });
+        }
+    }
 }])
+
+app.factory('AuditService', ['auditingResource', 'taskResource', 'notifierService', function (auditingResource, taskResource, notifierService) {
+    return {
+        getAudit : function (opt, cb) {
+
+            auditingResource.query({criteria:{item_id: opt.id, en: opt.en}}, function (items) {
+                cb(items);
+            });
+        },
+        getTaskEditor : function (opt, cb) {
+            taskResource.query({criteria:{city_id: opt.id, type: opt.type, en: opt.en}}, function (items) {
+                cb(items);
+            });
+        },
+        postAudit : function (opt, cb) {
+            console.log(opt);
+            if(!opt.editor){
+                notifierService.notify({
+                    type: 'danger',
+                    msg: 'This city has not be appointed to any editor! You should ask Admin!'
+                })
+            } 
+            if(!opt.auditor){
+                notifierService.notify({
+                    type: 'danger',
+                    msg: 'You should appoint one auditor!'
+                })
+            }
+            if(!opt.audit._id){
+                var audit = opt.audit;
+                audit.item_id = opt.item_id;
+                audit.type = opt.type;
+                audit.name = opt.name;
+                audit.status = opt.status;
+                audit.en = opt.en;
+                audit.editorname = opt.editor.editor_name;
+                audit.editorid = opt.editor.editor_id;
+                audit.auditorname = opt.audit.auditor.editor_name;
+                audit.auditorid = opt.audit.auditor.editor_id;
+                cb(audit);
+                auditingResource.save(audit, function (item) {
+                    notifierService.notify({
+                        type: 'success',
+                        msg: '  send to '+ item.auditorname
+                    })
+                })
+            } else {
+                notifierService.notify({
+                    type: 'danger',
+                    msg: 'You can not send this item to '+ opt.audit.auditor.editor_name +' anymore!'
+                })
+            }
+            
+        }
+    }
+}])
+

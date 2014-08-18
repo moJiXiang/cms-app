@@ -59,7 +59,7 @@
         </div>
         <div class="modal-body" style="height: 500px">
             <div class="col-sm-2">
-				<select class="form-control" ng-model="newtask.type" ng-options="item.name for item in types">
+				<select class="form-control" ng-model="newtask.type" ng-options="item.name for item in types" ng-change="initminnum(newtask.type)">
 					<option value="">-- type --</option>
 				</select>
             </div>

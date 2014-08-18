@@ -55,7 +55,8 @@ angular.module('cmsAppApp')
 					$scope.totalItems = data.result;
 				})
 				return cityResource.query({
-					citiesbycountry: val
+					citiesbycountry: val,
+					sort: "-show_flag"
 				}, function(items) {
 					items.forEach(function (item) {
 						item.imagecount = item.image.length;
@@ -622,7 +623,7 @@ angular.module('cmsAppApp')
 	        console.info('uploader', uploader);
 		}])
 
-var ModalInstanceCtrl = function($scope, $modalInstance, taskResource, getUserService, city, notifierService) {
+var ModalInstanceCtrl = function($scope, $modalInstance, cityResource, attractionResource, restaurantResource, shoppingResource, areaResource, taskResource, getUserService, city, notifierService) {
 	$scope.city = city;
 	taskResource.query({criteria:{city_id : city._id}}, function (items) {
 		$scope.tasks = items;
@@ -655,6 +656,28 @@ var ModalInstanceCtrl = function($scope, $modalInstance, taskResource, getUserSe
 		isen : false,
 		name : 'chinese'
 	}]
+	$scope.initminnum = function (type) {
+		console.log(type);
+		var type = type.type;
+		switch(type) {
+			case "0": attractionResource.count({cityid : city._id}, function(data) {
+				$scope.newtask.minnum = data.result;
+			}); break;
+			case "1": restaurantResource.count({city_id : city._id}, function(data) {
+				$scope.newtask.minnum = data.result;
+			}); break;
+			case "2": shoppingResource.count({city_id : city._id}, function(data) {
+				$scope.newtask.minnum = data.result;
+			}); break;
+			case "3": areaResource.count({city_id : city._id}, function(data) {
+				$scope.newtask.minnum = data.result;
+			}); break;
+			case "4": cityResource.count({_id : city._id}, function(data) {
+				$scope.newtask.minnum = data.result;
+			}); break;
+		}
+
+	}
 	$scope.setUserBylan = function (en) {
 		if (en) {
 			getUserService.getUsers({type: 'en-editor'}, function (users) {

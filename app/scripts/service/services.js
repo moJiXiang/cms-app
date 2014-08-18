@@ -170,7 +170,7 @@ app.factory('AuditService', ['auditingResource', 'taskResource', 'notifierServic
         },
         postAudit : function (opt, cb) {
             console.log(opt);
-            if(!opt.editor.editor_name){
+            if(!opt.editor){
                 notifierService.notify({
                     type: 'danger',
                     msg: '这个城市还没有被指派任务，请询问管理员！!'
@@ -181,8 +181,6 @@ app.factory('AuditService', ['auditingResource', 'taskResource', 'notifierServic
                     msg: '你必须指定一个审核员!'
                 })
             } else {
-
-                console.log(opt.audit);
                 var audit         = opt.audit;
                 audit.editorname  = opt.editor.editor_name;
                 audit.editorid    = opt.editor.editor_id;

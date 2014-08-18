@@ -42,7 +42,10 @@ angular.module('cmsAppApp')
             restaurantResource.count({city_name: val}, function(data) {
                 $scope.totalItems = data.result;
             })
-            return restaurantResource.query({city_name: val}, function (items) {
+            return restaurantResource.query({
+                city_name: val,
+                sort: "-show_flag"
+            }, function (items) {
                 items.forEach(function(item) {
                     item.imagecount = item.image.length;
                 })
@@ -61,6 +64,15 @@ angular.module('cmsAppApp')
 				return [];
 			})
 		}
+        $scope.reset = function () {
+            restaurantResource.query({}, function(items) {
+                items.forEach(function(item) {
+                    item.imagecount = item.image.length;
+                })
+                $cookies.res_cityname = $scope.cityname = '';
+                $scope.restaurants = items;
+            })
+        }
 	}])
 	.controller('RestaurantDetailCtrl', ['$scope', '$routeParams', 'restaurantResource', 'auditingResource', 'AuditService', function($scope, $routeParams, restaurantResource, auditingResource, AuditService) {
         

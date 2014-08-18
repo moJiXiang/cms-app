@@ -41,7 +41,10 @@ angular.module('cmsAppApp')
             shoppingResource.count({city_name: val}, function(data) {
                 $scope.totalItems = data.result;
             })
-            return shoppingResource.query({city_name: val}, function (items) {
+            return shoppingResource.query({
+                city_name: val,
+                sort: "-show_flag"
+            }, function (items) {
                 items.forEach(function (item) {
                     item.imagenum = item.image.length;
                 })

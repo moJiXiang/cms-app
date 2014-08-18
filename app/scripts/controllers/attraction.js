@@ -40,7 +40,10 @@ angular.module('cmsAppApp')
                 console.log(data.result)
                 $scope.totalItems = data.result;
             })
-            return attractionResource.query({cityname: val}, function(items) {
+            return attractionResource.query({
+                cityname: val,
+                sort: "-show_flag"
+            }, function(items) {
                 items.forEach(function (item) {
                     item.imagenum = item.image.length;
                 })

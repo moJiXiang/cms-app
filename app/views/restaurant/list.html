@@ -1,7 +1,7 @@
 <input type="text" ng-model="cityname" placeholder="输入城市名" typeahead="result for result in getRestaurantsBycity($viewValue)" class="form-control searchcitybtn" typeahead-wait-ms="1000">
 
 <input type="text" ng-model="resname" placeholder="输入餐馆名" typeahead="result for result in getRestaurant($viewValue)" class="form-control searchcitybtn" typeahead-wait-ms="1000">
-
+<button type="button" class="btn btn-primary" ng-click="reset()">reset</button>
 <pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm paginationmodel" boundary-links="true" items-per-page="20" ng-change="pageChanged()" num-pages="numPages"></pagination>
 <div class="col-sm-2 pagenum">
 	<pre>Page: {{currentPage}}/{{numPages}}</pre>

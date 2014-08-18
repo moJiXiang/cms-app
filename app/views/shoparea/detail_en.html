@@ -1,0 +1,41 @@
+<div class="col-lg-9">
+	<div class="bs-callout bs-callout-info" id="a3">
+		<h4>open time</h4>
+		<pre ng-bind-html="shoparea.en_info.open_time"></pre>
+	</div>
+	<div class="bs-callout bs-callout-info" id="a3">
+		<h4>address</h4>
+		<pre ng-bind-html="shoparea.en_info.address"></pre>
+	</div>
+	<div class="bs-callout bs-callout-info" id="a4">
+		<h4>introduce</h4>
+		<pre ng-bind-html="shoparea.en_info.area_introduce"></pre>
+	</div>
+	<div class="bs-callout bs-callout-info" id="a5">
+		<h4>traffic</h4>
+		<pre ng-bind-html="shoparea.en_info.traffic"></pre>
+	</div>
+	<div class="bs-callout bs-callout-info" id="a6">
+		<h4>tips</h4>
+		<pre ng-bind-html="shoparea.en_info.tips"></pre>
+	</div>
+</div>
+<div class="col-lg-3">
+	<nav id="citynavaffix" class="citynav affix">
+		<a href="#/shoparealist" class="btn btn-default">返回</a>
+		<div class="auditmsg alert alert-info">
+			<h4>编辑:{{auditmsg.editorname}}</h4>
+			<h4>审核:{{auditmsg.auditorname}}</h4>
+			<button type="button" ng-click="passaudit()" class="btn btn-success" ng-hide="auditmsg.status == 2">通过审核</button>
+			<button type="button" ng-click="unpassaudit()" class="btn btn-warning" ng-hide="auditmsg.status == 2">未通过</button>
+		</div>
+		<h2>{{shoparea.area_name}}</h2>
+		<ul>
+			<li scroll-on-click>open time</li>
+			<li scroll-on-click>address</li>
+			<li scroll-on-click>introduce</li>
+			<li scroll-on-click>traffice</li>
+			<li scroll-on-click>tips</li>
+		</ul>
+	</nav>	
+</div>

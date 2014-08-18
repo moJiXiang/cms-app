@@ -1,19 +1,31 @@
 	<div class="col-lg-9">
 		<div class="bs-callout bs-callout-info" id="a1">
+			<div class="alert alert-warning" ng-show="a1box">
+				<textarea class="form-control" rows='2' ng-model="a1c"></textarea>
+				<button type="button" class="btn btn-default" ng-click="savecomment('a1c', a1c)">保存</button>
+		    </div>
+			<input type="checkbox" class="commentbtn" ng-model="a1box">
 			<h4>封面图片</h4>
 			<img ng-src="http://weegotest.b0.upaiyun.com/attractions/origin/{{attraction.coverImageName}}" alt="" class="img-thumbnail">
 		</div>
 		<div class="bs-callout bs-callout-info" id="a2">
+			<div class="alert alert-warning" ng-show="a2box">
+				<textarea class="form-control" rows='2' ng-model="a2c"></textarea>
+				<button type="button" class="btn btn-default" ng-click="savecomment('a2c', a2c)">保存</button>
+		    </div>
+			<input type="checkbox" class="commentbtn" ng-model="a2box">
 			<h4>图片</h4>
-			<div class="slidemodel">
-			    <carousel interval="myInterval">
-			      <slide ng-repeat="image in attraction.image" active="slide.active">
-			        <img ng-src="http://weegotest.b0.upaiyun.com/attractions/origin/{{image}}" style="margin:auto;">
-			      </slide>
-			    </carousel>
-			  </div>
+			<ul rn-carousel rn-carousel-buffered rn-carousel-indicator rn-carousel-control class="my-slider ng-cloak">
+	            <li ng-repeat="img in attraction.image" ng-style="{'background-image': 'url(http://weegotest.b0.upaiyun.com/attractions/origin/' + img + ')'}" style="background-size: 100% 100%">
+	            </li>
+	        </ul>
 		</div>
 		<div class="bs-callout bs-callout-info" id="a3">
+			<div class="alert alert-warning" ng-show="a3box">
+				<textarea class="form-control" rows='2' ng-model="a3c"></textarea>
+				<button type="button" class="btn btn-default" ng-click="savecomment('a3c', a3c)">保存</button>
+		    </div>
+			<input type="checkbox" class="commentbtn" ng-model="a3box">
 			<h4>景点基本信息</h4>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>城市名（中文）</h4>
@@ -53,6 +65,11 @@
 			</div>
 		</div>
 		<div class="bs-callout bs-callout-info" id="a4">
+			<div class="alert alert-warning" ng-show="a4box">
+				<textarea class="form-control" rows='2' ng-model="a4c"></textarea>
+				<button type="button" class="btn btn-default" ng-click="savecomment('a4c', a4c)">保存</button>
+		    </div>
+			<input type="checkbox" class="commentbtn" ng-model="a4box">
 			<h4>制定计划相关信息</h4>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>推荐白天或晚上</h4>
@@ -84,6 +101,11 @@
 			</div>
 		</div>
 		<div class="bs-callout bs-callout-info" id="a5">
+			<div class="alert alert-warning" ng-show="a5box">
+				<textarea class="form-control" rows='2' ng-model="a5c"></textarea>
+				<button type="button" class="btn btn-default" ng-click="savecomment('a5c', a5c)">保存</button>
+		    </div>
+			<input type="checkbox" class="commentbtn" ng-model="a5box">
 			<h4>标签</h4>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>主标签</h4>
@@ -95,6 +117,11 @@
 			</div>
 		</div>
 		<div class="bs-callout bs-callout-info" id="a6">
+			<div class="alert alert-warning" ng-show="a6box">
+				<textarea class="form-control" rows='2' ng-model="a6c"></textarea>
+				<button type="button" class="btn btn-default" ng-click="savecomment('a6c', a6c)">保存</button>
+		    </div>
+			<input type="checkbox" class="commentbtn" ng-model="a6box">
 			<div class="alert alert-warning" ng-show="short_introduce">
 				<span class="glyphicon glyphicon-thumbs-up"></span>
 				<textarea class="form-control" rows='2'></textarea>
@@ -106,6 +133,11 @@
 
 		</div>
 		<div class="bs-callout bs-callout-info" id="a7">
+			<div class="alert alert-warning" ng-show="a7box">
+				<textarea class="form-control" rows='2' ng-model="a7c"></textarea>
+				<button type="button" class="btn btn-default" ng-click="savecomment('a7c', a7c)">保存</button>
+		    </div>
+			<input type="checkbox" class="commentbtn" ng-model="a7box">
 			<div class="alert alert-warning" ng-show="checked">
 				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
 		    </div>
@@ -115,6 +147,11 @@
 		</div>
 
 		<div class="bs-callout bs-callout-info" id="a8">
+			<div class="alert alert-warning" ng-show="a8box">
+				<textarea class="form-control" rows='2' ng-model="a8c"></textarea>
+				<button type="button" class="btn btn-default" ng-click="savecomment('a8c', a8c)">保存</button>
+		    </div>
+			<input type="checkbox" class="commentbtn" ng-model="a8box">
 			<div class="alert alert-warning" ng-show="checked">
 				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
 		    </div>
@@ -124,6 +161,11 @@
 		</div>
 
 		<div class="bs-callout bs-callout-info" id="a9">
+			<div class="alert alert-warning" ng-show="a9box">
+				<textarea class="form-control" rows='2' ng-model="a9c"></textarea>
+				<button type="button" class="btn btn-default" ng-click="savecomment('a9c', a9c)">保存</button>
+		    </div>
+			<input type="checkbox" class="commentbtn" ng-model="a9box">
 			<div class="alert alert-warning" ng-show="checked">
 				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
 		    </div>
@@ -132,45 +174,17 @@
 			<pre>{{attraction.traffic_info}}</pre>
 		</div>
 
-		<div class="bs-callout bs-callout-danger" id="a10">
-			<div class="alert alert-warning" ng-show="checked">
-				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
-		    </div>
-			<input type="checkbox" class="commentbtn" ng-model="checked" >
-			<h4>short introduce</h4>
-			<pre>{{attraction.en_info.short_introduce}}</pre>
-			
-		</div>
-
-		<div class="bs-callout bs-callout-danger" id="a11">
-			<div class="alert alert-warning" ng-show="checked">
-				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
-		    </div>
-			<input type="checkbox" class="commentbtn" ng-model="checked" >
-			<h4>introduce</h4>
-			<pre>{{attraction.en_info.introduce}}</pre>
-		</div>
-
-		<div class="bs-callout bs-callout-danger" id="a12">
-			<div class="alert alert-warning" ng-show="checked">
-				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
-		    </div>
-			<input type="checkbox" class="commentbtn" ng-model="checked" >
-			<h4>tips</h4>
-			<pre>{{attraction.en_info.tips}}</pre>
-		</div>
-
-		<div class="bs-callout bs-callout-danger" id="a13">
-			<div class="alert alert-warning" ng-show="checked">
-				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
-		    </div>
-			<input type="checkbox" class="commentbtn" ng-model="checked" >
-			<h4>traffic</h4>
-			<pre>{{attraction.en_info.traffic_info}}</pre>
-		</div>
+		
 	</div>
 	<div class="col-lg-3">
 		<nav id="citynavaffix" class="citynav affix" data-spy="affix" data-offset-top="200">
+			<a href="#/attractionlist" class="btn btn-default">返回</a>
+			<div class="auditmsg alert alert-info">
+				<h4>编辑:{{auditmsg.editorname}}</h4>
+				<h4>审核:{{auditmsg.auditorname}}</h4>
+				<button type="button" ng-click="passaudit()" class="btn btn-success" ng-hide="auditmsg.status == 2">通过审核</button>
+				<button type="button" ng-click="unpassaudit()" class="btn btn-warning" ng-hide="auditmsg.status == 2">未通过</button>
+			</div>
 			<h2>{{attraction.attractions}}</h2>
 			<ul>
 				<li scroll-on-click>封面图片</li>
@@ -182,10 +196,6 @@
 				<li scroll-on-click>简介</li>
 				<li scroll-on-click>小贴士</li>
 				<li scroll-on-click>交通</li>
-				<li scroll-on-click>short introduce</li>
-				<li scroll-on-click>introduce</li>
-				<li scroll-on-click>tips</li>
-				<li scroll-on-click>traffic</li>
 			</ul>
 		</nav>
 	</div>

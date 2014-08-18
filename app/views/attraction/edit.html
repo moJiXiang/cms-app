@@ -38,7 +38,7 @@
 					<div class="form-group">
 					    <div class="input-group">
 					      <div class="input-group-addon">景点名</div>
-					      <input class="form-control" type="email" value="{{attraction.attractions}}">
+					      <input class="form-control" type="text" ng-model="attraction.attractions">
 					    </div>
 					</div>
 				</div>
@@ -46,7 +46,7 @@
 					<div class="form-group">
 					    <div class="input-group">
 					      <div class="input-group-addon">景点名（英文）</div>
-					      <input class="form-control" type="email" value="{{attraction.attractions_en}}">
+					      <input class="form-control" type="text" ng-model="attraction.attractions_en">
 					    </div>
 					</div>
 				</div>
@@ -55,7 +55,7 @@
 					<div class="form-group">
 					    <div class="input-group">
 					      <div class="input-group-addon">地址</div>
-					      <input class="form-control" type="email" value="{{attraction.address}}">
+					      <input class="form-control" type="text" ng-model="attraction.address">
 					    </div>
 					</div>
 				</div>
@@ -63,7 +63,7 @@
 					<div class="form-group">
 					    <div class="input-group">
 					      <div class="input-group-addon">价格</div>
-					      <input class="form-control" type="email" value="{{attraction.price}}">
+					      <input class="form-control" type="text" ng-model="attraction.price">
 					    </div>
 					</div>
 				</div>
@@ -71,7 +71,7 @@
 					<div class="form-group">
 					    <div class="input-group">
 					      <div class="input-group-addon">开放时间</div>
-					      <input class="form-control" type="email" value="{{attraction.opentime}}">
+					      <input class="form-control" type="text" ng-model="attraction.opentime">
 					    </div>
 					</div>
 				</div>
@@ -79,7 +79,7 @@
 					<div class="form-group">
 					    <div class="input-group">
 					      <div class="input-group-addon">网址</div>
-					      <input class="form-control" type="email" value="http://{{attraction.website}}">
+					      <input class="form-control" type="text" ng-model="attraction.website">
 					    </div>
 					</div>
 				</div>
@@ -87,7 +87,7 @@
 					<div class="form-group">
 					    <div class="input-group">
 					      <div class="input-group-addon">电话</div>
-					      <input class="form-control" type="email" value="{{attraction.telno}}">
+					      <input class="form-control" type="text" ng-model="attraction.telno">
 					    </div>
 					</div>
 				</div>
@@ -95,13 +95,13 @@
 					<div class="form-group">
 					    <div class="input-group">
 					      <div class="input-group-addon">纬度</div>
-					      <input class="form-control" type="email" value="{{attraction.latitude}}">
+					      <input class="form-control" type="text" ng-model="attraction.latitude">
 					    </div>
 					</div>
 				    <div class="form-group">
 					    <div class="input-group">
 					      <div class="input-group-addon">经度</div>
-					      <input class="form-control" type="email" value="{{attraction.longitude}}">
+					      <input class="form-control" type="text" ng-model="attraction.longitude">
 					    </div>
 					</div>
 				</div>
@@ -148,7 +148,7 @@
 					<div class="form-group">
 					    <div class="input-group">
 					      <div class="input-group-addon">推荐游览时间</div>
-					      <input class="form-control" type="email" placeholder="{{attraction.recommand_duration}}">
+					      <input class="form-control" type="text" ng-model="attraction.recommand_duration">
 					    </div>
 					</div>
 				</div>
@@ -199,28 +199,26 @@
 				<h4>交通</h4>
 				<text-angular ng-model="attraction.traffic_info"></text-angular>
 			</div>
-
-			<div class="bs-callout bs-callout-danger" id="a10">
-				<h4>short introduce</h4>
-				<text-angular ng-model="attraction.en_info.short_introduce"></text-angular>
-			</div>
-			<div class="bs-callout bs-callout-danger" id="a11">
-				<h4>introduce</h4>
-				<text-angular ng-model="attraction.en_info.introduce"></text-angular>
-			</div>
-			<div class="bs-callout bs-callout-danger" id="a12">
-				<h4>tips</h4>
-				<text-angular ng-model="attraction.en_info.tips"></text-angular>
-			</div>
-			<div class="bs-callout bs-callout-danger" id="a13">
-				<h4>traffic</h4>
-				<text-angular ng-model="attraction.en_info.traffic_info"></text-angular>
-			</div>
 		</form>
 	</div>
 	<div class="col-lg-3">
 		<nav id="citynavaffix" class="citynav affix">
-				<h2>{{attraction.attractions}}</h2>
+			<button type="button" ng-click="save()" class="btn btn-success">保存</button>
+			<a href="#/attractionlist" class="btn btn-default">返回</a>
+			<div class="auditmsg alert alert-info">
+				<h4>编辑:{{editor.editor_name}}</h4>
+				<h4>审核:{{audit.auditorname}}</h4>
+				<div ng-hide="audit.status == 2">
+			        <div class="input-group">
+					    <div class="input-group-addon">审核</div>
+						<select class="form-control" ng-model="audit.auditor" ng-options="item.editor_name for item in auditors">
+							<option value="">-- 选择审核 --</option>
+						</select>
+				    </div>	
+					<button type="button" ng-click="postAudit()" class="btn btn-primary">提交审核</button>
+				</div>
+			</div>
+			<h2>{{attraction.attractions}}</h2>
 			<ul>
 				<li scroll-on-click>封面图片</li>
 				<li scroll-on-click>图片</li>
@@ -231,14 +229,6 @@
 				<li scroll-on-click>简介</li>
 				<li scroll-on-click>小贴士</li>
 				<li scroll-on-click>交通</li>
-				<li scroll-on-click>short introduce</li>
-				<li scroll-on-click>introduce</li>
-				<li scroll-on-click>tips</li>
-				<li scroll-on-click>traffic</li>
 			</ul>
 		</nav>
-		<div class="editbtns affix">
-			<button type="button" ng-click="save()" class="btn btn-success">保存</button>
-			<a href="#/attractionlist" class="btn btn-default">返回</a>
-		</div>
 	</div>

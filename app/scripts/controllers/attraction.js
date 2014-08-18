@@ -14,32 +14,114 @@ angular.module('cmsAppApp')
 		 */
 		attractionResource.count({}, function(data) {
 			$scope.totalItems = data.result;
-			$scope.numPages   = Math.ceil(data.result / 20);
 		})
 		$scope.currentPage = 1;
 		$scope.maxSize     = 5;
 		$scope.pageChanged = function() {
-			attractionResource.query({offset: ($scope.currentPage - 1) * 20}, function(items) {
-				$scope.attractions = items;
-			})
+            attractionResource.query({
+                cityname: $scope.cityname,
+                offset: ($scope.currentPage - 1) * 20
+            }, function(items) {
+                items.forEach(function (item) {
+                    item.imagenum = item.image.length;
+                })
+                $scope.attractions = items;
+
+            })
 		}
 
+        $scope.getItemByCity = function(val) {
+            attractionResource.count({cityname: val}, function(data) {
+                console.log(data.result)
+                $scope.totalItems = data.result;
+            })
+            return attractionResource.query({cityname: val}, function(items) {
+                $scope.attractions = items;
+                // prevent err of typeahead `length of null `
+                return [];
+            })
+        }
 		$scope.getItem = function(val) {
-			return attractionResource.query({criteria: { value: val }, cmd: "queryByName"}, function(items) {
+			return attractionResource.query({name: val}, function(items) {
 				console.log(items);
 				$scope.attractions = items;
 				// prevent err of typeahead `length of null `
 				return [];
 			})
 		}
-	}])
-	.controller('AttractionDetailCtrl', ['$scope', '$routeParams', 'attractionResource', function($scope, $routeParams, attractionResource) {
 
+	}])
+	.controller('AttractionDetailCtrl', ['$scope', '$routeParams', 'attractionResource', 'auditingResource', 'AuditService', function($scope, $routeParams, attractionResource, auditingResource, AuditService) {
+        /**
+         * get attraction message
+         */
 		attractionResource.get({id: $routeParams.attractionId}, function(data) {
 			$scope.attraction = data;
 		})
+        /**
+         * get this attraction audit message by attraction id
+         */
+        auditingResource.query({criteria:{item_id: $routeParams.attractionId, type: 0, en: false}}, function (item) {
+            console.log(item);
+            $scope.auditmsg = item[0];
+            if($scope.auditmsg.auditcomment.length > 0){
+                $scope.auditmsg.auditcomment.forEach(function(item) {
+                    $scope[item.field] = item.comment;
+                })
+            }
+        })
+        $scope.savecomment = function (field, content) {
+            AuditService.savecomment(field, content, $scope.auditmsg);
+        }           
+        /**
+         * pass this item
+         */
+        $scope.passaudit = function () {
+            AuditService.passaudit(2, $scope.auditmsg);
+        }
+        /**
+         * unpass this item, send auditing message to editor
+         */
+        $scope.unpassaudit = function () {
+            AuditService.passaudit(-1, $scope.auditmsg);
+        }
 	}])
-	.controller('AttractionEditCtrl', ['$scope', '$http' ,'$routeParams', 'attractionResource', 'labelResource', 'notifierService', 'selectCityService', 'seletTagService', function($scope, $http, $routeParams, attractionResource, labelResource, notifierService, selectCityService, seletTagService) {
+    .controller('AttractionDetailEnCtrl', ['$scope', '$routeParams', 'attractionResource', 'auditingResource', 'AuditService', function($scope, $routeParams, attractionResource, auditingResource, AuditService) {
+
+        attractionResource.get({id: $routeParams.attractionId}, function(data) {
+            $scope.attraction = data;
+        })
+
+        /**
+         * get this attraction audit message by attraction id
+         */
+        auditingResource.query({criteria:{item_id: $routeParams.attractionId, type: 0, en: true}}, function (item) {
+            console.log(item);
+            $scope.auditmsg = item[0];
+            if($scope.auditmsg.auditcomment.length > 0){
+                $scope.auditmsg.auditcomment.forEach(function(item) {
+                    $scope[item.field] = item.comment;
+                })
+            }
+        })
+        $scope.savecomment = function (field, content) {
+            AuditService.savecomment(field, content, $scope.auditmsg);
+        }           
+        /**
+         * pass this item
+         */
+        $scope.passaudit = function () {
+            AuditService.passaudit(2, $scope.auditmsg);
+        }
+        /**
+         * unpass this item, send auditing message to editor
+         */
+        $scope.unpassaudit = function () {
+            AuditService.passaudit(-1, $scope.auditmsg);
+        }
+    }])
+	.controller('AttractionEditCtrl', ['$scope', '$http' ,'$routeParams', 'attractionResource', 'labelResource', 'notifierService', 'selectCityService', 'seletTagService', 'getUserService', 'AuditService',
+        function($scope, $http, $routeParams, attractionResource, labelResource, notifierService, selectCityService, seletTagService, getUserService, AuditService) {
 		
 		attractionResource.get({id: $routeParams.attractionId}, function(data) {
 			$scope.attraction = data;
@@ -50,6 +132,17 @@ angular.module('cmsAppApp')
 				$scope.masterlabel = seletTagService.getMasterLabel(data.masterLabel)
 			}
 			$scope.sublabels = seletTagService.getItemSublabels($routeParams.attractionId, 'attraction');
+            AuditService.getAudit({id: data._id, en: false}, function (items) {
+                $scope.audit = items[0];
+            });
+            /**
+             * get this task by attraction's cityid
+             */
+            console.log(data.cityid)
+            AuditService.getTaskEditor({id: data.cityid, type: 0, en: false}, function (items) {
+                console.log(items);
+                $scope.editor = items[0];
+            });
 		})
         $scope.setCoverImage = function(imagename) {
             $scope.attraction.coverImageName = imagename;
@@ -96,12 +189,14 @@ angular.module('cmsAppApp')
         $scope.continents = selectCityService.getContinents();
         $scope.setCountries = function(continent) {
         	console.log(continent);
-            $scope.countries = selectCityService.getCountriesByContinent(continent);
-            console.log($scope.countries);
+            selectCityService.getCountriesByContinent(continent, function (items) {
+                $scope.countries = items;
+            });
         }
         $scope.setCities = function(country) {
-            $scope.cities = selectCityService.getCitiesByCountry(country);
-            console.log($scope.cities)
+            selectCityService.getCitiesByCountry(country, function (items) {
+                $scope.cities = items;
+            });
         }
         $scope.changeCity = function (city) {
             $scope.attraction.cityname = city.cityname;
@@ -124,6 +219,22 @@ angular.module('cmsAppApp')
 		$scope.delSublabel = function(sublabel) {
 			$scope.attraction.subLabel.splice(index, 1);
 		}
+
+        /**
+         * get auditors by type
+         */
+        getUserService.getUsers({type: 'auditor'}, function (items) {
+            $scope.auditors = items;    
+        });
+        $scope.postAudit = function(){
+            AuditService.postAudit({
+                audit : $scope.audit,
+                editor : $scope.editor,
+                auditor : $scope.audit.auditor
+            }, function (item) {
+                $scope.audit = item;
+            })
+        }
 		/**
 		 * save attraction
 		 */
@@ -143,6 +254,72 @@ angular.module('cmsAppApp')
 		}
 
 	}])
+    .controller('AttractionEditEnCtrl', ['$scope', '$routeParams', 'attractionResource', 'getUserService', 'AuditService',
+     function($scope, $routeParams, attractionResource, getUserService, AuditService) {
+
+        attractionResource.get({id: $routeParams.attractionId}, function(data) {
+            $scope.attraction = data;
+            AuditService.getAudit({id: data._id, en: true}, function (items) {
+                $scope.audit = items[0];
+                console.log(items);
+            });
+            AuditService.getTaskEditor({id: data.cityid, type: 0, en: true}, function (items) {
+                $scope.editor = items[0];
+            });
+        })
+
+        /**
+         * get auditors by type
+         */
+        getUserService.getUsers({type: 'auditor'}, function (items) {
+            $scope.auditors = items;    
+        });
+        $scope.postAudit = function(){
+            AuditService.postAudit({
+                audit : $scope.audit,
+                editor : $scope.editor,
+                auditor : $scope.audit.auditor
+            }, function (item) {
+                $scope.audit = item;
+            })
+        }
+    }])
+    .controller('AttractionNewCtrl', ['$scope', 'attractionResource', 'notifierService', 'selectCityService', function ($scope, attractionResource, notifierService, selectCityService) {
+        $scope.attraction = {};
+
+        $scope.continents = selectCityService.getContinents();
+        $scope.changeContinent = function(continent) {
+            $scope.attraction.continents = continent.name;
+            $scope.attraction.continentscode = continent.value;
+        }
+        $scope.setCountries = function(continent) {
+            selectCityService.getCountriesByContinent(continent, function (items) {
+                $scope.countries = items;
+            });
+        }
+        $scope.changeCountry = function(country) {
+            $scope.attraction.countryname = country.cn_name;
+            $scope.attraction.countrycode = country.code;
+        }
+        $scope.setCities = function(country) {
+            selectCityService.getCitiesByCountry(country, function (items) {
+                $scope.cities = items;
+            });
+        }
+        $scope.changeCity = function (city) {
+            $scope.attraction.cityname = city.cityname;
+            $scope.attraction.cityid = city._id;
+        }
+        $scope.save = function(){
+            var attraction = $scope.attraction;
+            attractionResource.save(attraction, function () {
+                notifierService.notify({
+                    type: 'success',
+                    msg: '成功添加新景点!'
+                })
+            })
+        }
+    }])
 	.controller('AttractionFileuploadCtrl', ['$scope', 'FileUploader', '$routeParams', function($scope, FileUploader, $routeParams) {
 		$scope.thislist = 'attractionlist';
 		$scope.thisitem = $routeParams.attractionId;		

@@ -6,7 +6,10 @@
 		</div>
 		<div class="bs-callout bs-callout-info" id="images">
 			<h4>区域图片</h4>
-			<img class="img-thumbnail cms-img" ng-src="http://weegotest.b0.upaiyun.com/shoparea/origin/{{img}}" alt="" ng-repeat="img in shoparea.image">
+			<ul rn-carousel rn-carousel-buffered rn-carousel-indicator rn-carousel-control class="my-slider ng-cloak">
+	            <li ng-repeat="img in shoparea.image" ng-style="{'background-image': 'url(http://weegotest.b0.upaiyun.com/shoparea/origin/' + img + ')'}" style="background-size: 100% 100%">
+	            </li>
+	        </ul>
 		</div>
 		<div class="bs-callout bs-callout-info" id="a1">
 			<h4>区域基本信息</h4>
@@ -66,11 +69,14 @@
 	</form>
 </div>
 <div class="col-lg-3">
-	<div class="editbtns affix">
-		<button type="button" ng-click="save()" class="btn btn-success">保存</button>
-		<a href="#/shoparealist" class="btn btn-default">返回</a>
-	</div>
 	<nav id="citynavaffix" class="citynav affix">
+		<a href="#/shoparealist" class="btn btn-default">返回</a>
+		<div class="auditmsg alert alert-info">
+			<h4>编辑:{{auditmsg.editorname}}</h4>
+			<h4>审核:{{auditmsg.auditorname}}</h4>
+			<button type="button" ng-click="passaudit()" class="btn btn-success" ng-hide="auditmsg.status == 2">通过审核</button>
+			<button type="button" ng-click="unpassaudit()" class="btn btn-warning" ng-hide="auditmsg.status == 2">未通过</button>
+		</div>
 		<h2>{{shoparea.area_name}}</h2>
 		<ul>
 			<li scroll-on-click>封面图片</li>

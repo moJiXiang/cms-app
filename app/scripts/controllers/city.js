@@ -10,13 +10,20 @@
 angular.module('cmsAppApp')
 	.controller('CityListCtrl', ['$scope', '$http', '$modal', 'cityResource', 'edituserResource', 'auditingResource',
 		function($scope, $http, $modal, cityResource, edituserResource, auditingResource) {
+		 	// $scope.pageChanged = function() {
+			 //    console.log('Page changed to: ' + $scope.currentPage);
+			 //  };
+
+			 //  $scope.maxSize = 5;
+			 //  $scope.bigTotalItems = 175;
+			 //  $scope.bigCurrentPage = 1;
+
 			/**
 			 * get all cities and pagination
 			 * @return {array}    return cities array
 			 */
 			cityResource.count({}, function(data) {
 				$scope.totalItems = data.result;
-				$scope.numPages = Math.ceil(data.result / 20);
 			})
 			$scope.maxSize = 5
 			$scope.currentPage = 1;
@@ -24,31 +31,14 @@ angular.module('cmsAppApp')
 			$scope.pageChanged = function() {
 
 				cityResource.query({
+					citiesbycountry: $scope.country,
 					offset: ($scope.currentPage - 1) * 20
 				}, function(citys) {
 					console.log(citys);
-					// add all citys's id in an array for http request
-					var itemids = citys.map(function(city) {
-						return city._id
-					});
-
-					auditingResource.query({"items": itemids.join(',')}, function(audits) {
-						console.log(audits);
-						var cities = citys.forEach(function(city) {
-							var id = city._id;
-							audits.forEach(function(audit) {
-								var item_id = audit.item_id;
-								if(id == item_id) {
-									if(audit.en) {
-										city.audit_en = audit;
-									} else {
-										city.audit_zh = audit;
-									}
-								}
-							})
-						})
+					citys.forEach(function (item) {
+						item.imagecount = item.image.length;
+						item.bgimgcount = item.backgroundimage.length;
 					})
-
 					$scope.cities = citys;
 				});
 			}
@@ -57,64 +47,29 @@ angular.module('cmsAppApp')
 			 * @return {array}     return city array
 			 */
 			$scope.getItemByCountry = function(val) {
-				if (val) {
-					return cityResource.query({
-						citiesbycountry: val,
-						sort: 'cityname_py'
-					}, function(items) {
-						$scope.cities = items;
-						return [];
-					})
-				} else {
-					return cityResource.query({}, function(items) {
-						$scope.cities = items;
-						return [];
-					})
-				}
+				cityResource.count({countryname: val}, function(data) {
+					$scope.totalItems = data.result;
+				})
+				return cityResource.query({
+					citiesbycountry: val
+				}, function(items) {
+					console.log(items.length);
+					$scope.cities = items;
+					return [];
+				})
 			};
 			/**
 			 * typeahead, query by cityname_py use mongodb $regex
 			 * @return {array}     return city array
 			 */
 			$scope.getItem = function(val) {
-				if (val) {
-					return cityResource.query({
-						citiespy: val,
-						sort: 'cityname_py'
-					}, function(items) {
-						$scope.cities = items;
-						return [];
-					})
-				} else {
-					return cityResource.query({}, function(items) {
-						$scope.cities = items;
-						return [];
-					})
-				}
+				return cityResource.query({
+					citiespy: val
+				}, function(items) {
+					$scope.cities = items;
+					return [];
+				})
 			};
-			/**
-			 * get chinese editors
-			 * @return {array}    return chinese editors
-			 */
-			edituserResource.query({
-				group: 0,
-				type: 1,
-				cmd: "listChineseEditors"
-			}, function(items) {
-				$scope.editusers_zh = items;
-			})
-
-			/**
-			 * get english editors
-			 * @return {array}   return english editors
-			 */
-			edituserResource.query({
-				group: 1,
-				type: 1,
-				cmd: "listEnglishEditors"
-			}, function(items) {
-				$scope.editusers_en = items;
-			})
 
 			/**
 			 * del one city
@@ -147,8 +102,8 @@ angular.module('cmsAppApp')
 
 		}
 	])
-	.controller('CityDetailCtrl', ['$scope', '$http', '$routeParams', 'cityResource', 'labelResource',
-		function($scope, $http, $routeParams, cityResource, labelResource) {
+	.controller('CityDetailCtrl', ['$scope', '$http', '$routeParams', 'cityResource', 'labelResource', 'auditingResource', "notifierService", 'AuditService',
+		function($scope, $http, $routeParams, cityResource, labelResource, auditingResource, notifierService, AuditService) {
 			
 			cityResource.get({
 				id: $routeParams.cityId
@@ -159,6 +114,9 @@ angular.module('cmsAppApp')
 				var showflag = data.show_flag;
 				$scope.hot_flag = hotflag == '1' ? '是' : '否';
 				$scope.show_flag = showflag == '1' ? '是' : '否';
+
+				// thumbs demo
+            	$scope.slideIndex2 = 2;
 				if (data.masterLabel) {
 					labelResource.get({
 						id: data.masterLabel
@@ -173,7 +131,84 @@ angular.module('cmsAppApp')
 					$scope.sublabels = data;
 				})
 			})
+			auditingResource.query({criteria:{item_id: $routeParams.cityId, type: 4, en: false}}, function (item) {
+				console.log(item);
+				$scope.auditmsg = item[0];
+				if($scope.auditmsg.auditcomment.length > 0){
+					$scope.auditmsg.auditcomment.forEach(function(item) {
+						$scope[item.field] = item.comment;
+					})
+				}
+			})
+			$scope.savecomment = function (field, content) {
+				AuditService.savecomment(field, content, $scope.auditmsg);
+			}			
+			/**
+			 * pass this item
+			 */
+			$scope.passaudit = function () {
+				AuditService.passaudit(2, $scope.auditmsg);
+			}
+			/**
+			 * unpass this item, send auditing message to editor
+			 */
+			$scope.unpassaudit = function () {
+				AuditService.passaudit(-1, $scope.auditmsg);
+			}
 		}
+	])
+	.controller('CityDetailEnCtrl', ['$scope', '$http', '$routeParams', 'cityResource', 'labelResource', 'auditingResource', 'AuditService',
+			function($scope, $http, $routeParams, cityResource, labelResource, auditingResource, AuditService) { 
+				cityResource.get({
+					id: $routeParams.cityId
+				}, function(data) {
+					console.log(data);
+					$scope.city = data;
+					var hotflag = data.hot_flag;
+					var showflag = data.show_flag;
+					$scope.hot_flag = hotflag == '1' ? '是' : '否';
+					$scope.show_flag = showflag == '1' ? '是' : '否';
+					if (data.masterLabel) {
+						labelResource.get({
+							id: data.masterLabel
+						}, function(data) {
+							$scope.masterlabel = data.label;
+						})
+					}
+					labelResource.query({
+						city: $routeParams.cityId,
+						cmd: 'listByCity'
+					}, function(data) {
+						$scope.sublabels = data;
+					})
+				})
+
+				auditingResource.query({criteria:{item_id: $routeParams.cityId, type: 4, en: true}}, function (item) {
+					console.log(item);
+					$scope.auditmsg = item[0];
+					if($scope.auditmsg.auditcomment.length > 0){
+						$scope.auditmsg.auditcomment.forEach(function(item) {
+							$scope[item.field] = item.comment;
+						})
+					}
+				})
+				
+				$scope.savecomment = function (field, content) {
+					AuditService.savecomment(field, content, $scope.auditmsg);
+				}			
+				/**
+				 * pass this item
+				 */
+				$scope.passaudit = function () {
+					AuditService.passaudit(2, $scope.auditmsg);
+				}
+				/**
+				 * unpass this item, send auditing message to editor
+				 */
+				$scope.unpassaudit = function () {
+					AuditService.passaudit(-1, $scope.auditmsg);
+				}
+			}
 	])
 	.controller('CityEditCtrl', ["$scope", "$http", "$routeParams", "countryResource", 'auditingResource', "cityResource", "labelResource", 'notifierService', 'getUserService' ,'AuditService', 'selectCityService', 'seletTagService',
 		function($scope, $http, $routeParams, countryResource, auditingResource, cityResource, labelResource, notifierService, getUserService, AuditService, selectCityService, seletTagService) {
@@ -210,15 +245,18 @@ angular.module('cmsAppApp')
 				$scope.city.continentscode = continent.value;
 			}
 			$scope.setCountries = function(continent) {
-				$scope.countries = selectCityService.getCountriesByContinent(continent);
+				selectCityService.getCountriesByContinent(continent, function(items) {
+					$scope.countries = items;
+				});
 			}
 			$scope.changeCountry = function(country) {
 				$scope.city.countryname = country.cn_name;
 				$scope.city.countrycode = country.code;
 			}
 			$scope.setCities = function(country) {
-				$scope.cities = selectCityService.getCitiesByCountry(country);
-				console.log($scope.cities)
+				selectCityService.getCitiesByCountry(country, function (items) {
+					$scope.cities = items;
+				});
 			}
 			$scope.changeCity = function (city) {
 				$scope.city.cityname = city.cityname;
@@ -331,10 +369,6 @@ angular.module('cmsAppApp')
 				$scope.city.subLabel.splice(index, 1);
 			}
 
-			getUserService.getUsers({type: 'auditor'}, function (items) {
-				$scope.auditors = items;	
-			});
-
 			/**
 			 * get auditors by type
 			 */
@@ -344,11 +378,6 @@ angular.module('cmsAppApp')
 			$scope.postAudit = function(){
 				AuditService.postAudit({
 					audit : $scope.audit,
-					item_id : $scope.city._id,
-					type : 4,
-					name : $scope.city.cityname,
-					status : 1,
-					en : false,
 					editor : $scope.editor,
 					auditor : $scope.audit.auditor
 				}, function (item) {
@@ -376,13 +405,13 @@ angular.module('cmsAppApp')
 
 		}
 	])
-	.controller('CityEditEnCtrl', ['$scope', "$routeParams", 'cityResource' ,'AuditService', 'getUserService', function ($scope, $routeParams, cityResource, AuditService, getUserService) {
+	.controller('CityEditEnCtrl', ['$scope', "$routeParams", 'cityResource' ,'AuditService', 'getUserService', 'notifierService', function ($scope, $routeParams, cityResource, AuditService, getUserService, notifierService) {
 		cityResource.get({
 			id: $routeParams.cityId
 		}, function(data) {
 			$scope.city = data;
 
-			AuditService.getAudit({id: data._id, en: false}, function (items) {
+			AuditService.getAudit({id: data._id, en: true}, function (items) {
 				$scope.audit = items[0];
 			});
 			AuditService.getTaskEditor({id: data._id, type: 4, en: true}, function (items) {
@@ -398,11 +427,6 @@ angular.module('cmsAppApp')
 		$scope.postAudit = function (){
 			AuditService.postAudit({
 				audit : $scope.audit,
-				item_id : $scope.city._id,
-				type : 4,
-				name : $scope.city.cityname,
-				status : 1,
-				en : true,
 				editor : $scope.editor,
 				auditor : $scope.audit.auditor
 			}, function (item) {
@@ -444,15 +468,19 @@ angular.module('cmsAppApp')
 				$scope.city.continentscode = continent.value;
 			}
 			$scope.setCountries = function(continent) {
-				$scope.countries = selectCityService.getCountriesByContinent(continent);
+				console.log(continent);
+				selectCityService.getCountriesByContinent(continent, function (items) {
+					$scope.countries = items;	
+				});
 			}
 			$scope.changeCountry = function(country) {
 				$scope.city.countryname = country.cn_name;
 				$scope.city.countrycode = country.code;
 			}
 			$scope.setCities = function(country) {
-				$scope.cities = selectCityService.getCitiesByCountry(country);
-				console.log($scope.cities)
+				selectCityService.getCitiesByCountry(country, function (items) {
+					$scope.cities = items;
+				});
 			}
 			$scope.changeCity = function (city) {
 				$scope.city.cityname = city.cityname;
@@ -464,7 +492,7 @@ angular.module('cmsAppApp')
 				cityResource.save(city, function () {
 					notifierService.notify({
 						type: 'success',
-						msg: 'Add new city success!'
+						msg: '成功添加新城市!'
 					})
 				})
 			}

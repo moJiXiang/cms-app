@@ -14,43 +14,130 @@ angular.module('cmsAppApp')
 		 */
 		shoppingResource.count({}, function(data) {
 			$scope.totalItems = data.result;
-			$scope.numPages   = Math.ceil(data.result / 20);
 		})
 		$scope.currentPage = 1;
 		$scope.maxSize     = 5;
 		$scope.pageChanged = function() {
-			shoppingResource.query({offset: ($scope.currentPage - 1) * 20}, function(items) {
-				$scope.shoppings = items;
-			})
+            shoppingResource.query({
+                city_name: $scope.cityname,
+                offset: ($scope.currentPage - 1) * 20
+            }, function(items) {
+                items.forEach(function (item) {
+                    item.imagenum = item.image.length;
+                })
+                $scope.shoppings = items;
+            })
 		}
-
+        /**
+         * get shops by cityname
+         * @param  {string} val value of the input
+         */
+        $scope.getShopsByCityname = function (val) {
+            shoppingResource.count({city_name: val}, function(data) {
+                $scope.totalItems = data.result;
+            })
+            return shoppingResource.query({city_name: val}, function (items) {
+                $scope.shoppings = items;
+                return [];
+            })
+        }
 		/**
 		 * search filter
 		 */
 		$scope.getItem = function(val) {
-			return shoppingResource.query({criteria: { value: val }, cmd: "queryByName"}, function(items) {
-				shoppingResource.count({criteria: {'name': {'$regex': val, '$options': 'i'}}}, function(data) {
-					$scope.totalItems = data.result;
-					$scope.numPages   = Math.ceil(data.result / 20);
-				})
+			return shoppingResource.query({q: val}, function(items) {
 				$scope.shoppings = items;
 				return [];
 			})
 		}
 	}])
-	.controller('ShopDetailCtrl', ['$scope', '$routeParams', 'shoppingResource', function($scope, $routeParams, shoppingResource) {
+	.controller('ShopDetailCtrl', ['$scope', '$routeParams', 'shoppingResource', 'auditingResource', 'AuditService', function($scope, $routeParams, shoppingResource, auditingResource, AuditService) {
         var shopid = $routeParams.shopId;
         shoppingResource.get({id: shopid}, function(shop) {
             console.log(shop);
             $scope.shop = shop;
         })
+        /**
+         * get this attraction audit message by attraction id
+         */
+        auditingResource.query({criteria:{item_id: $routeParams.shopId, type: 2, en: false}}, function (item) {
+            console.log(item);
+            $scope.auditmsg = item[0];
+            if($scope.auditmsg.auditcomment.length > 0){
+                $scope.auditmsg.auditcomment.forEach(function(item) {
+                    $scope[item.field] = item.comment;
+                })
+            }
+        })
+
+        $scope.savecomment = function (field, content) {
+            AuditService.savecomment(field, content, $scope.auditmsg);
+        }           
+        /**
+         * pass this item
+         */
+        $scope.passaudit = function () {
+            AuditService.passaudit(2, $scope.auditmsg);
+        }
+        /**
+         * unpass this item, send auditing message to editor
+         */
+        $scope.unpassaudit = function () {
+            AuditService.passaudit(-1, $scope.auditmsg);
+        }
 	}])
-	.controller('ShopEditCtrl', ['$scope', '$http' ,'$routeParams', 'shoppingResource', 'notifierService', 'selectCityService',function($scope, $http, $routeParams, shoppingResource, notifierService, selectCityService) {
+    .controller('ShopDetailEnCtrl', ['$scope', '$routeParams', 'shoppingResource', 'auditingResource', 'AuditService',function($scope, $routeParams, shoppingResource, auditingResource, AuditService) {
+        var shopid = $routeParams.shopId;
+        shoppingResource.get({id: shopid}, function(shop) {
+            console.log(shop);
+            $scope.shop = shop;
+        })
+
+        /**
+         * get this attraction audit message by attraction id
+         */
+        auditingResource.query({criteria:{item_id: $routeParams.shopId, type: 2, en: true}}, function (item) {
+            console.log(item);
+            $scope.auditmsg = item[0];
+            if($scope.auditmsg.auditcomment.length > 0){
+                $scope.auditmsg.auditcomment.forEach(function(item) {
+                    $scope[item.field] = item.comment;
+                })
+            }
+        })
+
+        $scope.savecomment = function (field, content) {
+            AuditService.savecomment(field, content, $scope.auditmsg);
+        }           
+        /**
+         * pass this item
+         */
+        $scope.passaudit = function () {
+            AuditService.passaudit(2, $scope.auditmsg);
+        }
+        /**
+         * unpass this item, send auditing message to editor
+         */
+        $scope.unpassaudit = function () {
+            AuditService.passaudit(-1, $scope.auditmsg);
+        }
+    }])
+	.controller('ShopEditCtrl', ['$scope', '$http' ,'$routeParams', 'shoppingResource', 'notifierService', 'selectCityService', 'AuditService', 'getUserService', function($scope, $http, $routeParams, shoppingResource, notifierService, selectCityService, AuditService, getUserService) {
         var shopid = $routeParams.shopId;
         
         shoppingResource.get({id: shopid}, function(shop) {
             console.log(shop);
             $scope.shop = shop;
+            AuditService.getAudit({id: shop._id, en: false}, function (items) {
+                $scope.audit = items[0];
+            });
+            /**
+             * get this task by attraction's cityid
+             */
+            AuditService.getTaskEditor({id: shop.city_id, type: 2, en: false}, function (items) {
+                console.log(items);
+                $scope.editor = items[0];
+            });
         })
         $scope.setCoverImage = function(imagename) {
             $scope.shop.cover_image = imagename;
@@ -105,6 +192,22 @@ angular.module('cmsAppApp')
             $scope.shop.city_name = city.cityname;
             $scope.shop.city_id = city._id;
         }
+
+        /**
+         * get auditors by type
+         */
+        getUserService.getUsers({type: 'auditor'}, function (items) {
+            $scope.auditors = items;    
+        });
+        $scope.postAudit = function(){
+            AuditService.postAudit({
+                audit : $scope.audit,
+                editor : $scope.editor,
+                auditor : $scope.audit.auditor
+            }, function (item) {
+                $scope.audit = item;
+            })
+        }
         /**
          * update shop
          */
@@ -124,8 +227,87 @@ angular.module('cmsAppApp')
             })
         }
 	}])
-	.controller('ShopNewCtrl', ['$scope', function($scope) {
+    .controller('ShopEditEnCtrl', ['$scope', '$http' ,'$routeParams', 'shoppingResource', 'notifierService', 'getUserService', 'AuditService', function($scope, $http, $routeParams, shoppingResource, notifierService, getUserService, AuditService) {
+        /**
+         * get shop message
+         */
+        shoppingResource.get({id: $routeParams.shopId}, function(shop) {
+            $scope.shop = shop;
+            AuditService.getAudit({id: shop._id, en: true}, function (items) {
+                $scope.audit = items[0];
+            });
+            /**
+             * get this task by attraction's cityid
+             */
+            AuditService.getTaskEditor({id: shop.city_id, type: 2, en: true}, function (items) {
+                console.log(items);
+                $scope.editor = items[0];
+            });
+        })
 
+        /**
+         * get auditors by type
+         */
+        getUserService.getUsers({type: 'auditor'}, function (items) {
+            $scope.auditors = items;    
+        });
+        $scope.postAudit = function(){
+            AuditService.postAudit({
+                audit : $scope.audit,
+                editor : $scope.editor,
+                auditor : $scope.audit.auditor
+            }, function (item) {
+                $scope.audit = item;
+            })
+        }
+
+        /**
+         * update shop
+         */
+        $scope.save = function() {
+            var shop = $scope.shop;
+            shop.$update().then(function () {
+                notifierService.notify({
+                    type: 'success',
+                    msg: '更新购物成功！'
+                })
+            }).catch(function () {
+                notifierService.notify({
+                    type: 'danger',
+                    msg: '更新购物失败！错误码' + res.status
+                })
+            })
+        }
+    }])
+	.controller('ShopNewCtrl', ['$scope', 'shoppingResource', 'notifierService', 'selectCityService', function($scope, shoppingResource, notifierService, selectCityService) {
+        $scope.shop = {};
+        /**
+         * init select options of cities
+         */
+        $scope.continents = selectCityService.getContinents();
+        $scope.setCountries = function(continent) {
+            selectCityService.getCountriesByContinent(continent, function (items) {
+                $scope.countries = items;
+            });
+        }
+        $scope.setCities = function(country) {
+            selectCityService.getCitiesByCountry(country, function (items) {
+                $scope.cities = items;
+            });
+        }
+        $scope.changeCity = function (city) {
+            $scope.shop.city_name = city.cityname;
+            $scope.shop.city_id = city._id;
+        }
+        $scope.save = function(){
+            var shop = $scope.shop;
+            shoppingResource.save(shop, function () {
+                notifierService.notify({
+                    type: 'success',
+                    msg: '成功添加新购物点!'
+                })
+            })
+        }
 	}])
 	.controller('ShopFileuploadCtrl', ['$scope', '$routeParams', 'FileUploader', function($scope, $routeParams, FileUploader) {
 		$scope.thislist = 'shoplist';

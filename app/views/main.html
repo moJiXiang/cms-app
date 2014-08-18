@@ -1,22 +1,31 @@
+<pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm paginationmodel" boundary-links="true" ng-change="pageChanged()" items-per-page="20" ng-init="pageChanged()" num-pages="numPages"></pagination>
+<div class="col-sm-1 pagenum">
+  <pre>Page: {{currentPage}}/{{numPages}}</pre>
+</div>
+
 <table class="table table-hover">
   <thead>
     <tr>
-      <th>city</th>
-      <th>type</th>
-      <th>editor</th>
-      <th>minnum</th>
-      <th>action</th>
+      <th>城市</th>
+      <th>类型</th>
+      <th>英文</th>
+      <th>编辑</th>
+      <th>最小数目</th>
+      <th>操作</th>
+      <th>完成度</th>
     </tr>
   </thead>
   <tbody>
     <tr ng-repeat="task in tasks | filter: query">
       <td>{{task.city_name}}</td>
-      <td>{{task.type}}</td>
+      <td>{{task.typezh}}</td>
+      <td>{{task.en}}</td>
       <td>{{task.editor_name}}</td>
       <td>{{task.minnum}}</td>
       <td>
-        <a type="button" class="btn btn-default" ng-href="#/task/{{task.city_id}}/{{task.type}}">view task</a>
+        <a type="button" class="btn btn-default" ng-href="#/task/{{task.city_id}}/{{task.type}}/{{task.en}}">查看任务详细</a>
       </td>
+      <td>{{task.counts.active}}/{{task.minnum}}</td>
     </tr>
   </tbody>
 </table>

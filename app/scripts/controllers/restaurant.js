@@ -14,25 +14,28 @@ angular.module('cmsAppApp')
 		 */
 		restaurantResource.count({}, function(data) {
 			$scope.totalItems = data.result;
-			$scope.numPages   = Math.ceil(data.result / 20);
 		})
 		$scope.currentPage = 1;
 		$scope.maxSize     = 5;
 		$scope.pageChanged = function() {
-			restaurantResource.query({offset: ($scope.currentPage - 1) * 20}, function(items) {
-                items.forEach(function (item) {
+            restaurantResource.query({
+                city_name: $scope.cityname,
+                offset: ($scope.currentPage - 1) * 20
+            }, function(items) {
+                items.forEach(function(item) {
                     item.imagecount = item.image.length;
                 })
-				$scope.restaurants = items;
-			})
+                $scope.restaurants = items;
+            })
 		}
 		/**
-		 * search filter
+		 * search filters
 		 */
         $scope.getRestaurantsBycity = function (val) {
-
+            restaurantResource.count({city_name: val}, function(data) {
+                $scope.totalItems = data.result;
+            })
             return restaurantResource.query({city_name: val}, function (items) {
-                console.log(items);
                 $scope.restaurants = items;
                 return [];
             })
@@ -44,25 +47,97 @@ angular.module('cmsAppApp')
 					$scope.totalItems = data.result;
 					$scope.numPages   = Math.ceil(data.result / 20);
 				})
-				console.log(items)
 				$scope.restaurants = items;
 				return [];
 			})
 		}
 	}])
-	.controller('RestaurantDetailCtrl', ['$scope', '$routeParams', 'restaurantResource', function($scope, $routeParams, restaurantResource) {
+	.controller('RestaurantDetailCtrl', ['$scope', '$routeParams', 'restaurantResource', 'auditingResource', 'AuditService', function($scope, $routeParams, restaurantResource, auditingResource, AuditService) {
+        
+        restaurantResource.get({id: $routeParams.restaurantId}, function(data) {
+            $scope.restaurant = data;
+            console.log(data);
+        })
+        /**
+         * get this attraction audit message by attraction id
+         */
+        auditingResource.query({criteria:{item_id: $routeParams.restaurantId, type: 1, en: false}}, function (item) {
+            console.log(item);
+            $scope.auditmsg = item[0];
+            if($scope.auditmsg.auditcomment.length > 0){
+                $scope.auditmsg.auditcomment.forEach(function(item) {
+                    $scope[item.field] = item.comment;
+                })
+            }
+        })
+        $scope.savecomment = function (field, content) {
+            AuditService.savecomment(field, content, $scope.auditmsg);
+        }           
+        /**
+         * pass this item
+         */
+        $scope.passaudit = function () {
+            AuditService.passaudit(2, $scope.auditmsg);
+        }
+        /**
+         * unpass this item, send auditing message to editor
+         */
+        $scope.unpassaudit = function () {
+            AuditService.passaudit(-1, $scope.auditmsg);
+        }
+	}])
+    .controller('RestaurantDetailEnCtrl', ['$scope', '$routeParams', 'restaurantResource', 'auditingResource', 'AuditService', function($scope, $routeParams, restaurantResource, auditingResource, AuditService) {
         
         restaurantResource.get({id: $routeParams.restaurantId}, function(data) {
             $scope.restaurant = data;
         })
-	}])
-	.controller('RestaurantEditCtrl', ['$scope', '$http' ,'$routeParams', 'restaurantResource', 'categoryResource', 'notifierService', 'selectCityService', function($scope, $http, $routeParams, restaurantResource, categoryResource, notifierService, selectCityService) {
+
+        /**
+         * get this attraction audit message by attraction id
+         */
+        auditingResource.query({criteria:{item_id: $routeParams.restaurantId, type: 1, en: true}}, function (item) {
+            console.log(item);
+            $scope.auditmsg = item[0];
+            if($scope.auditmsg.auditcomment.length > 0){
+                $scope.auditmsg.auditcomment.forEach(function(item) {
+                    $scope[item.field] = item.comment;
+                })
+            }
+        })
+        $scope.savecomment = function (field, content) {
+            AuditService.savecomment(field, content, $scope.auditmsg);
+        }           
+        /**
+         * pass this item
+         */
+        $scope.passaudit = function () {
+            AuditService.passaudit(2, $scope.auditmsg);
+        }
+        /**
+         * unpass this item, send auditing message to editor
+         */
+        $scope.unpassaudit = function () {
+            AuditService.passaudit(-1, $scope.auditmsg);
+        }
+    }])
+	.controller('RestaurantEditCtrl', ['$scope', '$http' ,'$routeParams', 'restaurantResource', 'categoryResource', 'notifierService', 'selectCityService', 'getUserService', 'AuditService', function($scope, $http, $routeParams, restaurantResource, categoryResource, notifierService, selectCityService, getUserService, AuditService) {
         var categoryArr = [];
         restaurantResource.get({id: $routeParams.restaurantId}, function(data) {
             $scope.restaurant = data;
             categoryArr = $scope.restaurant.category.map(function(item) {
                 return item._id;
             })
+
+            AuditService.getAudit({id: data._id, en: false}, function (items) {
+                $scope.audit = items[0];
+            });
+            /**
+             * get this task by attraction's id
+             */
+            AuditService.getTaskEditor({id: data.city_id, type: 1, en: false}, function (items) {
+                console.log(items);
+                $scope.editor = items[0];
+            });
         })
         $scope.setCoverImage = function(imagename) {
             $scope.restaurant.cover_image = imagename;
@@ -108,11 +183,14 @@ angular.module('cmsAppApp')
          */
         $scope.continents = selectCityService.getContinents();
         $scope.setCountries = function(continent) {
-            $scope.countries = selectCityService.getCountriesByContinent(continent);
+            selectCityService.getCountriesByContinent(continent, function (items) {
+                $scope.countries = items;
+            });
         }
         $scope.setCities = function(country) {
-            $scope.cities = selectCityService.getCitiesByCountry(country);
-            console.log($scope.cities)
+            selectCityService.getCitiesByCountry(country, function (items) {
+                $scope.cities = items;
+            });
         }
         $scope.changeCity = function (city) {
             $scope.restaurant.city_name = city.cityname;
@@ -180,6 +258,22 @@ angular.module('cmsAppApp')
             amtime : '',
             pmtime : ''
         }
+
+        /**
+         * get auditors by type
+         */
+        getUserService.getUsers({type: 'auditor'}, function (items) {
+            $scope.auditors = items;    
+        });
+        $scope.postAudit = function(){
+            AuditService.postAudit({
+                audit : $scope.audit,
+                editor : $scope.editor,
+                auditor : $scope.audit.auditor
+            }, function (item) {
+                $scope.audit = item;
+            })
+        }
         /**
          * update restaurant
          */
@@ -199,7 +293,37 @@ angular.module('cmsAppApp')
             })
         }
 	}])
-	.controller('RestaurantNewCtrl', ['$scope', function($scope) {
+    .controller('RestaurantEditEnCtrl', ['$scope', '$routeParams', 'restaurantResource', 'AuditService', 'getUserService', function($scope, $routeParams, restaurantResource, AuditService, getUserService) {
+        
+        restaurantResource.get({id: $routeParams.restaurantId}, function(data) {
+            $scope.restaurant = data;
+            AuditService.getAudit({id: data._id, en: true}, function (items) {
+                $scope.audit = items[0];
+            });
+            AuditService.getTaskEditor({id: data.city_id, type: 1, en: true}, function (items) {
+                $scope.editor = items[0];
+            });
+        })
+        /**
+         * get auditors by type
+         */
+        getUserService.getUsers({type: 'auditor'}, function (items) {
+            $scope.auditors = items;    
+        });
+        $scope.postAudit = function(){
+            AuditService.postAudit({
+                audit : $scope.audit,
+                editor : $scope.editor,
+                auditor : $scope.audit.auditor
+            }, function (item) {
+                $scope.audit = item;
+            })
+        }
+
+    }])
+	.controller('RestaurantNewCtrl', ['$scope', 'selectCityService', 'restaurantResource', 'notifierService', function($scope, selectCityService, restaurantResource, notifierService) {
+
+        $scope.restaurant = {};
         /**
          * changeContinent by select directior ng-change
          * @param  {Object} city      city
@@ -207,15 +331,27 @@ angular.module('cmsAppApp')
          */
         $scope.continents = selectCityService.getContinents();
         $scope.setCountries = function(continent) {
-            $scope.countries = selectCityService.getCountriesByContinent(continent);
+            selectCityService.getCountriesByContinent(continent, function (items) {
+                $scope.countries = items;
+            });
         }
         $scope.setCities = function(country) {
-            $scope.cities = selectCityService.getCitiesByCountry(country);
-            console.log($scope.cities)
+            selectCityService.getCitiesByCountry(country, function (items) {
+                $scope.cities = items;
+            });
         }
         $scope.changeCity = function (city) {
             $scope.restaurant.city_name = city.cityname;
             $scope.restaurant.city_id = city._id;
+        }
+        $scope.save = function(){
+            var restaurant = $scope.restaurant;
+            restaurantResource.save(restaurant, function () {
+                notifierService.notify({
+                    type: 'success',
+                    msg: '成功添加新餐馆!'
+                })
+            })
         }
 	}])
 	.controller('RestaurantFileuploadCtrl', ['$scope', 'FileUploader', '$routeParams', function($scope, FileUploader, $routeParams) {

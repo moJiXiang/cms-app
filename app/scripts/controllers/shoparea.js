@@ -9,40 +9,45 @@
  */
 angular.module('cmsAppApp')
 	.controller('ShopareaListCtrl', ['$scope', 'areaResource', function($scope, areaResource) {
-		areaResource.query({}, function(items) {
-			console.log(items);
-			$scope.shopareas = items;
-		})
 		/**
 		 * get shopareas and pagination
 		 */
 		areaResource.count({}, function(data) {
 			$scope.totalItems = data.result;
-			$scope.numPages   = Math.ceil(data.result / 20);
 		})
 		$scope.currentPage = 1;
 		$scope.maxSize     = 5;
 		$scope.pageChanged = function() {
-			areaResource.query({offset: ($scope.currentPage - 1) * 20}, function(items) {
+			areaResource.query({
+				city_name: $scope.cityname,
+				offset: ($scope.currentPage - 1) * 20
+			}, function(items) {
+				items.forEach(function (item) {
+					item.imagenum = item.image.length;
+				})
 				$scope.shopareas = items;
 			})
 		}
-
+		$scope.getShopareasByCity = function (val) {
+			areaResource.query({city_name: val}, function(data) {
+				$scope.totalItems = data.result;
+			})
+			return areaResource.query({city_name: val}, function(items) {
+				$scope.shopareas = items;
+				return [];
+			})
+		}
 		/**
 		 * search filter
 		 */
 		$scope.getItem = function(val) {
-			return areaResource.query({criteria: { value: val }, cmd: "queryByName"}, function(items) {
-				areaResource.count({criteria: {'name': {'$regex': val, '$options': 'i'}}}, function(data) {
-					$scope.totalItems = data.result;
-					$scope.numPages   = Math.ceil(data.result / 20);
-				})
+			return areaResource.query({name: val}, function(items) {
 				$scope.shopareas = items;
 				return [];
 			})
 		}
 	}])
-	.controller('ShopareaDetailCtrl', ['$scope', '$routeParams', 'areaResource', function($scope, $routeParams, areaResource) {
+	.controller('ShopareaDetailCtrl', ['$scope', '$routeParams', 'areaResource', 'auditingResource', 'AuditService', function($scope, $routeParams, areaResource, auditingResource, AuditService) {
 		/**
 		 * get area message
 		 * @param  {string} shoparea shoparea id
@@ -50,14 +55,90 @@ angular.module('cmsAppApp')
 		areaResource.get({id: $routeParams.shopareaId}, function(shoparea) {
 			$scope.shoparea = shoparea;
 		})
+		/**
+         * get this attraction audit message by attraction id
+         */
+        auditingResource.query({criteria:{item_id: $routeParams.shopareaId, type: 3, en: false}}, function (item) {
+            console.log(item);
+            $scope.auditmsg = item[0];
+            if($scope.auditmsg.auditcomment.length > 0){
+                $scope.auditmsg.auditcomment.forEach(function(item) {
+                    $scope[item.field] = item.comment;
+                })
+            }
+        })
+
+        $scope.savecomment = function (field, content) {
+            AuditService.savecomment(field, content, $scope.auditmsg);
+        }           
+        /**
+         * pass this item
+         */
+        $scope.passaudit = function () {
+            AuditService.passaudit(2, $scope.auditmsg);
+        }
+        /**
+         * unpass this item, send auditing message to editor
+         */
+        $scope.unpassaudit = function () {
+            AuditService.passaudit(-1, $scope.auditmsg);
+        }
 	}])
-	.controller('ShopareaEditCtrl', ['$scope', '$http', '$routeParams', 'areaResource', 'notifierService', 'selectCityService', function($scope, $http, $routeParams, areaResource, notifierService, selectCityService) {
+	.controller('ShopareaDetailEnCtrl', ['$scope', '$routeParams', 'areaResource', 'auditingResource', 'AuditService', function($scope, $routeParams, areaResource, auditingResource, AuditService) {
 		/**
 		 * get area message
 		 * @param  {string} shoparea shoparea id
 		 */
 		areaResource.get({id: $routeParams.shopareaId}, function(shoparea) {
 			$scope.shoparea = shoparea;
+		})
+		/**
+         * get this attraction audit message by attraction id
+         */
+        auditingResource.query({criteria:{item_id: $routeParams.shopareaId, type: 3, en: true}}, function (item) {
+            console.log(item);
+            $scope.auditmsg = item[0];
+            if($scope.auditmsg.auditcomment.length > 0){
+                $scope.auditmsg.auditcomment.forEach(function(item) {
+                    $scope[item.field] = item.comment;
+                })
+            }
+        })
+
+        $scope.savecomment = function (field, content) {
+            AuditService.savecomment(field, content, $scope.auditmsg);
+        }           
+        /**
+         * pass this item
+         */
+        $scope.passaudit = function () {
+            AuditService.passaudit(2, $scope.auditmsg);
+        }
+        /**
+         * unpass this item, send auditing message to editor
+         */
+        $scope.unpassaudit = function () {
+            AuditService.passaudit(-1, $scope.auditmsg);
+        }
+	}])
+	.controller('ShopareaEditCtrl', ['$scope', '$http', '$routeParams', 'areaResource', 'notifierService', 'selectCityService', 'getUserService', 'AuditService', function($scope, $http, $routeParams, areaResource, notifierService, selectCityService, getUserService, AuditService) {
+		/**
+		 * get area message
+		 * @param  {string} shoparea shoparea id
+		 */
+		areaResource.get({id: $routeParams.shopareaId}, function(shoparea) {
+			$scope.shoparea = shoparea;
+
+			AuditService.getAudit({id: shoparea._id, en: false}, function (items) {
+                $scope.audit = items[0];
+            });
+            /**
+             * get this task by attraction's cityid
+             */
+            AuditService.getTaskEditor({id: shoparea.city_id, type: 3, en: false}, function (items) {
+                console.log(items);
+                $scope.editor = items[0];
+            });
 		})
 		$scope.setCoverImage = function(imagename) {
 			$scope.shoparea.cover_image = imagename;
@@ -103,10 +184,14 @@ angular.module('cmsAppApp')
          */
         $scope.continents = selectCityService.getContinents();
         $scope.setCountries = function(continent) {
-            $scope.countries = selectCityService.getCountriesByContinent(continent);
+            selectCityService.getCountriesByContinent(continent, function (items) {
+            	$scope.countries = items;
+            });
         }
         $scope.setCities = function(country) {
-            $scope.cities = selectCityService.getCitiesByCountry(country);
+            selectCityService.getCitiesByCountry(country, function(items) {
+            	$scope.cities = items;
+            });
             console.log($scope.cities)
         }
         $scope.changeCity = function (city) {
@@ -122,6 +207,22 @@ angular.module('cmsAppApp')
 			}
 			$scope.tag="";
 		}
+
+		/**
+         * get auditors by type
+         */
+        getUserService.getUsers({type: 'auditor'}, function (items) {
+            $scope.auditors = items;    
+        });
+        $scope.postAudit = function(){
+            AuditService.postAudit({
+                audit : $scope.audit,
+                editor : $scope.editor,
+                auditor : $scope.audit.auditor
+            }, function (item) {
+                $scope.audit = item;
+            })
+        }
         $scope.save = function () {
             var shoparea = $scope.shoparea;
             shoparea.$update().then(function () {
@@ -137,8 +238,87 @@ angular.module('cmsAppApp')
             })
         }
 	}])
-	.controller('ShopareaNewCtrl', ['$scope',  function($scope) {
+	.controller('ShopareaEditEnCtrl', ['$scope', '$http', '$routeParams', 'areaResource', 'notifierService', 'selectCityService', 'getUserService', 'AuditService', function($scope, $http, $routeParams, areaResource, notifierService, selectCityService, getUserService, AuditService) {
+		/**
+		 * get area message
+		 * @param  {string} shoparea shoparea id
+		 */
+		areaResource.get({id: $routeParams.shopareaId}, function(shoparea) {
+			$scope.shoparea = shoparea;
 
+			AuditService.getAudit({id: shoparea._id, en: true}, function (items) {
+                $scope.audit = items[0];
+            });
+            /**
+             * get this task by attraction's cityid
+             */
+            AuditService.getTaskEditor({id: shoparea.city_id, type: 3, en: true}, function (items) {
+                console.log(items);
+                $scope.editor = items[0];
+            });
+		})
+
+		/**
+         * get auditors by type
+         */
+        getUserService.getUsers({type: 'auditor'}, function (items) {
+            $scope.auditors = items;    
+        });
+        $scope.postAudit = function(){
+            AuditService.postAudit({
+                audit : $scope.audit,
+                editor : $scope.editor,
+                auditor : $scope.audit.auditor
+            }, function (item) {
+                $scope.audit = item;
+            })
+        }
+        $scope.save = function () {
+            var shoparea = $scope.shoparea;
+            shoparea.$update().then(function () {
+                notifierService.notify({
+                    type: 'success',
+                    msg: 'update shoparea success!'
+                })
+            }).catch(function () {
+                notifierService.notify({
+                    type: 'danger',
+                    msg: 'update shoparea failed!error:' + res.status
+                })
+            })
+        }
+
+	}])
+	.controller('ShopareaNewCtrl', ['$scope', 'areaResource', 'notifierService', 'selectCityService', function($scope, areaResource, notifierService, selectCityService) {
+		$scope.shoparea = {};
+
+		/**
+         * init select options of cities
+         */
+        $scope.continents = selectCityService.getContinents();
+        $scope.setCountries = function(continent) {
+            selectCityService.getCountriesByContinent(continent, function (items) {
+                $scope.countries = items;
+            });
+        }
+        $scope.setCities = function(country) {
+            selectCityService.getCitiesByCountry(country, function (items) {
+                $scope.cities = items;
+            });
+        }
+        $scope.changeCity = function (city) {
+            $scope.shoparea.city_name = city.cityname;
+            $scope.shoparea.city_id = city._id;
+        }
+        $scope.save = function(){
+            var shoparea = $scope.shoparea;
+            areaResource.save(shoparea, function () {
+                notifierService.notify({
+                    type: 'success',
+                    msg: '成功添加新购物区域!'
+                })
+            })
+        }
 	}])
 	.controller('ShopareaFileuploadCtrl', ['$scope', 'FileUploader', '$routeParams', 'areaResource', 'notifierService', function($scope, FileUploader, $routeParams, areaResource, notifierService) {
 		// lead turnback button to shoparealist

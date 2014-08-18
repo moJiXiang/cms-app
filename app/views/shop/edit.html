@@ -208,36 +208,25 @@
 			<pre ng-repeat="comment in shop.comments">{{comment}}</pre>
 		</div>
 
-		<div class="bs-callout bs-callout-danger" id="a10">
-			<div class="alert alert-warning" ng-show="checked">
-				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
-		    </div>
-			<input type="checkbox" class="commentbtn" ng-model="checked" >
-			<h4>introduce</h4>
-			<text-angular ng-model="shop.en_info.introduce"></text-angular>
-		</div>
-
-		<div class="bs-callout bs-callout-danger" id="a11">
-			<div class="alert alert-warning" ng-show="checked">
-				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
-		    </div>
-			<input type="checkbox" class="commentbtn" ng-model="checked" >
-			<h4>tips</h4>
-			<text-angular ng-model="shop.en_info.tips"></text-angular>
-			<pre>{{shop.en_info.tips}}</pre>
-		</div>
-
-		<div class="bs-callout bs-callout-danger" id="a12">
-			<div class="alert alert-warning" ng-show="checked">
-				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
-		    </div>
-			<input type="checkbox" class="commentbtn" ng-model="checked" >
-			<h4>comments</h4>
-			<text-angular ng-model="shop.en_info.comments"></text-angular>
-		</div>
+		
 	</div>
 	<div class="col-lg-3">
 		<nav id="citynavaffix" class="citynav affix" data-spy="affix" data-offset-top="200">
+			<button type="button" ng-click="save()" class="btn btn-success">保存</button>
+			<a href="#/shoplist" class="btn btn-default">返回</a>
+			<div class="auditmsg alert alert-info">
+				<h4>编辑:{{editor.editor_name}}</h4>
+				<h4>审核:{{audit.auditorname}}</h4>
+				<div ng-hide="audit.status == 2">
+			        <div class="input-group">
+					    <div class="input-group-addon">中文审核</div>
+						<select class="form-control" ng-model="audit.auditor" ng-options="item.editor_name for item in auditors">
+							<option value="">-- 选择审核 --</option>
+						</select>
+				    </div>	
+					<button type="button" ng-click="postAudit()" class="btn btn-primary">提交审核</button>
+				</div>
+			</div>
 			<h2>{{shop.name}}</h2>
 			<ul>
 				<li scroll-on-click>封面图片</li>
@@ -248,14 +237,6 @@
 				<li scroll-on-click>简介</li>
 				<li scroll-on-click>小贴士</li>
 				<li scroll-on-click>评论</li>
-				<li scroll-on-click>introduce</li>
-				<li scroll-on-click>tips</li>
-				<li scroll-on-click>comments</li>
 			</ul>
 		</nav>
-		<div class="editbtns affix">
-			<button type="button" ng-click="save()" class="btn btn-success">保存</button>
-			<button type="button" ng-click="save()" class="btn btn-primary">post auditing</button>
-			<a href="#/shoplist" class="btn btn-default">返回</a>
-		</div>
 	</div>

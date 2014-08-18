@@ -5,13 +5,10 @@
 		</div>
 		<div class="bs-callout bs-callout-info" id="a2">
 			<h4>图片</h4>
-			<div class="slidemodel">
-			    <carousel interval="myInterval">
-			      <slide ng-repeat="image in restaurant.image" active="slide.active">
-			        <img ng-src="http://weegotest.b0.upaiyun.com/restaurant/origin/{{image}}" style="margin:auto;">
-			      </slide>
-			    </carousel>
-			  </div>
+			<ul rn-carousel rn-carousel-buffered rn-carousel-indicator rn-carousel-control class="my-slider ng-cloak">
+	            <li ng-repeat="img in restaurant.image" ng-style="{'background-image': 'url(http://weegotest.b0.upaiyun.com/restaurant/origin/' + img + ')'}" style="background-size: 100% 100%">
+	            </li>
+	        </ul>
 		</div>
 		<div class="bs-callout bs-callout-info" id="a3">
 			<h4>餐馆基本信息</h4>
@@ -178,36 +175,16 @@
 			<h4>评论</h4>
 			<pre ng-repeat="comment in restaurant.comments">{{comment}}</pre>
 		</div>
-
-		<div class="bs-callout bs-callout-danger" id="a11">
-			<div class="alert alert-warning" ng-show="checked">
-				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
-		    </div>
-			<input type="checkbox" class="commentbtn" ng-model="checked" >
-			<h4>introduce</h4>
-			<pre>{{restaurant.en_info.introduce}}</pre>
-		</div>
-
-		<div class="bs-callout bs-callout-danger" id="a12">
-			<div class="alert alert-warning" ng-show="checked">
-				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
-		    </div>
-			<input type="checkbox" class="commentbtn" ng-model="checked" >
-			<h4>tips</h4>
-			<pre>{{restaurant.en_info.tips}}</pre>
-		</div>
-
-		<div class="bs-callout bs-callout-danger" id="a13">
-			<div class="alert alert-warning" ng-show="checked">
-				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
-		    </div>
-			<input type="checkbox" class="commentbtn" ng-model="checked" >
-			<h4>traffic</h4>
-			<pre>{{restaurant.en_info.comments}}</pre>
-		</div>
 	</div>
 	<div class="col-lg-3">
 		<nav id="citynavaffix" class="citynav affix" data-spy="affix" data-offset-top="200">
+			<a href="#/restaurantlist" class="btn btn-default">返回</a>
+			<div class="auditmsg alert alert-info">
+				<h4>编辑:{{auditmsg.editorname}}</h4>
+				<h4>审核:{{auditmsg.auditorname}}</h4>
+				<button type="button" ng-click="passaudit()" class="btn btn-success" ng-hide="auditmsg.status == 2">通过审核</button>
+				<button type="button" ng-click="unpassaudit()" class="btn btn-warning" ng-hide="auditmsg.status == 2">未通过</button>
+			</div>
 			<h2>{{restaurant.name}}</h2>
 			<ul>
 				<li scroll-on-click>封面图片</li>
@@ -220,12 +197,6 @@
 				<li scroll-on-click>简介</li>
 				<li scroll-on-click>小贴士</li>
 				<li scroll-on-click>评论</li>
-				<li scroll-on-click>introduce</li>
-				<li scroll-on-click>tips</li>
-				<li scroll-on-click>comments</li>
 			</ul>
 		</nav>
-		<div class="editbtns affix">
-			<a href="#/restaurantlist" class="btn btn-default">返回</a>
-		</div>
 	</div>

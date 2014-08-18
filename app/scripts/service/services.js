@@ -59,13 +59,17 @@ app.factory('selectCityService', ['countryResource', 'cityResource', function (c
                     {name: "大洋洲", value: "OC"}
                 ]
         },
-        getCountriesByContinent : function (continent) {
+        getCountriesByContinent : function (continent, cb) {
             var continentcode = continent.value;
-            return countryResource.query({"getCountriesByContinent": continentcode})
+            countryResource.query({"getCountriesByContinent": continentcode}, function(items){
+                cb(items);
+            })
         },
-        getCitiesByCountry : function (country) {
+        getCitiesByCountry : function (country, cb) {
             var countrycode = country.code;
-            return cityResource.query({'getCitiesByCountrycode': countrycode})
+            cityResource.query({'getCitiesByCountrycode': countrycode}, function (items) {
+                cb(items);
+            })
         }
     }
 }]);
@@ -130,6 +134,29 @@ app.factory('getUserService', ['userResource', function (userResource) {
 
 app.factory('AuditService', ['auditingResource', 'taskResource', 'notifierService', function (auditingResource, taskResource, notifierService) {
     return {
+        getItemsAudit : function () {
+            // add all citys's id in an array for http request
+            // var itemids = citys.map(function(city) {
+            //  return city._id
+            // });
+
+            // auditingResource.query({"items": itemids.join(',')}, function(audits) {
+            //  console.log(audits);
+            //  var cities = citys.forEach(function(city) {
+            //      var id = city._id;
+            //      audits.forEach(function(audit) {
+            //          var item_id = audit.item_id;
+            //          if(id == item_id) {
+            //              if(audit.en) {
+            //                  city.audit_en = audit;
+            //              } else {
+            //                  city.audit_zh = audit;
+            //              }
+            //          }
+            //      })
+            //  })
+            // })
+        },
         getAudit : function (opt, cb) {
 
             auditingResource.query({criteria:{item_id: opt.id, en: opt.en}}, function (items) {
@@ -143,43 +170,90 @@ app.factory('AuditService', ['auditingResource', 'taskResource', 'notifierServic
         },
         postAudit : function (opt, cb) {
             console.log(opt);
-            if(!opt.editor){
+            if(!opt.editor.editor_name){
                 notifierService.notify({
                     type: 'danger',
-                    msg: 'This city has not be appointed to any editor! You should ask Admin!'
+                    msg: '这个城市还没有被指派任务，请询问管理员！!'
                 })
-            } 
-            if(!opt.auditor){
+            } else if(!opt.auditor){
                 notifierService.notify({
                     type: 'danger',
-                    msg: 'You should appoint one auditor!'
-                })
-            }
-            if(!opt.audit._id){
-                var audit = opt.audit;
-                audit.item_id = opt.item_id;
-                audit.type = opt.type;
-                audit.name = opt.name;
-                audit.status = opt.status;
-                audit.en = opt.en;
-                audit.editorname = opt.editor.editor_name;
-                audit.editorid = opt.editor.editor_id;
-                audit.auditorname = opt.audit.auditor.editor_name;
-                audit.auditorid = opt.audit.auditor.editor_id;
-                cb(audit);
-                auditingResource.save(audit, function (item) {
-                    notifierService.notify({
-                        type: 'success',
-                        msg: '  send to '+ item.auditorname
-                    })
+                    msg: '你必须指定一个审核员!'
                 })
             } else {
-                notifierService.notify({
+
+                console.log(opt.audit);
+                var audit         = opt.audit;
+                audit.editorname  = opt.editor.editor_name;
+                audit.editorid    = opt.editor.editor_id;
+                audit.auditorname = opt.audit.auditor.editor_name;
+                audit.auditorid   = opt.audit.auditor.editor_id;
+                if(audit.editorname == audit.auditorname){
+                    notifierService.notify({
+                        type: 'danger',
+                        msg: '不能给自己提交审核，请指定其他编辑!'
+                    })
+                } else {
+                    audit.$save({cmd: 'submit'}, function (data) {
+                        console.log(data);
+                        notifierService.notify({
+                            type: 'success',
+                            msg: '已发送给'+ audit.auditorname + '!'
+                        })
+                    })
+                }
+            }
+            cb(audit);
+            
+        },
+        savecomment : function (field, content, auditmsg) {
+            var commentitem = {
+                field: field,
+                comment: content
+            }
+            console.log(commentitem);
+            var fieldarr = auditmsg.auditcomment.map(function (item) {
+                return item.field;
+            })
+            var index = fieldarr.indexOf(field);
+            console.log(index);
+            if(index >= 0){
+
+                auditmsg.auditcomment.splice(index, 1, commentitem);
+            } else {
+                auditmsg.auditcomment.push(commentitem);
+            }
+            notifierService.notify({
+                type: 'success',
+                msg: '保存批注成功！'
+            })
+        },
+        passaudit : function (status, auditmsg) {
+            console.log(auditmsg)
+            if(auditmsg.auditorname){
+                if(status == 2){
+                    auditmsg.$save({cmd: 'approve'}, function(data) {
+                        console.log(data);
+                        notifierService.notify({
+                            type: 'success',
+                            msg: '此项已通过审核'
+                        })
+                    })
+                } else {
+                    auditmsg.$save({cmd: 'fail'}, function(data) {
+                        console.log(data);
+                        notifierService.notify({
+                            type: 'warning',
+                            msg: '此项未通过审核'
+                        })
+                    })
+                }
+            } else {
+                 notifierService.notify({
                     type: 'danger',
-                    msg: 'You can not send this item to '+ opt.audit.auditor.editor_name +' anymore!'
+                    msg: '此项未被编辑提交，不能进行审核！'
                 })
             }
-            
         }
     }
 }])

@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
-var app = angular.module('cmsAppApp', ['ngAnimate', 'ngCookies', 'ngResource', 'ngRoute', 'ngSanitize', 'ngTouch', 'ngGrid', 'ui.bootstrap','textAngular','angularFileUpload'])
+var app = angular.module('cmsAppApp', ['ngAnimate', 'ngCookies', 'ngResource', 'ngRoute', 'ngSanitize', 'ngTouch', 'ngGrid', 'ui.bootstrap','textAngular','angularFileUpload', 'angular-carousel'])
 
 app.factory('authenticationInterceptor', ['$q', '$window', '$location', function($q, $window, $location) {
   return {
@@ -51,6 +51,10 @@ app.config(['$routeProvider', '$locationProvider', '$resourceProvider', '$httpPr
       templateUrl: 'views/city/detail.html',
       controller: 'CityDetailCtrl'
     })
+    .when('/citylist/:cityId/detail_en',{
+      templateUrl: 'views/city/detail_en.html',
+      controller: 'CityDetailEnCtrl'
+    })
     .when('/citylist/:cityId/edit',{
       templateUrl: 'views/city/edit.html',
       controller: 'CityEditCtrl'
@@ -82,9 +86,17 @@ app.config(['$routeProvider', '$locationProvider', '$resourceProvider', '$httpPr
       templateUrl: 'views/attraction/detail.html',
       controller: 'AttractionDetailCtrl'
     })
+    .when('/attractionlist/:attractionId/detail_en',{
+      templateUrl: 'views/attraction/detail_en.html',
+      controller: 'AttractionDetailEnCtrl'
+    })
     .when('/attractionlist/:attractionId/edit',{
       templateUrl: 'views/attraction/edit.html',
       controller: 'AttractionEditCtrl'
+    })
+    .when('/attractionlist/:attractionId/edit_en',{
+      templateUrl: 'views/attraction/edit_en.html',
+      controller: 'AttractionEditEnCtrl'
     })
     .when('/attractionlist/addnewattraction',{
       templateUrl: 'views/attraction/edit.html',
@@ -105,11 +117,19 @@ app.config(['$routeProvider', '$locationProvider', '$resourceProvider', '$httpPr
       templateUrl: 'views/restaurant/detail.html',
       controller: 'RestaurantDetailCtrl'
     })
+    .when('/restaurantlist/:restaurantId/detail_en',{
+      templateUrl: 'views/restaurant/detail_en.html',
+      controller: 'RestaurantDetailEnCtrl'
+    })
     .when('/restaurantlist/:restaurantId/edit',{
       templateUrl: 'views/restaurant/edit.html',
       controller: 'RestaurantEditCtrl'
     })
-    .when('/restaurantlist/addnewattraction',{
+    .when('/restaurantlist/:restaurantId/edit_en',{
+      templateUrl: 'views/restaurant/edit_en.html',
+      controller: 'RestaurantEditEnCtrl'
+    })
+    .when('/restaurantlist/addnewrestaurant',{
       templateUrl: 'views/restaurant/edit.html',
       controller: 'RestaurantNewCtrl'
     })
@@ -128,11 +148,19 @@ app.config(['$routeProvider', '$locationProvider', '$resourceProvider', '$httpPr
       templateUrl: 'views/shop/detail.html',
       controller: 'ShopDetailCtrl'
     })
+    .when('/shoplist/:shopId/detail_en',{
+      templateUrl: 'views/shop/detail_en.html',
+      controller: 'ShopDetailEnCtrl'
+    })
     .when('/shoplist/:shopId/edit',{
       templateUrl: 'views/shop/edit.html',
       controller: 'ShopEditCtrl'
     })
-    .when('/shoplist/addnewattraction',{
+    .when('/shoplist/:shopId/edit_en',{
+      templateUrl: 'views/shop/edit_en.html',
+      controller: 'ShopEditEnCtrl'
+    })
+    .when('/shoplist/addnewshop',{
       templateUrl: 'views/shop/edit.html',
       controller: 'ShopNewCtrl'
     })
@@ -151,11 +179,19 @@ app.config(['$routeProvider', '$locationProvider', '$resourceProvider', '$httpPr
       templateUrl: 'views/shoparea/detail.html',
       controller: 'ShopareaDetailCtrl'
     })
+    .when('/shoparealist/:shopareaId/detail_en',{
+      templateUrl: 'views/shoparea/detail_en.html',
+      controller: 'ShopareaDetailEnCtrl'
+    })
     .when('/shoparealist/:shopareaId/edit',{
       templateUrl: 'views/shoparea/edit.html',
       controller: 'ShopareaEditCtrl'
     })
-    .when('/shoparealist/addnewattraction',{
+    .when('/shoparealist/:shopareaId/edit_en',{
+      templateUrl: 'views/shoparea/edit_en.html',
+      controller: 'ShopareaEditEnCtrl'
+    })
+    .when('/shoparealist/addnewshoparea',{
       templateUrl: 'views/shoparea/edit.html',
       controller: 'ShopareaNewCtrl'
     })
@@ -176,7 +212,7 @@ app.config(['$routeProvider', '$locationProvider', '$resourceProvider', '$httpPr
       controller: 'metaController'
     })
 
-    .when('/task/:cityid/:type', {
+    .when('/task/:cityid/:type/:en', {
       templateUrl: 'views/audit/auditlist.html',
       controller: 'AuditListCtrl'
     })

@@ -1,0 +1,121 @@
+<div class="col-lg-9">
+	<div class="bs-callout bs-callout-danger" id="a15">
+		<div class="alert alert-warning" ng-show="a15box">
+			<span class="glyphicon glyphicon-thumbs-up"></span>
+			<textarea class="form-control itemcomment" rows='2' ng-model="a15c"></textarea>
+			<button type="button" class="btn btn-default" ng-click="savecomment('a15c', a15c)">保存</button>
+	    </div>
+		<input type="checkbox" class="commentbtn" ng-model="a15box" >
+		<h4>short introduce</h4>
+		<pre ng-bind-html="city.en_info.short_introduce"></pre>
+		
+	</div>
+	<div class="bs-callout bs-callout-danger" id="a16">
+		<div class="alert alert-warning" ng-show="a16box">
+			<span class="glyphicon glyphicon-thumbs-up"></span>
+			<textarea class="form-control itemcomment" rows='2' ng-model="a16c"></textarea>
+			<button type="button" class="btn btn-default" ng-click="savecomment('a16c', a16c)">保存</button>
+	    </div>
+		<input type="checkbox" class="commentbtn" ng-model="a16box" >
+		<h4>attraction overview</h4>
+		<pre ng-bind-html="city.en_info.attraction_overview"></pre>
+	</div>
+	<div class="bs-callout bs-callout-danger" id="a17">
+		<div class="alert alert-warning" ng-show="a17box">
+			<span class="glyphicon glyphicon-thumbs-up"></span>
+			<textarea class="form-control itemcomment" rows='2' ng-model="a17c"></textarea>
+			<button type="button" class="btn btn-default" ng-click="savecomment('a17c', a17c)">保存</button>
+	    </div>
+		<input type="checkbox" class="commentbtn" ng-model="a17box" >
+		<h4>restaurant overview</h4>
+		<pre ng-bind-html="city.en_info.restaurant_overview"></pre>
+	</div>
+	<div class="bs-callout bs-callout-danger" id="a18">
+		<div class="alert alert-warning" ng-show="a18box">
+			<span class="glyphicon glyphicon-thumbs-up"></span>
+			<textarea class="form-control itemcomment" rows='2' ng-model="a18c"></textarea>
+			<button type="button" class="btn btn-default" ng-click="savecomment('a18c', a18c)">保存</button>
+	    </div>
+		<input type="checkbox" class="commentbtn" ng-model="a18box" >
+		<h4>shopping overview</h4>
+		<pre ng-bind-html="city.en_info.shopping_overview"></pre>
+	</div>
+
+	<div class="bs-callout bs-callout-danger" id="a19">
+		<div class="alert alert-warning" ng-show="a19box">
+			<span class="glyphicon glyphicon-thumbs-up"></span>
+			<textarea class="form-control itemcomment" rows='2' ng-model="a19c"></textarea>
+			<button type="button" class="btn btn-default" ng-click="savecomment('a19c', a19c)">保存</button>
+	    </div>
+		<input type="checkbox" class="commentbtn" ng-model="a19box" >
+		<h4>introduce</h4>
+		<div class="bs-callout bs-callout-danger bs-small" ng-repeat="introduce in city.en_info.introduce">
+			<h4>{{introduce.intrItemTitle}}</h4>
+			<pre ng-bind-html="introduce.intrItemContent"></pre>
+		</div>
+	</div>
+
+	<div class="bs-callout bs-callout-danger" id="a20">
+		<div class="alert alert-warning" ng-show="a20box">
+			<span class="glyphicon glyphicon-thumbs-up"></span>
+			<textarea class="form-control itemcomment" rows='2' ng-model="a20c"></textarea>
+			<button type="button" class="btn btn-default" ng-click="savecomment('a20c', a20c)">保存</button>
+			<button type="button" class="btn btn-danger">删除</button>
+	    </div>
+		<input type="checkbox" class="commentbtn" ng-model="a20box" >
+		<h4>tips</h4>
+		<div class="bs-callout bs-callout-danger bs-small" ng-repeat="tip in city.en_info.tips">
+			<h4>{{tip.tipItemTitle}}</h4>
+			<pre ng-bind-html="tip.tipItemContent"></pre>
+		</div>
+	</div>
+
+	<div class="bs-callout bs-callout-danger" id="a21">
+		<div class="alert alert-warning" ng-show="a21box">
+			<span class="glyphicon glyphicon-thumbs-up"></span>
+			<textarea class="form-control itemcomment" rows='2' ng-model="a21c"></textarea>
+			<button type="button" class="btn btn-default" ng-click="savecomment('a21c', a21c)">保存</button>
+			<button type="button" class="btn btn-danger">删除</button>
+	    </div>
+		<input type="checkbox" class="commentbtn" ng-model="a21box" >
+		<h4>traffic</h4>
+		<div class="bs-callout bs-callout-danger bs-small" ng-repeat="traffic in city.en_info.traffic">
+			<h4>{{traffic.traItemTitle}}</h4>
+			<pre ng-bind-html="traffic.traItemContent"></pre>
+		</div>
+	</div>
+
+	<div class="bs-callout bs-callout-info" id="a22">
+		<div class="alert alert-warning" ng-show="a22box">
+			<span class="glyphicon glyphicon-thumbs-up"></span>
+			<textarea class="form-control itemcomment" rows='2' ng-model="a22c"></textarea>
+			<button type="button" class="btn btn-default" ng-click="savecomment('a22c', a22c)">保存</button>
+			<button type="button" class="btn btn-danger">删除</button>
+	    </div>
+		<input type="checkbox" class="commentbtn" ng-model="a22box" >
+
+		<h4>城市概述</h4>
+		<pre ng-bind-html="city.en_info.city_overview"></pre>
+	</div>
+</div>
+<div class="col-lg-3">
+	<nav id="citynavaffix" class="citynav affix" data-spy="affix" data-offset-top="200">
+		<a href="#/citylist" class="btn btn-default">返回</a>
+		<div class="auditmsg alert alert-info">
+			<h4>编辑:{{auditmsg.editorname}}</h4>
+			<h4>审核:{{auditmsg.auditorname}}</h4>
+			<button type="button" ng-click="passaudit()" class="btn btn-success">通过审核</button>
+			<button type="button" ng-click="unpassaudit()" class="btn btn-warning">未通过</button>
+		</div>
+		<h2>{{city.cityname}}</h2>
+		<ul>
+			<li scroll-on-click>short introduce</li>
+			<li scroll-on-click>attraction overview</li>
+			<li scroll-on-click>restaurant overview</li>
+			<li scroll-on-click>shopping overview</li>
+			<li scroll-on-click>introduce</li>
+			<li scroll-on-click>tips</li>
+			<li scroll-on-click>traffic</li>
+		</ul>
+	</nav>
+</div>

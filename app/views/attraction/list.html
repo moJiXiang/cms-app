@@ -1,13 +1,11 @@
-<div class="modal-header">
-	<input type="text" ng-model="asyncSelected" placeholder="输入:niuyue" typeahead="result for result in getItem($viewValue)" class="form-control searchcitybtn" typeahead-wait-ms="1000">
+<input type="text" ng-model="cityname" placeholder="输入城市" typeahead="result for result in getItemByCity($viewValue)" class="form-control searchcitybtn" typeahead-wait-ms="1000">
+<input type="text" ng-model="attraction" placeholder="输入景点名" typeahead="result for result in getItem($viewValue)" class="form-control searchcitybtn" typeahead-wait-ms="1000">
 
-	<!-- <input type="text" ng-model="value" class="form-control searchcitybtn" ng-change="getItem(value)"> -->
-	<a type="button" class="btn btn-default" ng-href="#/citylist/addnewcity">新增城市</a>
+<!-- <input type="text" ng-model="value" class="form-control searchcitybtn" ng-change="getItem(value)"> -->
 
-	<pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm paginationmodel" boundary-links="true" ng-change="pageChanged()" ng-init="pageChanged()"></pagination>
-	<div class="col-sm-1 pagenum">
-		<pre>Page: {{currentPage}}/{{numPages ? numPages : 1}}</pre>
-	</div>
+<pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm paginationmodel" boundary-links="true" items-per-page="20" ng-change="pageChanged()" ng-init="pageChanged()" num-pages="numPages"></pagination>
+<div class="col-sm-1 pagenum">
+	<pre>Page: {{currentPage}}/{{numPages}}</pre>
 </div>
 <table class="table table-hover">
 	<thead>
@@ -17,6 +15,7 @@
 			<th>城市首页</th>
 			<th>是否推荐</th>
 			<th>是否显示</th>
+			<th>图片</th>
 			<th>操作</th>
 		</tr>
 	</thead>
@@ -27,13 +26,16 @@
 			<td>{{attraction.index_flag}}</td>
 			<td>{{attraction.recommand_flag}}</td>
 			<td>{{attraction.show_flag}}</td>
+			<td>{{attraction.imagenum}}</td>
 			<td>
 				
-				<a type="button" href="#/attractionlist/{{attraction._id}}/edit" class="btn btn-default">编辑</a>
-				<a type="button" href="#/attractionlist/{{attraction._id}}/detail" class="btn btn-default">预览</a>
+				<a type="button" href="#/attractionlist/{{attraction._id}}/edit" class="btn btn-default">中文编辑</a>
+				<a type="button" href="#/attractionlist/{{attraction._id}}/detail" class="btn btn-default">中文审核</a>
+				<a type="button" href="#/attractionlist/{{attraction._id}}/edit_en" class="btn btn-info">英文编辑</a>
+				<a type="button" href="#/attractionlist/{{attraction._id}}/detail_en" class="btn btn-info">英文审核</a>
 				<a type="button" href="#/attractionlist/{{attraction._id}}/fileupload" class="btn btn-default">上传图片</a>
-				<button type="button" ng-click="del(attractionlist._id)" class="btn btn-danger">删除</button>
 			</td>
 		</tr>
 	</tbody>
 </table>
+<a type="button" class="btn btn-primary" ng-href="#/attractionlist/addnewattraction">新增景点</a>

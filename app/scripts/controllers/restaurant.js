@@ -319,7 +319,24 @@ angular.module('cmsAppApp')
                 $scope.audit = item;
             })
         }
-
+        /**
+         * update restaurant
+         */
+        $scope.save = function() {
+            console.log($scope.restaurant)
+            var restaurant = $scope.restaurant;
+            restaurant.$update().then(function () {
+                notifierService.notify({
+                    type: 'success',
+                    msg: '更新餐馆成功！'
+                })
+            }).catch(function () {
+                notifierService.notify({
+                    type: 'danger',
+                    msg: '更新餐馆失败！错误码' + res.status
+                })
+            })
+        }
     }])
 	.controller('RestaurantNewCtrl', ['$scope', 'selectCityService', 'restaurantResource', 'notifierService', function($scope, selectCityService, restaurantResource, notifierService) {
 

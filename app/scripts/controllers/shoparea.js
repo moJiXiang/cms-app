@@ -20,7 +20,8 @@ angular.module('cmsAppApp')
 		$scope.pageChanged = function() {
 			areaResource.query({
 				city_name: $scope.cityname,
-				offset: ($scope.currentPage - 1) * 20
+				offset: ($scope.currentPage - 1) * 20,
+                order : edit
 			}, function(items) {
 				items.forEach(function (item) {
 					item.imagenum = item.image.length;

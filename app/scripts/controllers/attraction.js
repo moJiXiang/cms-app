@@ -283,6 +283,24 @@ angular.module('cmsAppApp')
                 $scope.audit = item;
             })
         }
+
+        /**
+         * save attraction
+         */
+        $scope.save = function() {
+            var attraction = $scope.attraction;
+            attraction.$update().then(function() {
+                notifierService.notify({
+                    type: 'success',
+                    msg: '更新景点成功！'
+                })
+            }).catch(function(res) {
+                notifierService.notify({
+                    type: 'danger',
+                    msg: '更新景点失败！错误码' + res.status
+                })
+            })
+        }
     }])
     .controller('AttractionNewCtrl', ['$scope', 'attractionResource', 'notifierService', 'selectCityService', function ($scope, attractionResource, notifierService, selectCityService) {
         $scope.attraction = {};

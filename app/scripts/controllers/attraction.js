@@ -8,19 +8,22 @@
  * Controller of the cmsAppApp
  */
 angular.module('cmsAppApp')
-	.controller('AttractionListCtrl', ['$scope', 'attractionResource', function($scope, attractionResource) {
+	.controller('AttractionListCtrl', ['$scope', '$cookies', 'attractionResource', function($scope, $cookies, attractionResource) {
 		/**
 		 * get attractions and pagination
 		 */
 		attractionResource.count({}, function(data) {
 			$scope.totalItems = data.result;
-		})
-		$scope.currentPage = 1;
-		$scope.maxSize     = 5;
+    		$scope.currentPage = $cookies.attr_currentPage != undefined ? $cookies.attr_currentPage : 1;
+    		$scope.maxSize     = 5;
+            $scope.pageChanged();
+        })
 		$scope.pageChanged = function() {
+            $cookies.attr_currentPage = $scope.currentPage;
             attractionResource.query({
                 cityname: $scope.cityname,
-                offset: ($scope.currentPage - 1) * 20
+                offset: ($scope.currentPage - 1) * 20,
+                sort: "-show_flag"
             }, function(items) {
                 items.forEach(function (item) {
                     item.imagenum = item.image.length;
@@ -29,13 +32,18 @@ angular.module('cmsAppApp')
 
             })
 		}
+        $scope.cityname = $cookies.attr_cityname;
 
         $scope.getItemByCity = function(val) {
+            $cookies.attr_cityname = val;
             attractionResource.count({cityname: val}, function(data) {
                 console.log(data.result)
                 $scope.totalItems = data.result;
             })
             return attractionResource.query({cityname: val}, function(items) {
+                items.forEach(function (item) {
+                    item.imagenum = item.image.length;
+                })
                 $scope.attractions = items;
                 // prevent err of typeahead `length of null `
                 return [];

@@ -8,34 +8,44 @@
  * Controller of the cmsAppApp
  */
 angular.module('cmsAppApp')
-	.controller('RestaurantListCtrl', ['$scope', 'restaurantResource', function($scope, restaurantResource) {
+	.controller('RestaurantListCtrl', ['$scope', '$cookies', 'restaurantResource', function($scope, $cookies, restaurantResource) {
 		/**
 		 * get restaurants and pagination
 		 */
-		restaurantResource.count({}, function(data) {
+        restaurantResource.count({}, function(data) {
 			$scope.totalItems = data.result;
-		})
-		$scope.currentPage = 1;
-		$scope.maxSize     = 5;
-		$scope.pageChanged = function() {
+
+            $scope.currentPage = $cookies.res_currentPage != undefined ? $cookies.res_currentPage : 1;
+            $scope.maxSize     = 5;
+            $scope.pageChanged();
+        })
+
+        $scope.pageChanged = function() {
+            $cookies.res_currentPage = $scope.currentPage;
             restaurantResource.query({
                 city_name: $scope.cityname,
-                offset: ($scope.currentPage - 1) * 20
+                offset: ($scope.currentPage - 1) * 20,
+                sort: "-show_flag"
             }, function(items) {
                 items.forEach(function(item) {
                     item.imagecount = item.image.length;
                 })
                 $scope.restaurants = items;
             })
-		}
-		/**
-		 * search filters
-		 */
+        }
+        $scope.cityname = $cookies.res_cityname;
+        /**
+         * search filters
+         */
         $scope.getRestaurantsBycity = function (val) {
+            $cookies.res_cityname = val;
             restaurantResource.count({city_name: val}, function(data) {
                 $scope.totalItems = data.result;
             })
             return restaurantResource.query({city_name: val}, function (items) {
+                items.forEach(function(item) {
+                    item.imagecount = item.image.length;
+                })
                 $scope.restaurants = items;
                 return [];
             })

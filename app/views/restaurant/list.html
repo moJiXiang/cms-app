@@ -2,7 +2,7 @@
 
 <input type="text" ng-model="resname" placeholder="输入餐馆名" typeahead="result for result in getRestaurant($viewValue)" class="form-control searchcitybtn" typeahead-wait-ms="1000">
 
-<pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm paginationmodel" boundary-links="true" items-per-page="20" ng-change="pageChanged()" ng-init="pageChanged()" num-pages="numPages"></pagination>
+<pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm paginationmodel" boundary-links="true" items-per-page="20" ng-change="pageChanged()" num-pages="numPages"></pagination>
 <div class="col-sm-2 pagenum">
 	<pre>Page: {{currentPage}}/{{numPages}}</pre>
 </div>
@@ -11,7 +11,8 @@
 		<tr>
 			<th>城市</th>
 			<th>餐厅</th>
-			<th>images num</th>
+			<th>图片数量</th>
+			<th>是否显示</th>
 			<th>操作</th>
 		</tr>
 	</thead>
@@ -20,13 +21,13 @@
 			<td>{{restaurant.city_name}}</td>
 			<td>{{restaurant.name}}</td>
 			<td>{{restaurant.imagecount}}</td>
+			<td>{{restaurant.show_flag}}</td>
 			<td>
 				<a type="button" href="#/restaurantlist/{{restaurant._id}}/edit" class="btn btn-default">中文编辑</a>
 				<a type="button" href="#/restaurantlist/{{restaurant._id}}/detail" class="btn btn-default">中文审核</a>
 				<a type="button" href="#/restaurantlist/{{restaurant._id}}/edit_en" class="btn btn-info">英文编辑</a>
 				<a type="button" href="#/restaurantlist/{{restaurant._id}}/detail_en" class="btn btn-info">英文审核</a>
 				<a type="button" href="#/restaurantlist/{{restaurant._id}}/fileupload" class="btn btn-default">上传图片</a>
-				<button type="button" ng-click="del(restaurant._id)" class="btn btn-danger">删除</button>
 			</td>
 		</tr>
 	</tbody>

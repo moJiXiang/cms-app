@@ -6,7 +6,7 @@
 			<button type="button" class="btn btn-default" ng-click="savecomment('a15c', a15c)">保存</button>
 	    </div>
 		<input type="checkbox" class="commentbtn" ng-model="a15box" >
-		<h4>short introduce</h4>
+		<h4>brief introduce</h4>
 		<pre ng-bind-html="city.en_info.short_introduce"></pre>
 		
 	</div>
@@ -17,7 +17,7 @@
 			<button type="button" class="btn btn-default" ng-click="savecomment('a16c', a16c)">保存</button>
 	    </div>
 		<input type="checkbox" class="commentbtn" ng-model="a16box" >
-		<h4>attraction overview</h4>
+		<h4>attractions overview</h4>
 		<pre ng-bind-html="city.en_info.attraction_overview"></pre>
 	</div>
 	<div class="bs-callout bs-callout-danger" id="a17">
@@ -27,7 +27,7 @@
 			<button type="button" class="btn btn-default" ng-click="savecomment('a17c', a17c)">保存</button>
 	    </div>
 		<input type="checkbox" class="commentbtn" ng-model="a17box" >
-		<h4>restaurant overview</h4>
+		<h4>restaurants overview</h4>
 		<pre ng-bind-html="city.en_info.restaurant_overview"></pre>
 	</div>
 	<div class="bs-callout bs-callout-danger" id="a18">
@@ -48,7 +48,7 @@
 			<button type="button" class="btn btn-default" ng-click="savecomment('a19c', a19c)">保存</button>
 	    </div>
 		<input type="checkbox" class="commentbtn" ng-model="a19box" >
-		<h4>introduce</h4>
+		<h4>detailed introduction</h4>
 		<div class="bs-callout bs-callout-danger bs-small" ng-repeat="introduce in city.en_info.introduce">
 			<h4>{{introduce.intrItemTitle}}</h4>
 			<pre ng-bind-html="introduce.intrItemContent"></pre>
@@ -78,7 +78,7 @@
 			<button type="button" class="btn btn-danger">删除</button>
 	    </div>
 		<input type="checkbox" class="commentbtn" ng-model="a21box" >
-		<h4>traffic</h4>
+		<h4>public transport</h4>
 		<div class="bs-callout bs-callout-danger bs-small" ng-repeat="traffic in city.en_info.traffic">
 			<h4>{{traffic.traItemTitle}}</h4>
 			<pre ng-bind-html="traffic.traItemContent"></pre>

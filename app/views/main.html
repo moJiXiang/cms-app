@@ -1,4 +1,5 @@
 <pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm paginationmodel" boundary-links="true" ng-change="pageChanged()" items-per-page="20" ng-init="pageChanged()" num-pages="numPages"></pagination>
+
 <div class="col-sm-1 pagenum">
   <pre>Page: {{currentPage}}/{{numPages}}</pre>
 </div>
@@ -25,7 +26,7 @@
       <td>
         <a type="button" class="btn btn-default" ng-href="#/task/{{task.city_id}}/{{task.type}}/{{task.en}}">查看任务详细</a>
       </td>
-      <td>{{task.counts.active}}/{{task.minnum}}</td>
+      <td>{{task.counts.active ? task.counts.active : 0}}/{{task.minnum}}</td>
     </tr>
   </tbody>
 </table>

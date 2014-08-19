@@ -8,19 +8,22 @@
  * Controller of the cmsAppApp
  */
 angular.module('cmsAppApp')
-	.controller('ShopListCtrl', ['$scope', 'shoppingResource', function($scope, shoppingResource) {
+	.controller('ShopListCtrl', ['$scope', '$cookies', 'shoppingResource', function($scope, $cookies, shoppingResource) {
 		/**
 		 * get shoppings and pagination
 		 */
 		shoppingResource.count({}, function(data) {
 			$scope.totalItems = data.result;
-		})
-		$scope.currentPage = 1;
-		$scope.maxSize     = 5;
+    		$scope.currentPage = $cookies.shop_currentPage != undefined ? $cookies.shop_currentPage : 1;
+    		$scope.maxSize     = 5;
+            $scope.pageChanged();
+        })
 		$scope.pageChanged = function() {
+            $cookies.shop_currentPage = $scope.currentPage;
             shoppingResource.query({
                 city_name: $scope.cityname,
-                offset: ($scope.currentPage - 1) * 20
+                offset: ($scope.currentPage - 1) * 20,
+                sort: "-show_flag"
             }, function(items) {
                 items.forEach(function (item) {
                     item.imagenum = item.image.length;
@@ -28,15 +31,20 @@ angular.module('cmsAppApp')
                 $scope.shoppings = items;
             })
 		}
+        $scope.cityname = $cookies.shop_cityname;
         /**
          * get shops by cityname
          * @param  {string} val value of the input
          */
         $scope.getShopsByCityname = function (val) {
+            $cookies.shop_cityname = val;
             shoppingResource.count({city_name: val}, function(data) {
                 $scope.totalItems = data.result;
             })
             return shoppingResource.query({city_name: val}, function (items) {
+                items.forEach(function (item) {
+                    item.imagenum = item.image.length;
+                })
                 $scope.shoppings = items;
                 return [];
             })

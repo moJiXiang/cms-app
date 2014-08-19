@@ -8,20 +8,22 @@
  * Controller of the cmsAppApp
  */
 angular.module('cmsAppApp')
-	.controller('ShopareaListCtrl', ['$scope', 'areaResource', function($scope, areaResource) {
+	.controller('ShopareaListCtrl', ['$scope', '$cookies', 'areaResource', function($scope,$cookies, areaResource) {
 		/**
 		 * get shopareas and pagination
 		 */
 		areaResource.count({}, function(data) {
 			$scope.totalItems = data.result;
-		})
-		$scope.currentPage = 1;
-		$scope.maxSize     = 5;
+    		$scope.currentPage = $cookies.shoparea_currentPage != undefined ? $cookies.shoparea_currentPage : 1;
+    		$scope.maxSize     = 5;
+            $scope.pageChanged();
+        })
 		$scope.pageChanged = function() {
+            $cookies.shoparea_currentPage = $scope.currentPage;
 			areaResource.query({
 				city_name: $scope.cityname,
 				offset: ($scope.currentPage - 1) * 20,
-                order : edit
+                sort: "-show_flag"   
 			}, function(items) {
 				items.forEach(function (item) {
 					item.imagenum = item.image.length;
@@ -29,12 +31,17 @@ angular.module('cmsAppApp')
 				$scope.shopareas = items;
 			})
 		}
+        $scope.cityname = $cookies.shoparea_cityname;
 		$scope.getShopareasByCity = function (val) {
+            $cookies.shoparea_cityname = val;
 			areaResource.query({city_name: val}, function(data) {
-				$scope.totalItems = data.result;
-			})
-			return areaResource.query({city_name: val}, function(items) {
-				$scope.shopareas = items;
+                $scope.totalItems = data.result;
+            })
+            return areaResource.query({city_name: val}, function(items) {
+                items.forEach(function (item) {
+                    item.imagenum = item.image.length;
+                })
+                $scope.shopareas = items;
 				return [];
 			})
 		}

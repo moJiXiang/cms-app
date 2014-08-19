@@ -17,7 +17,7 @@
  	<div class="col-sm-2">
  		
  	</div>
- 	<pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm paginationmodel" boundary-links="true" rotate="false" items-per-page="20" ng-change="pageChanged()"  ng-init="pageChanged()" num-pages="numPages"></pagination>
+ 	<pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm paginationmodel" boundary-links="true" rotate="false" items-per-page="20" ng-change="pageChanged()" num-pages="numPages"></pagination>
 	<div class="col-sm-1 pagenum">
 		<pre>Page: {{currentPage}}/{{numPages}}</pre>
 	</div>
@@ -27,6 +27,7 @@
 			<tr>
 				<th>国家</th>
 				<th>城市</th>
+				<th>是否显示</th>
 				<th>城市图片</th>
 				<th>城市大图</th>
 				<th>操作</th>
@@ -36,6 +37,7 @@
 			<tr ng-repeat="city in cities | filter: query">
 				<td>{{city.countryname}}</td>
 				<td>{{city.cityname}}</td>
+				<td>{{city.show_flag}}</td>
 				<td>{{city.imagecount}}</td>
 				<td>{{city.bgimgcount}}</td>
 				<td>

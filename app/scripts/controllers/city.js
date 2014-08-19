@@ -8,8 +8,8 @@
  * Controller of the cmsAppApp
  */
 angular.module('cmsAppApp')
-	.controller('CityListCtrl', ['$scope', '$http', '$modal', 'cityResource', 'edituserResource', 'auditingResource',
-		function($scope, $http, $modal, cityResource, edituserResource, auditingResource) {
+	.controller('CityListCtrl', ['$scope', '$cookies', '$http', '$modal', 'cityResource', 'edituserResource', 'auditingResource',
+		function($scope, $cookies, $http, $modal, cityResource, edituserResource, auditingResource) {
 		 	// $scope.pageChanged = function() {
 			 //    console.log('Page changed to: ' + $scope.currentPage);
 			 //  };
@@ -24,15 +24,17 @@ angular.module('cmsAppApp')
 			 */
 			cityResource.count({}, function(data) {
 				$scope.totalItems = data.result;
+				$scope.maxSize = 5
+				$scope.currentPage = $cookies.city_currentPage != undefined ? $cookies.city_currentPage : 1;
+           		$scope.pageChanged();
 			})
-			$scope.maxSize = 5
-			$scope.currentPage = 1;
 
 			$scope.pageChanged = function() {
-
+            	$cookies.city_currentPage = $scope.currentPage;
 				cityResource.query({
 					citiesbycountry: $scope.country,
-					offset: ($scope.currentPage - 1) * 20
+					offset: ($scope.currentPage - 1) * 20,
+					sort: "-show_flag"
 				}, function(citys) {
 					console.log(citys);
 					citys.forEach(function (item) {
@@ -42,18 +44,23 @@ angular.module('cmsAppApp')
 					$scope.cities = citys;
 				});
 			}
+        	$scope.country = $cookies.country;
 			/**
 			 * typeahead, query by country use mongodb $regex
 			 * @return {array}     return city array
 			 */
 			$scope.getItemByCountry = function(val) {
+            	$cookies.country = val;
 				cityResource.count({countryname: val}, function(data) {
 					$scope.totalItems = data.result;
 				})
 				return cityResource.query({
 					citiesbycountry: val
 				}, function(items) {
-					console.log(items.length);
+					items.forEach(function (item) {
+						item.imagecount = item.image.length;
+						item.bgimgcount = item.backgroundimage.length;
+					})
 					$scope.cities = items;
 					return [];
 				})

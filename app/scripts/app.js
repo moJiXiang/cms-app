@@ -14,7 +14,6 @@ app.factory('authenticationInterceptor', ['$q', '$window', '$location', function
   return {
     responseError : function(rejection) {
       if (401 == rejection.status) {
-        // $location.path('/login');
         $window.location.href = "logon.html";
         return;
       }

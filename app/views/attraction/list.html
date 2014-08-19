@@ -3,7 +3,7 @@
 
 <!-- <input type="text" ng-model="value" class="form-control searchcitybtn" ng-change="getItem(value)"> -->
 
-<pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm paginationmodel" boundary-links="true" items-per-page="20" ng-change="pageChanged()" ng-init="pageChanged()" num-pages="numPages"></pagination>
+<pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm paginationmodel" boundary-links="true" items-per-page="20" ng-change="pageChanged()" num-pages="numPages"></pagination>
 <div class="col-sm-1 pagenum">
 	<pre>Page: {{currentPage}}/{{numPages}}</pre>
 </div>
@@ -12,19 +12,15 @@
 		<tr>
 			<th>城市</th>
 			<th>景点</th>
-			<th>城市首页</th>
-			<th>是否推荐</th>
 			<th>是否显示</th>
 			<th>图片</th>
 			<th>操作</th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="attraction in attractions | filter: query ">
+		<tr ng-repeat="attraction in attractions | filter: query | orderBy: 'recommand_flag'">
 			<td>{{attraction.cityname}}</td>
 			<td>{{attraction.attractions}}</td>
-			<td>{{attraction.index_flag}}</td>
-			<td>{{attraction.recommand_flag}}</td>
 			<td>{{attraction.show_flag}}</td>
 			<td>{{attraction.imagenum}}</td>
 			<td>

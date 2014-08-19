@@ -9,15 +9,16 @@
  */
 angular.module('cmsAppApp')
   .controller('MainCtrl', ['$scope', 'taskResource', 'auditingResource', function ($scope, taskResource, auditingResource) {
-  		/**
+      /**
        * get all tasks and pagination
        * @return {array}    return tasks array
        */
       taskResource.count({}, function(data) {
         $scope.totalItems = data.result;
+        $scope.currentPage = 2;
+        $scope.maxSize = 5
       })
-      $scope.maxSize = 5
-      $scope.currentPage = 1;
+
       $scope.pageChanged = function() {
 
         taskResource.query({ offset: ($scope.currentPage - 1) * 20 }, function(items) {
@@ -31,14 +32,6 @@ angular.module('cmsAppApp')
     					case 3 : item.typezh = '区域'; break;
     					case 4 : item.typezh = '城市'; break;
     				}
-            /**
-             * count passed audit in this task
-             */
-    				auditingResource.count({item_city: item.city_id, type: item.type, status: 2, en: item.en}, function (data) {
-    					item.passed = data.result;
-    				})
-    				
-
     			})
 
     		})

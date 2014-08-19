@@ -2,7 +2,7 @@
 
 <input type="text" ng-model="shoparea" placeholder="输入购物区域名" typeahead="result for result in getItem($viewValue)" class="form-control searchcitybtn" typeahead-wait-ms="1000">
 
-<pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm paginationmodel" boundary-links="true" ng-change="pageChanged()" ng-init="pageChanged()" items-per-page="20" num-pages="numPages"></pagination>
+<pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm paginationmodel" boundary-links="true" ng-change="pageChanged()" items-per-page="20" num-pages="numPages"></pagination>
 <div class="col-sm-1 pagenum">
 	<pre>Page: {{currentPage}}/{{numPages}}</pre>
 </div>
@@ -11,6 +11,7 @@
 		<tr>
 			<th>城市</th>
 			<th>购物区域</th>
+			<th>是否显示</th>
 			<th>图片</th>
 			<th>操作</th>
 		</tr>
@@ -19,6 +20,7 @@
 		<tr ng-repeat="shoparea in shopareas | filter: query">
 			<td>{{shoparea.city_name}}</td>
 			<td>{{shoparea.area_name}}</td>
+			<td>{{shoparea.show_flag}}</td>
 			<td>{{shoparea.imagenum}}</td>
 			<td>
 				<a type="button" href="#/shoparealist/{{shoparea._id}}/edit" class="btn btn-default">中文信息</a>

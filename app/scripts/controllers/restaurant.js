@@ -146,6 +146,18 @@ angular.module('cmsAppApp')
         var categoryArr = [];
         restaurantResource.get({id: $routeParams.restaurantId}, function(data) {
             $scope.restaurant = data;
+            $scope.tagsObj = {
+                'michilin': false,
+                'bestfordinner': false,
+                'popular': false,
+                'localflag': false
+            }
+            console.log(data.tags)
+            if(data.tags.length > 0){
+                data.tags.forEach(function(item) {
+                    $scope.tagsObj[item] = true
+                })
+            }
             categoryArr = $scope.restaurant.category.map(function(item) {
                 return item._id;
             })
@@ -161,6 +173,7 @@ angular.module('cmsAppApp')
                 $scope.editor = items[0];
             });
         })
+        
         $scope.setCoverImage = function(imagename) {
             $scope.restaurant.cover_image = imagename;
             $scope.restaurant.$update(function() {
@@ -280,7 +293,37 @@ angular.module('cmsAppApp')
             amtime : '',
             pmtime : ''
         }
+       
+        $scope.addOpenTime = function (opentime) {
+            console.log(opentime)
+            var item = {
+                "desc": '',
+                "value": ''
+            }
+            if(opentime.amtime && opentime.pmtime){
 
+                var timedesc = opentime.amtime.getHours() + ':' + opentime.amtime.getMinutes() + ' am-'+opentime.pmtime.getHours()+":"+opentime.pmtime.getMinutes()+' pm';
+                var amval = Math.floor((opentime.amtime.getHours()*60+opentime.amtime.getMinutes())/60);
+                var pmval = Math.floor((opentime.pmtime.getHours()*60+opentime.pmtime.getMinutes())/60);
+            }else {
+                var timedesc = 'close';
+                var amval = 'close';
+                var pmval = 'close';
+            }
+            item.desc = opentime.weekday.name + ' ' + timedesc;
+            item.value = opentime.weekday.value+'-'+ amval + '-' + pmval;
+            console.log(item);
+            $scope.restaurant.open_time.push(item);
+
+        }
+
+        $scope.delOpenTime = function (open_time) {
+            var descarr = $scope.restaurant.open_time.map(function(item) {
+                return item.name;
+            })
+            var idx = descarr.indexOf(open_time.desc);
+            $scope.restaurant.open_time.splice(idx, 1);
+        }
         /**
          * get auditors by type
          */
@@ -302,6 +345,14 @@ angular.module('cmsAppApp')
         $scope.save = function() {
             console.log($scope.restaurant)
             var restaurant = $scope.restaurant;
+            var tmpArr = [];
+            for(var prop in $scope.tagsObj){
+                if($scope.tagsObj[prop] == true){
+                    tmpArr.push(prop);
+                }
+            }
+            restaurant.tags = tmpArr;
+            restaurant.website = 'http://' + restaurant.website;
             restaurant.$update().then(function () {
                 notifierService.notify({
                     type: 'success',
@@ -382,6 +433,112 @@ angular.module('cmsAppApp')
         $scope.changeCity = function (city) {
             $scope.restaurant.city_name = city.cityname;
             $scope.restaurant.city_id = city._id;
+        }
+        categoryResource.query({criteria:{ type: 1 }}, function(items) {
+            console.log(items);
+            $scope.categorys = items;
+        })
+        $scope.delCategory = function(category) {
+            var index = categoryArr.indexOf(category._id);
+            $scope.restaurant.category.splice(index, 1);
+        }
+        $scope.addCategory = function(category) {
+            console.log(category);
+            console.log(categoryArr);
+            var index = categoryArr.indexOf(category._id);
+            console.log(index);
+            if(index < 0) {
+                $scope.restaurant.category.push(category);
+                categoryArr.push(category._id);
+            }
+        }
+        // date picker
+        $scope.amtime = new Date();
+        $scope.pmtime = new Date();
+        $scope.hstep = 1;
+        $scope.mstep = 15;
+        $scope.ismeridian = true;
+        // init time picker data
+        $scope.weekdays = [
+            {
+                name: '周一',
+                value: '1'
+            },
+            {
+                name: '周二',
+                value: '2'
+            },
+            {
+                name: '周三',
+                value: '3'
+            },
+            {
+                name: '周四',
+                value: '4'
+            },
+            {
+                name: '周五',
+                value: '5'
+            },
+            {
+                name: '周六',
+                value: '6'
+            },
+            {
+                name: '周七',
+                value: '7'
+            }
+        ] 
+        $scope.opentime = {
+            weekday : '',
+            amtime : '',
+            pmtime : ''
+        }
+       
+        $scope.addOpenTime = function (opentime) {
+            console.log(opentime)
+            var item = {
+                "desc": '',
+                "value": ''
+            }
+            if(opentime.amtime && opentime.pmtime){
+
+                var timedesc = opentime.amtime.getHours() + ':' + opentime.amtime.getMinutes() + ' am-'+opentime.pmtime.getHours()+":"+opentime.pmtime.getMinutes()+' pm';
+                var amval = Math.floor((opentime.amtime.getHours()*60+opentime.amtime.getMinutes())/60);
+                var pmval = Math.floor((opentime.pmtime.getHours()*60+opentime.pmtime.getMinutes())/60);
+            }else {
+                var timedesc = 'close';
+                var amval = 'close';
+                var pmval = 'close';
+            }
+            item.desc = opentime.weekday.name + ' ' + timedesc;
+            item.value = opentime.weekday.value+'-'+ amval + '-' + pmval;
+            console.log(item);
+            $scope.restaurant.open_time.push(item);
+
+        }
+
+        $scope.delOpenTime = function (open_time) {
+            var descarr = $scope.restaurant.open_time.map(function(item) {
+                return item.name;
+            })
+            var idx = descarr.indexOf(open_time.desc);
+            $scope.restaurant.open_time.splice(idx, 1);
+        }
+        /**
+         * get auditors by type
+         */
+        getUserService.getUsers({type: 'auditor'}, function (items) {
+            $scope.auditors = items;    
+        });
+        $scope.postAudit = function(){
+            AuditService.postAudit({
+                audit : $scope.audit,
+                editor : $scope.editor,
+                auditor : $scope.audit.auditor
+            }, function (item) {
+                $scope.audit = item;
+            })
         }
         $scope.save = function(){
             var restaurant = $scope.restaurant;

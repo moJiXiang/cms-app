@@ -67,7 +67,7 @@
 		        <div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">http://</div>
-				      <input class="form-control" type="email" ng-model="restaurant.website">
+				      <input class="form-control" type="text" ng-model="restaurant.website">
 				    </div>
 				</div>
 			</div>
@@ -125,22 +125,19 @@
 			<h4>制定计划相关信息</h4>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>开放时间</h4>
-				{{opentime.weekday}}
-				{{opentime.amtime}}
-				{{opentime.pmtime}}
 				<div class="timepickercontain">
 					<select class="form-control timepickday" ng-model="opentime.weekday" ng-options="item.name for item in weekdays">
 						<option value="">选择周几</option>
 					</select>
-					<timepicker class="cmstimepicker" ng-model="opentime.amtime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+					<timepicker class="cmstimepicker" ng-model="opentime.amtime" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
 					<h5 class="line">——</h5>
-					<timepicker class="cmstimepicker" ng-model="opentime.pmtime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
-					<button type="button" class="btn btn-default addtimebtn" ng-click="delOpentime(opentime)">增加</button>
+					<timepicker class="cmstimepicker" ng-model="opentime.pmtime" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+					<button type="button" class="btn btn-default addtimebtn" ng-click="addOpenTime(opentime)">增加</button>
 				</div>
-				<div class="input-group" ng-repeat="opentime in restaurant.open_time">
-					<input class="form-control" placeholder="{{opentime.desc}}" disabled>
+				<div class="input-group" ng-repeat="open_time in restaurant.open_time">
+					<input class="form-control" placeholder="{{open_time.desc}}" disabled>
 			        <span class="input-group-btn">
-						<button type="button" class="btn btn-danger" ng-click="delOpentime(opentime)">删除</button>
+						<button type="button" class="btn btn-danger" ng-click="delOpenTime(open_time)">删除</button>
 			        </span>
 			    </div>
 			</div>
@@ -167,22 +164,22 @@
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>是否推荐</h4>
 				<div class="btn-group">
-			        <label class="btn btn-primary" ng-model="restaurant.recommand_flag" btn-radio="'1'">推荐</label>
-			        <label class="btn btn-primary" ng-model="restaurant.recommand_flag" btn-radio="'0'">不推荐</label>
+			        <label class="btn btn-primary" ng-model="restaurant.recommand_flag" btn-radio="true">推荐</label>
+			        <label class="btn btn-primary" ng-model="restaurant.recommand_flag" btn-radio="false">不推荐</label>
 			    </div>
 			</div>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>城市首页显示</h4>
 				<div class="btn-group">
-			        <label class="btn btn-primary" ng-model="restaurant.index_flag" btn-radio="'1'">显示</label>
-			        <label class="btn btn-primary" ng-model="restaurant.index_flag" btn-radio="'0'">不显示</label>
+			        <label class="btn btn-primary" ng-model="restaurant.index_flag" btn-radio="true">显示</label>
+			        <label class="btn btn-primary" ng-model="restaurant.index_flag" btn-radio="false">不显示</label>
 			    </div>
 			</div>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>是否显示</h4>
 				<div class="btn-group">
-			        <label class="btn btn-primary" ng-model="restaurant.show_flag" btn-radio="'1'">显示</label>
-			        <label class="btn btn-primary" ng-model="restaurant.show_flag" btn-radio="'0'">不显示</label>
+			        <label class="btn btn-primary" ng-model="restaurant.show_flag" btn-radio="true">显示</label>
+			        <label class="btn btn-primary" ng-model="restaurant.show_flag" btn-radio="false">不显示</label>
 			    </div>
 			</div>
 			<div class="bs-callout bs-callout-warning bs-small">
@@ -219,7 +216,13 @@
 		</div>
 		<div class="bs-callout bs-callout-info" id="a7">
 			<h4>筛选标签</h4>
-			<p ng-repeat="tag in tags">{{tag}}</p>
+			<p>{{tags}}</p>
+			<div class="btn-group">
+		        <label class="btn btn-primary" ng-model="tagsObj.michilin" btn-checkbox>michilin</label>
+		        <label class="btn btn-primary" ng-model="tagsObj.bestfordinner" btn-checkbox>bestfordinner</label>
+		        <label class="btn btn-primary" ng-model="tagsObj.popular" btn-checkbox>popular</label>
+		        <label class="btn btn-primary" ng-model="tagsObj.localflag" btn-checkbox>localflag</label>
+		    </div>
 		</div>
 		<div class="bs-callout bs-callout-info" id="a8">
 			<div class="alert alert-warning" ng-show="checked">

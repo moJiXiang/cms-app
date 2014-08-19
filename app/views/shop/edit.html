@@ -108,9 +108,6 @@
 			<h4>制定计划相关信息</h4>
 			<div class="bs-callout bs-callout-warning bs-small">
 				<h4>开放时间</h4>
-				{{opentime.weekday}}
-				{{opentime.amtime}}
-				{{opentime.pmtime}}
 				<div class="timepickercontain">
 					<select class="form-control timepickday" ng-model="opentime.weekday" ng-options="item.name for item in weekdays">
 						<option value="">选择周几</option>
@@ -118,12 +115,12 @@
 					<timepicker class="cmstimepicker" ng-model="opentime.amtime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
 					<h5 class="line">——</h5>
 					<timepicker class="cmstimepicker" ng-model="opentime.pmtime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
-					<button type="button" class="btn btn-default addtimebtn" ng-click="delOpentime(opentime)">增加</button>
+					<button type="button" class="btn btn-default addtimebtn" ng-click="addOpenTime(opentime)">增加</button>
 				</div>
 				<div class="input-group" ng-repeat="opentime in shop.open_time">
 					<input class="form-control" placeholder="{{opentime.desc}}" disabled>
 			        <span class="input-group-btn">
-						<button type="button" class="btn btn-danger" ng-click="delOpentime(opentime)">删除</button>
+						<button type="button" class="btn btn-danger" ng-click="delOpenTime(opentime)">删除</button>
 			        </span>
 			    </div>
 			</div>

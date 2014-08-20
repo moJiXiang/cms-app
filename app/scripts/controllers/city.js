@@ -24,7 +24,7 @@ angular.module('cmsAppApp')
 			 */
 			cityResource.count({}, function(data) {
 				$scope.totalItems = data.result;
-				$scope.maxSize = 5
+				$scope.maxSize = 5;
 				$scope.currentPage = $cookies.city_currentPage != undefined ? $cookies.city_currentPage : 1;
            		$scope.pageChanged();
 			})

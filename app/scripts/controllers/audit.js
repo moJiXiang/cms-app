@@ -13,11 +13,25 @@ angular.module('cmsAppApp')
 			var cityid = $routeParams.cityid,
 				type = $routeParams.type,
 				en = $routeParams.en;
-			console.log(type)
-			auditingResource.query({item_city: cityid, type: type, en: en}, function (items) {
-				console.log(items);
-				$scope.auditings = items;
-			})
+			auditingResource.count({item_city: cityid, type: type, en: en}, function (data) {
+				console.log(data.result)
+				$scope.totalItems = data.result;
+				$scope.maxSize = 5;
+				$scope.currentPage = 1;
+				$scope.pageChanged();
+			})			
+			$scope.pageChanged = function () {
+
+				auditingResource.query({
+					item_city: cityid,
+					type: type,
+					en: en,
+					offset: ($scope.currentPage - 1) * 20,
+					sort: '-editdate'
+				}, function(items) {
+					$scope.auditings = items;
+				})
+			}
 
 			$scope.goToItem = function (item) {
 				var type = item.type;

@@ -1,6 +1,8 @@
-<div class="modal-header">
-  <h4>审核列表</h4>
+<pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm paginationmodel" boundary-links="true" rotate="false" items-per-page="20" ng-change="pageChanged()" num-pages="numPages"></pagination>
+<div class="col-sm-1 pagenum">
+    <pre>Page: {{currentPage}}/{{numPages}}</pre>
 </div>
+
 <table class="table table-hover">
   <thead>
     <tr>
@@ -8,6 +10,7 @@
       <th>状态</th>
       <th>编辑</th>
       <th>审核</th>
+      <th>time</th>
       <th>操作</th>
     </tr>
   </thead>
@@ -17,6 +20,7 @@
       <td>{{auditing.status}}</td>
       <td>{{auditing.editorname}}</td>
       <td>{{auditing.auditorname}}</td>
+      <td>{{auditing.editdate}}</td>
       <td>
         <a type="button" class="btn btn-default" ng-click="goToItem(auditing)">查看</a>
       </td>

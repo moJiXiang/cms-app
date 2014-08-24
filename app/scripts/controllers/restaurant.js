@@ -211,6 +211,21 @@ angular.module('cmsAppApp')
             })
         }
 
+        $scope.addImgUrl = function (img, url) {
+            var item = {
+                "img" : img,
+                "url" : url
+            };
+            var imgs = $scope.restaurant.image_url.map(function (item) {
+                return item.img;
+            })
+            var idx = imgs.indexOf(img);
+            if(idx >= 0){
+                $scope.restaurant.image_url.splice(idx, 1, item);
+            } else {
+                $scope.restaurant.image_url.push(item);
+            }
+        }
         /**
          * changeContinent by select directior ng-change
          * @param  {Object} city      city

@@ -29,6 +29,7 @@ angular.module('cmsAppApp')
             }, function(items) {
                 items.forEach(function(item) {
                     item.imagecount = item.image.length;
+                    item.show_flag = item.show_flag ? 1 : 0;
                 })
                 $scope.restaurants = items;
             })
@@ -54,6 +55,7 @@ angular.module('cmsAppApp')
             })
         }
 		$scope.getRestaurant = function(val) {
+            $scope.cityname = "";
 			return restaurantResource.query({criteria: { value: val }, cmd: "queryByName"}, function(items) {
 
 				restaurantResource.count({criteria: {'name': {'$regex': val, '$options': 'i'}}}, function(data) {
@@ -235,6 +237,14 @@ angular.module('cmsAppApp')
             } else {
                 $scope.restaurant.image_url.push(item);
             }
+        }
+
+        $scope.delImgUrl = function (img) {
+            var imgs = $scope.restaurant.image_url.map(function (item) {
+                return item.img;
+            })
+            var idx = imgs.indexOf(img);
+            $scope.restaurant.image_url.splice(idx, 1);
         }
         /**
          * changeContinent by select directior ng-change

@@ -52,9 +52,10 @@ angular.module('cmsAppApp')
                 return [];
             })
         }
-		$scope.getItem = function(val) {
-			return attractionResource.query({name: val}, function(items) {
-				console.log(items);
+        $scope.getItem = function(val) {
+            $scope.cityname = "";
+            return attractionResource.query({name: val}, function(items) {
+                console.log(items);
 				$scope.attractions = items;
 				// prevent err of typeahead `length of null `
 				return [];

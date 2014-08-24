@@ -52,6 +52,7 @@ angular.module('cmsAppApp')
 		 * search filter
 		 */
 		$scope.getItem = function(val) {
+            $scope.cityname = "";
 			return areaResource.query({name: val}, function(items) {
 				$scope.shopareas = items;
 				return [];

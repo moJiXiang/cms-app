@@ -27,6 +27,7 @@ angular.module('cmsAppApp')
             }, function(items) {
                 items.forEach(function (item) {
                     item.imagenum = item.image.length;
+                    item.show_flag = item.show_flag ? 1 : 0;
                 })
                 $scope.shoppings = items;
             })
@@ -47,6 +48,7 @@ angular.module('cmsAppApp')
             }, function (items) {
                 items.forEach(function (item) {
                     item.imagenum = item.image.length;
+                    item.show_flag = item.show_flag ? 1 : 0;
                 })
                 $scope.shoppings = items;
                 return [];
@@ -56,6 +58,7 @@ angular.module('cmsAppApp')
 		 * search filter
 		 */
 		$scope.getItem = function(val) {
+            $scope.cityname = "";
 			return shoppingResource.query({q: val}, function(items) {
 				$scope.shoppings = items;
 				return [];

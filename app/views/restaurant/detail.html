@@ -10,6 +10,15 @@
 	            </li>
 	        </ul>
 		</div>
+		<div class="bs-callout bs-callout-info" id="a2">
+			<h4>图片url</h4>
+			<ul>
+				<li ng-repeat="item in restaurant.image_url">
+					<img class="img-thumbnail cms-img-sm" ng-src="http://weegotest.b0.upaiyun.com/restaurant/origin/{{item.img}}" alt="" >
+					<p>{{item.url}}</p>
+				</li>
+			</ul>
+		</div>
 		<div class="bs-callout bs-callout-info" id="a3">
 			<h4>餐馆基本信息</h4>
 			<div class="bs-callout bs-callout-warning bs-small">

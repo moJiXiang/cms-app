@@ -146,6 +146,16 @@ angular.module('cmsAppApp')
         var categoryArr = [];
         restaurantResource.get({id: $routeParams.restaurantId}, function(data) {
             $scope.restaurant = data;
+            console.log(data.image_url)
+            if(data.image_url.length <= 0) {
+                $scope.restaurant.image_url = data.image.map(function(item) {
+                    return {
+                        "img" : item,
+                        "url" : ""
+                    }
+                })
+            console.log($scope.restaurant.image_url)
+            }
             $scope.tagsObj = {
                 'michilin': false,
                 'bestfordinner': false,

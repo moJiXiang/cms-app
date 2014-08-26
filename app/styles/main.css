@@ -181,12 +181,15 @@ background: #fff;}
 .input-group{
 	margin-bottom: 5px;
 }
-.fileuploadbtncontain{
+/*.fileuploadbtncontain{
 	position: fixed;
 	top: 66px;
 	left: 400px;
+}*/
+.fileuploadbtncontain {
+    float: left;
+    margin-right: 20px;
 }
-
 .setcovercontain li{
 	float: left;
 	position: relative;

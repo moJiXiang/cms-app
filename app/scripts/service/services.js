@@ -256,3 +256,43 @@ app.factory('AuditService', ['auditingResource', 'taskResource', 'notifierServic
     }
 }])
 
+app.factory('imgUrlService', [ function () {
+
+    return {
+        initImageUrl : function (data) {
+            var imageUrlArr = data.image.map(function (item) {
+                return {
+                    "img" : item,
+                    "url" : ""
+                }
+            })
+            return imageUrlArr;
+        },
+        // addImgUrl : function (img, url, obj) {
+        //     var item = {
+        //         "img" : img,
+        //         "url" : url
+        //     };
+        //     var imgs = obj.image_url.map(function (item) {
+        //         return item.img;
+        //     })
+        //     var idx = imgs.indexOf(img);
+        //     if(idx >= 0){
+        //         obj.image_url.splice(idx, 1, item);
+        //     } else {
+        //         obj.image_url.push(item);
+        //     }
+        // },
+        delImgUrl : function (img, obj) {
+            console.log(img);
+            var imgs = obj.image_url.map(function (item) {
+                return item.img;
+            })
+            var idx = imgs.indexOf(img);
+            obj.image_url.splice(idx, 1);
+            console.log(obj.image_url)
+            // cb();
+            return obj.image_url;
+        }
+    }
+}])

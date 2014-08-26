@@ -16,15 +16,9 @@
 		<div class="bs-callout bs-callout-info" id="a2">
 			<h4>图片url</h4>
 			<ul class="setcovercontain">
-				<li ng-repeat="item in restaurant.image_url">
+				<li class="col-sm-2" ng-repeat="item in restaurant.image_url">
 					<img class="img-thumbnail cms-img-sm" ng-src="http://weegotest.b0.upaiyun.com/restaurant/origin/{{item.img}}" alt="" >
-					<div class="input-group col-sm-2">
-						<input type="text" class="form-control" ng-model = "item.url">
-				        <span class="input-group-btn">
-							<button type="button" class="btn btn-success" ng-click="addImgUrl(item.img, item.url)">增加</button>
-				        </span>
-				    </div>
-					<button type="button" class="btn btn-danger" ng-click="delImgUrl(item.img)">del</button>
+					<input type="text" class="form-control" ng-model = "item.url">
 				</li>
 			</ul>
 		</div>

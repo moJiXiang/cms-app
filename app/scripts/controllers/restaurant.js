@@ -144,19 +144,13 @@ angular.module('cmsAppApp')
             AuditService.passaudit(-1, $scope.auditmsg);
         }
     }])
-	.controller('RestaurantEditCtrl', ['$scope', '$http' ,'$routeParams', 'restaurantResource', 'categoryResource', 'notifierService', 'selectCityService', 'getUserService', 'AuditService', function($scope, $http, $routeParams, restaurantResource, categoryResource, notifierService, selectCityService, getUserService, AuditService) {
+	.controller('RestaurantEditCtrl', ['$scope', '$http' ,'$routeParams', 'restaurantResource', 'categoryResource', 'notifierService', 'selectCityService', 'getUserService', 'AuditService', 'imgUrlService', function($scope, $http, $routeParams, restaurantResource, categoryResource, notifierService, selectCityService, getUserService, AuditService, imgUrlService) {
         var categoryArr = [];
         restaurantResource.get({id: $routeParams.restaurantId}, function(data) {
             $scope.restaurant = data;
             console.log(data.image_url)
             if(data.image_url.length <= 0) {
-                $scope.restaurant.image_url = data.image.map(function(item) {
-                    return {
-                        "img" : item,
-                        "url" : ""
-                    }
-                })
-            console.log($scope.restaurant.image_url)
+                $scope.restaurant.image_url = imgUrlService.initImageUrl(data);
             }
             $scope.tagsObj = {
                 'michilin': false,
@@ -206,6 +200,7 @@ angular.module('cmsAppApp')
             if (index >= 0) {
                 $scope.restaurant.image.splice(index, 1);
             }
+            $scope.restaurant.image_url = imgUrlService.delImgUrl(imagename, $scope.restaurant);   
             // first delete image from serve and upyun
             $http.get('/delUploadImageLife/'+ $scope.restaurant._id +'/' + imagename + '/' + $scope.restaurant.type).success(function() {
                 // then delete image from database
@@ -222,30 +217,7 @@ angular.module('cmsAppApp')
                 })
             })
         }
-
-        $scope.addImgUrl = function (img, url) {
-            var item = {
-                "img" : img,
-                "url" : url
-            };
-            var imgs = $scope.restaurant.image_url.map(function (item) {
-                return item.img;
-            })
-            var idx = imgs.indexOf(img);
-            if(idx >= 0){
-                $scope.restaurant.image_url.splice(idx, 1, item);
-            } else {
-                $scope.restaurant.image_url.push(item);
-            }
-        }
-
-        $scope.delImgUrl = function (img) {
-            var imgs = $scope.restaurant.image_url.map(function (item) {
-                return item.img;
-            })
-            var idx = imgs.indexOf(img);
-            $scope.restaurant.image_url.splice(idx, 1);
-        }
+     
         /**
          * changeContinent by select directior ng-change
          * @param  {Object} city      city

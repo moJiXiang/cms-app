@@ -15,6 +15,15 @@
 			</ul>
 			<!-- <img class="img-thumbnail" src="http://weegotest.b0.upaiyun.com/shoparea/origin/{{img}}" alt="" ng-repeat="img in shoparea.image"> -->
 		</div>
+		<div class="bs-callout bs-callout-info" id="a2">
+			<h4>图片url</h4>
+			<ul class="setcovercontain">
+				<li class="col-sm-2" ng-repeat="item in shoparea.image_url">
+					<img class="img-thumbnail cms-img-sm" ng-src="http://weegotest.b0.upaiyun.com/shoparea/origin/{{item.img}}" alt="" >
+					<input type="text" class="form-control" ng-model = "item.url">
+				</li>
+			</ul>
+		</div>
 		<div class="bs-callout bs-callout-info" id="a1">
 			<h4>区域基本信息</h4>
 			<div class="bs-callout bs-callout-warning bs-small">

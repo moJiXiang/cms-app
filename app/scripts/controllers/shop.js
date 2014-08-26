@@ -136,12 +136,15 @@ angular.module('cmsAppApp')
             AuditService.passaudit(-1, $scope.auditmsg);
         }
     }])
-	.controller('ShopEditCtrl', ['$scope', '$http' ,'$routeParams', 'shoppingResource', 'notifierService', 'selectCityService', 'AuditService', 'getUserService', function($scope, $http, $routeParams, shoppingResource, notifierService, selectCityService, AuditService, getUserService) {
+	.controller('ShopEditCtrl', ['$scope', '$http' ,'$routeParams', 'shoppingResource', 'notifierService', 'selectCityService', 'AuditService', 'getUserService', 'imgUrlService', function($scope, $http, $routeParams, shoppingResource, notifierService, selectCityService, AuditService, getUserService, imgUrlService) {
         var shopid = $routeParams.shopId;
         
         shoppingResource.get({id: shopid}, function(shop) {
             console.log(shop);
             $scope.shop = shop;
+            if(shop.image_url.length <= 0) {
+                $scope.shop.image_url = imgUrlService.initImageUrl(shop);
+            }
             AuditService.getAudit({id: shop._id, en: false}, function (items) {
                 $scope.audit = items[0];
             });
@@ -173,6 +176,7 @@ angular.module('cmsAppApp')
             if (index >= 0) {
                 $scope.shop.image.splice(index, 1);
             }
+            $scope.shop.image_url = imgUrlService.delImgUrl(imagename, $scope.shop);   
             // first delete image from serve and upyun
             $http.get('/delUploadImageLife/'+ $scope.shop._id +'/' + imagename + '/' + $scope.shop.type).success(function() {
                 // then delete image from database
@@ -189,6 +193,7 @@ angular.module('cmsAppApp')
                 })
             })
         }
+       
         /**
          * changeContinent by select directior ng-change
          * @param  {Object} city      city

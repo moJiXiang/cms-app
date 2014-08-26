@@ -132,14 +132,18 @@ angular.module('cmsAppApp')
             AuditService.passaudit(-1, $scope.auditmsg);
         }
     }])
-	.controller('AttractionEditCtrl', ['$scope', '$http' ,'$routeParams', 'attractionResource', 'labelResource', 'notifierService', 'selectCityService', 'seletTagService', 'getUserService', 'AuditService',
-        function($scope, $http, $routeParams, attractionResource, labelResource, notifierService, selectCityService, seletTagService, getUserService, AuditService) {
+	.controller('AttractionEditCtrl', ['$scope', '$http' ,'$routeParams', 'attractionResource', 'labelResource', 'notifierService', 'selectCityService', 'seletTagService', 'getUserService', 'AuditService', 'imgUrlService',
+        function($scope, $http, $routeParams, attractionResource, labelResource, notifierService, selectCityService, seletTagService, getUserService, AuditService, imgUrlService) {
 		
 		attractionResource.get({id: $routeParams.attractionId}, function(data) {
 			$scope.attraction = data;
+            console.log(data.image_url)
 			/**
 			 *  get masterlabel and sublabels of the city
 			 */
+            if(data.image_url.length <= 0) {
+                $scope.attraction.image_url = imgUrlService.initImageUrl(data);
+            }
 			if (data.masterLabel) {
 				$scope.masterlabel = seletTagService.getMasterLabel(data.masterLabel)
 			}
@@ -176,6 +180,7 @@ angular.module('cmsAppApp')
             if (index >= 0) {
                 $scope.attraction.image.splice(index, 1);
             }
+            $scope.attraction.image_url = imgUrlService.delImgUrl(imagename, $scope.attraction);   
             // first delete image from serve and upyun
             $http.get('/delUploadImage/'+ $scope.attraction._id +'/' + imagename).success(function() {
                 console.log(imagename);
@@ -193,6 +198,8 @@ angular.module('cmsAppApp')
                 })
             })
         }
+
+        
         /**
          * changeContinent by select directior ng-change
          * @param  {Object} city      city

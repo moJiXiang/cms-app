@@ -218,14 +218,16 @@ angular.module('cmsAppApp')
 				}
 			}
 	])
-	.controller('CityEditCtrl', ["$scope", "$http", "$routeParams", "countryResource", 'auditingResource', "cityResource", "labelResource", 'notifierService', 'getUserService' ,'AuditService', 'selectCityService', 'seletTagService',
-		function($scope, $http, $routeParams, countryResource, auditingResource, cityResource, labelResource, notifierService, getUserService, AuditService, selectCityService, seletTagService) {
+	.controller('CityEditCtrl', ["$scope", "$http", "$routeParams", "countryResource", 'auditingResource', "cityResource", "labelResource", 'notifierService', 'getUserService' ,'AuditService', 'selectCityService', 'seletTagService', 'imgUrlService',
+		function($scope, $http, $routeParams, countryResource, auditingResource, cityResource, labelResource, notifierService, getUserService, AuditService, selectCityService, seletTagService, imgUrlService) {
 			
 			cityResource.get({
 				id: $routeParams.cityId
 			}, function(data) {
 				$scope.city = data;
-				
+				if(data.image_url.length <= 0) {
+	                $scope.city.image_url = imgUrlService.initImageUrl(data);
+	            }
 				/**
 				 *  get masterlabel and sublabels of the city
 				 */
@@ -297,6 +299,7 @@ angular.module('cmsAppApp')
 				if (index >= 0) {
 					$scope.city.image.splice(index, 1);
 				}
+            	$scope.city.image_url = imgUrlService.delImgUrl(imagename, $scope.city);   
 				// firstly delete image from serve and upyun
 				$http.get('/delCoverImage/'+ $scope.city._id +'/' + imagename).success(function() {
 					// then delete image from database

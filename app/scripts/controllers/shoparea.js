@@ -133,7 +133,7 @@ angular.module('cmsAppApp')
             AuditService.passaudit(-1, $scope.auditmsg);
         }
 	}])
-	.controller('ShopareaEditCtrl', ['$scope', '$http', '$routeParams', 'areaResource', 'notifierService', 'selectCityService', 'getUserService', 'AuditService', function($scope, $http, $routeParams, areaResource, notifierService, selectCityService, getUserService, AuditService) {
+	.controller('ShopareaEditCtrl', ['$scope', '$http', '$routeParams', 'areaResource', 'notifierService', 'selectCityService', 'getUserService', 'AuditService', 'imgUrlService', function($scope, $http, $routeParams, areaResource, notifierService, selectCityService, getUserService, AuditService, imgUrlService) {
 		/**
 		 * get area message
 		 * @param  {string} shoparea shoparea id
@@ -141,6 +141,9 @@ angular.module('cmsAppApp')
 		areaResource.get({id: $routeParams.shopareaId}, function(shoparea) {
 			$scope.shoparea = shoparea;
 
+            if(shoparea.image_url.length <= 0) {
+                $scope.shoparea.image_url = imgUrlService.initImageUrl(shoparea);
+            }
 			AuditService.getAudit({id: shoparea._id, en: false}, function (items) {
                 $scope.audit = items[0];
             });
@@ -172,6 +175,7 @@ angular.module('cmsAppApp')
 			if (index >= 0) {
 				$scope.shoparea.image.splice(index, 1);
 			}
+            $scope.shoparea.image_url = imgUrlService.delImgUrl(imagename, $scope.shoparea);   
 			// first delete image from serve and upyun
 			$http.get('/delareaimg/'+ $scope.shoparea._id +'/' + imagename).success(function() {
 				// then delete image from database
@@ -188,7 +192,6 @@ angular.module('cmsAppApp')
 				})
 			})
 		}
-
         /**
          * changeContinent by select directior ng-change
          * @param  {Object} city      city

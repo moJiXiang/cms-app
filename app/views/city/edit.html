@@ -14,6 +14,15 @@
 				</li>
 			</ul>
 		</div>
+		<div class="bs-callout bs-callout-info" id="a2">
+			<h4>图片url</h4>
+			<ul class="setcovercontain">
+				<li class="col-sm-2" ng-repeat="item in city.image_url">
+					<img class="img-thumbnail cms-img-sm" ng-src="http://weegotest.b0.upaiyun.com/city/imgsizeC2/{{item.img}}" alt="" >
+					<input type="text" class="form-control" ng-model = "item.url">
+				</li>
+			</ul>
+		</div>
 		<div class="bs-callout bs-callout-info" id="a3">
 			<h4>城市背景大图</h4>
 			<ul class="setcovercontain">

@@ -23,7 +23,7 @@ angular.module('cmsAppApp')
             shoppingResource.query({
                 city_name: $scope.cityname,
                 offset: ($scope.currentPage - 1) * 20,
-                sort: "-show_flag"
+                sort: "name, -show_flag"
             }, function(items) {
                 items.forEach(function (item) {
                     item.imagenum = item.image.length;
@@ -44,7 +44,7 @@ angular.module('cmsAppApp')
             })
             return shoppingResource.query({
                 city_name: val,
-                sort: "-show_flag"
+                sort: "name, -show_flag"
             }, function (items) {
                 items.forEach(function (item) {
                     item.imagenum = item.image.length;

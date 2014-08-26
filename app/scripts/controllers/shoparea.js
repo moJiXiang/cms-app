@@ -23,7 +23,7 @@ angular.module('cmsAppApp')
 			areaResource.query({
 				city_name: $scope.cityname,
 				offset: ($scope.currentPage - 1) * 20,
-                sort: "-show_flag"   
+                sort: "area_name, -show_flag"   
 			}, function(items) {
 				items.forEach(function (item) {
 					item.imagenum = item.image.length;
@@ -39,7 +39,7 @@ angular.module('cmsAppApp')
             })
             return areaResource.query({
                 city_name: val,
-                sort: "-show_flag"   
+                sort: "area_name, -show_flag"   
             }, function(items) {
                 items.forEach(function (item) {
                     item.imagenum = item.image.length;

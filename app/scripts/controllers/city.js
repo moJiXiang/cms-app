@@ -34,7 +34,7 @@ angular.module('cmsAppApp')
 				cityResource.query({
 					citiesbycountry: $scope.country,
 					offset: ($scope.currentPage - 1) * 20,
-					sort: "-show_flag"
+					sort: "cityname, -show_flag"
 				}, function(citys) {
 					console.log(citys);
 					citys.forEach(function (item) {
@@ -56,7 +56,7 @@ angular.module('cmsAppApp')
 				})
 				return cityResource.query({
 					citiesbycountry: val,
-					sort: "-show_flag"
+					sort: "cityname, -show_flag"
 				}, function(items) {
 					items.forEach(function (item) {
 						item.imagecount = item.image.length;

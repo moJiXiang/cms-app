@@ -141,9 +141,7 @@ angular.module('cmsAppApp')
 			/**
 			 *  get masterlabel and sublabels of the city
 			 */
-            if(data.image_url.length <= 0) {
-                $scope.attraction.image_url = imgUrlService.initImageUrl(data);
-            }
+            $scope.attraction.image_url = imgUrlService.initImageUrl(data);
 			if (data.masterLabel) {
 				$scope.masterlabel = seletTagService.getMasterLabel(data.masterLabel)
 			}

@@ -153,9 +153,7 @@ angular.module('cmsAppApp')
         restaurantResource.get({id: $routeParams.restaurantId}, function(data) {
             $scope.restaurant = data;
             console.log(data.image_url)
-            if(data.image_url.length <= 0) {
-                $scope.restaurant.image_url = imgUrlService.initImageUrl(data);
-            }
+            $scope.restaurant.image_url = imgUrlService.initImageUrl(data);
             $scope.tagsObj = {
                 'michilin': false,
                 'bestfordinner': false,

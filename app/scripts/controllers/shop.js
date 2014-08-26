@@ -142,9 +142,7 @@ angular.module('cmsAppApp')
         shoppingResource.get({id: shopid}, function(shop) {
             console.log(shop);
             $scope.shop = shop;
-            if(shop.image_url.length <= 0) {
-                $scope.shop.image_url = imgUrlService.initImageUrl(shop);
-            }
+            $scope.shop.image_url = imgUrlService.initImageUrl(shop);
             AuditService.getAudit({id: shop._id, en: false}, function (items) {
                 $scope.audit = items[0];
             });

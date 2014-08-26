@@ -225,9 +225,7 @@ angular.module('cmsAppApp')
 				id: $routeParams.cityId
 			}, function(data) {
 				$scope.city = data;
-				if(data.image_url.length <= 0) {
-	                $scope.city.image_url = imgUrlService.initImageUrl(data);
-	            }
+                $scope.city.image_url = imgUrlService.initImageUrl(data);
 				/**
 				 *  get masterlabel and sublabels of the city
 				 */

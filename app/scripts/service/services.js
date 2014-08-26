@@ -260,12 +260,24 @@ app.factory('imgUrlService', [ function () {
 
     return {
         initImageUrl : function (data) {
+            var imageurls = data.image_url.map(function (item) {
+                return item.img
+            })
             var imageUrlArr = data.image.map(function (item) {
-                return {
-                    "img" : item,
-                    "url" : ""
+                var idex = imageurls.indexOf(item);
+                if(idex >= 0){
+                    return {
+                        "img" : item,
+                        "url" : data.image_url[idex].url
+                    }
+                } else {
+                    return {
+                        "img" : item,
+                        "url" : ''
+                    }
                 }
             })
+           
             return imageUrlArr;
         },
         // addImgUrl : function (img, url, obj) {

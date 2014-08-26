@@ -46,7 +46,7 @@ angular.module('cmsAppApp')
             })
             return restaurantResource.query({
                 city_name: val,
-                sort: "-show_flag, -index_flag"
+                sort: "city_name, -show_flag, -index_flag, -ranking"
             }, function (items) {
                 items.forEach(function(item) {
                     item.imagecount = item.image.length;

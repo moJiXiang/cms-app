@@ -25,11 +25,12 @@ angular.module('cmsAppApp')
             restaurantResource.query({
                 city_name: $scope.cityname,
                 offset: ($scope.currentPage - 1) * 20,
-                sort: "-show_flag"
+                sort: "-show_flag, -index_flag"
             }, function(items) {
                 items.forEach(function(item) {
                     item.imagecount = item.image.length;
                     item.show_flag = item.show_flag ? 1 : 0;
+                    item.index_flag = item.index_flag ? 1 : 0;
                 })
                 $scope.restaurants = items;
             })
@@ -45,10 +46,12 @@ angular.module('cmsAppApp')
             })
             return restaurantResource.query({
                 city_name: val,
-                sort: "-show_flag"
+                sort: "-show_flag, -index_flag"
             }, function (items) {
                 items.forEach(function(item) {
                     item.imagecount = item.image.length;
+                    item.show_flag = item.show_flag ? 1 : 0;
+                    item.index_flag = item.index_flag ? 1 : 0;
                 })
                 $scope.restaurants = items;
                 return [];
@@ -70,6 +73,7 @@ angular.module('cmsAppApp')
             restaurantResource.query({}, function(items) {
                 items.forEach(function(item) {
                     item.imagecount = item.image.length;
+                    item.show_flag = item.show_flag ? 1 : 0;
                 })
                 $cookies.res_cityname = $scope.cityname = '';
                 $scope.restaurants = items;

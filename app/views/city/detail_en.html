@@ -1,15 +1,17 @@
 <div class="col-lg-9">
-	<div class="bs-callout bs-callout-danger" id="a15">
-		<div class="alert alert-warning" ng-show="a15box">
+	<div class="bs-callout bs-callout-info" id="a22">
+		<div class="alert alert-warning" ng-show="a22box">
 			<span class="glyphicon glyphicon-thumbs-up"></span>
-			<textarea class="form-control itemcomment" rows='2' ng-model="a15c"></textarea>
-			<button type="button" class="btn btn-default" ng-click="savecomment('a15c', a15c)">保存</button>
+			<textarea class="form-control itemcomment" rows='2' ng-model="a22c"></textarea>
+			<button type="button" class="btn btn-default" ng-click="savecomment('a22c', a22c)">保存</button>
+			<button type="button" class="btn btn-danger">删除</button>
 	    </div>
-		<input type="checkbox" class="commentbtn" ng-model="a15box" >
-		<h4>brief introduce</h4>
-		<pre ng-bind-html="city.en_info.short_introduce"></pre>
-		
+		<input type="checkbox" class="commentbtn" ng-model="a22box" >
+
+		<h4>City Overview</h4>
+		<pre ng-bind-html="city.en_info.city_overview"></pre>
 	</div>
+
 	<div class="bs-callout bs-callout-danger" id="a16">
 		<div class="alert alert-warning" ng-show="a16box">
 			<span class="glyphicon glyphicon-thumbs-up"></span>
@@ -17,7 +19,7 @@
 			<button type="button" class="btn btn-default" ng-click="savecomment('a16c', a16c)">保存</button>
 	    </div>
 		<input type="checkbox" class="commentbtn" ng-model="a16box" >
-		<h4>attractions overview</h4>
+		<h4>Attractions Overview</h4>
 		<pre ng-bind-html="city.en_info.attraction_overview"></pre>
 	</div>
 	<div class="bs-callout bs-callout-danger" id="a17">
@@ -27,7 +29,7 @@
 			<button type="button" class="btn btn-default" ng-click="savecomment('a17c', a17c)">保存</button>
 	    </div>
 		<input type="checkbox" class="commentbtn" ng-model="a17box" >
-		<h4>restaurants overview</h4>
+		<h4>Restaurants Overview</h4>
 		<pre ng-bind-html="city.en_info.restaurant_overview"></pre>
 	</div>
 	<div class="bs-callout bs-callout-danger" id="a18">
@@ -37,7 +39,7 @@
 			<button type="button" class="btn btn-default" ng-click="savecomment('a18c', a18c)">保存</button>
 	    </div>
 		<input type="checkbox" class="commentbtn" ng-model="a18box" >
-		<h4>shopping overview</h4>
+		<h4>Shopping Overview</h4>
 		<pre ng-bind-html="city.en_info.shopping_overview"></pre>
 	</div>
 
@@ -48,7 +50,7 @@
 			<button type="button" class="btn btn-default" ng-click="savecomment('a19c', a19c)">保存</button>
 	    </div>
 		<input type="checkbox" class="commentbtn" ng-model="a19box" >
-		<h4>detailed introduction</h4>
+		<h4>Detailed Introduction</h4>
 		<div class="bs-callout bs-callout-danger bs-small" ng-repeat="introduce in city.en_info.introduce">
 			<h4>{{introduce.intrItemTitle}}</h4>
 			<pre ng-bind-html="introduce.intrItemContent"></pre>
@@ -63,7 +65,7 @@
 			<button type="button" class="btn btn-danger">删除</button>
 	    </div>
 		<input type="checkbox" class="commentbtn" ng-model="a20box" >
-		<h4>tips</h4>
+		<h4>Tips</h4>
 		<div class="bs-callout bs-callout-danger bs-small" ng-repeat="tip in city.en_info.tips">
 			<h4>{{tip.tipItemTitle}}</h4>
 			<pre ng-bind-html="tip.tipItemContent"></pre>
@@ -78,25 +80,14 @@
 			<button type="button" class="btn btn-danger">删除</button>
 	    </div>
 		<input type="checkbox" class="commentbtn" ng-model="a21box" >
-		<h4>public transport</h4>
+		<h4>Public Transport</h4>
 		<div class="bs-callout bs-callout-danger bs-small" ng-repeat="traffic in city.en_info.traffic">
 			<h4>{{traffic.traItemTitle}}</h4>
 			<pre ng-bind-html="traffic.traItemContent"></pre>
 		</div>
 	</div>
 
-	<div class="bs-callout bs-callout-info" id="a22">
-		<div class="alert alert-warning" ng-show="a22box">
-			<span class="glyphicon glyphicon-thumbs-up"></span>
-			<textarea class="form-control itemcomment" rows='2' ng-model="a22c"></textarea>
-			<button type="button" class="btn btn-default" ng-click="savecomment('a22c', a22c)">保存</button>
-			<button type="button" class="btn btn-danger">删除</button>
-	    </div>
-		<input type="checkbox" class="commentbtn" ng-model="a22box" >
-
-		<h4>城市概述</h4>
-		<pre ng-bind-html="city.en_info.city_overview"></pre>
-	</div>
+	
 </div>
 <div class="col-lg-3">
 	<nav id="citynavaffix" class="citynav affix" data-spy="affix" data-offset-top="200">
@@ -109,13 +100,13 @@
 		</div>
 		<h2>{{city.cityname}}</h2>
 		<ul>
-			<li scroll-on-click>short introduce</li>
-			<li scroll-on-click>attraction overview</li>
-			<li scroll-on-click>restaurant overview</li>
-			<li scroll-on-click>shopping overview</li>
-			<li scroll-on-click>introduce</li>
-			<li scroll-on-click>tips</li>
-			<li scroll-on-click>traffic</li>
+			<li scroll-on-click>City Overview</li>
+			<li scroll-on-click>Attraction Overview</li>
+			<li scroll-on-click>Restaurant Overview</li>
+			<li scroll-on-click>Shopping Overview</li>
+			<li scroll-on-click>Detailed Introduction</li>
+			<li scroll-on-click>Tips</li>
+			<li scroll-on-click>Public Transport</li>
 		</ul>
 	</nav>
 </div>

@@ -12,6 +12,9 @@
 		<tr>
 			<th>城市</th>
 			<th>景点</th>
+			<th>attraction en_name</th>
+			<th>city index</th>
+			<th>recommand</th>
 			<th>是否显示</th>
 			<th>图片</th>
 			<th>操作</th>
@@ -21,6 +24,9 @@
 		<tr ng-repeat="attraction in attractions | filter: query | orderBy: 'recommand_flag'">
 			<td>{{attraction.cityname}}</td>
 			<td>{{attraction.attractions}}</td>
+			<td>{{attraction.attractions_en}}</td>
+			<td>{{attraction.index_flag}}</td>
+			<td>{{attraction.recommand_flag}}</td>
 			<td>{{attraction.show_flag}}</td>
 			<td>{{attraction.imagenum}}</td>
 			<td>

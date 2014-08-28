@@ -1,4 +1,23 @@
 <div class="col-lg-9">
+	<div class="bs-callout bs-callout-danger" id="a12">
+		<div class="alert alert-warning" ng-show="a12box">
+			<textarea class="form-control" rows='2' ng-model="a12c"></textarea>
+			<button type="button" class="btn btn-default" ng-click="savecomment('a12c', a12c)">保存</button>
+	    </div>
+		<input type="checkbox" class="commentbtn" ng-model="a12box" >
+		<h4>Brief Introduction</h4>
+		<pre>{{attraction.en_info.short_introduce}}</pre>
+		
+	</div>
+	<div class="bs-callout bs-callout-danger" id="a14">
+		<div class="alert alert-warning" ng-show="a14box">
+			<textarea class="form-control" rows='2' ng-model="a14c"></textarea>
+			<button type="button" class="btn btn-default" ng-click="savecomment('a14c', a14c)">保存</button>
+	    </div>
+		<input type="checkbox" class="commentbtn" ng-model="a14box" >
+		<h4>Detailed Introduction</h4>
+		<pre>{{attraction.en_info.introduce}}</pre>
+	</div>
 	<div class="bs-callout bs-callout-danger" id="a10">
 		<div class="alert alert-warning" ng-show="a10box">
 			<textarea class="form-control" rows='2' ng-model="a10c"></textarea>
@@ -19,36 +38,6 @@
 		<pre>{{attraction.en_info.opentime}}</pre>
 		
 	</div>
-	<div class="bs-callout bs-callout-danger" id="a12">
-		<div class="alert alert-warning" ng-show="a12box">
-			<textarea class="form-control" rows='2' ng-model="a12c"></textarea>
-			<button type="button" class="btn btn-default" ng-click="savecomment('a12c', a12c)">保存</button>
-	    </div>
-		<input type="checkbox" class="commentbtn" ng-model="a12box" >
-		<h4>Brief Introduce</h4>
-		<pre>{{attraction.en_info.short_introduce}}</pre>
-		
-	</div>
-	<div class="bs-callout bs-callout-danger" id="a14">
-		<div class="alert alert-warning" ng-show="a14box">
-			<textarea class="form-control" rows='2' ng-model="a14c"></textarea>
-			<button type="button" class="btn btn-default" ng-click="savecomment('a14c', a14c)">保存</button>
-	    </div>
-		<input type="checkbox" class="commentbtn" ng-model="a14box" >
-		<h4>Detailed Introduction</h4>
-		<pre>{{attraction.en_info.introduce}}</pre>
-	</div>
-
-	<div class="bs-callout bs-callout-danger" id="a15">
-		<div class="alert alert-warning" ng-show="a15box">
-			<textarea class="form-control" rows='2' ng-model="a15c"></textarea>
-			<button type="button" class="btn btn-default" ng-click="savecomment('a15c', a15c)">保存</button>
-	    </div>
-		<input type="checkbox" class="commentbtn" ng-model="a15box" >
-		<h4>Tips</h4>
-		<pre>{{attraction.en_info.tips}}</pre>
-	</div>
-
 	<div class="bs-callout bs-callout-danger" id="a16">
 		<div class="alert alert-warning" ng-show="a16box">
 			<textarea class="form-control" rows='2' ng-model="a16c"></textarea>
@@ -70,11 +59,10 @@
 		</div>
 		<h2>{{attraction.attractions}}</h2>
 		<ul>
+			<li scroll-on-click>Brief Introduction</li>
+			<li scroll-on-click>Detailed Introduction</li>
 			<li scroll-on-click>Ticket Price</li>
 			<li scroll-on-click>Opening Hours</li>
-			<li scroll-on-click>Brief Introduce</li>
-			<li scroll-on-click>Detailed Introduction</li>
-			<li scroll-on-click>Tips</li>
 			<li scroll-on-click>Public Transport</li>
 		</ul>
 	</nav>

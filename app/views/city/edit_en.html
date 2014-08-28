@@ -1,105 +1,106 @@
 <div class="col-lg-9">
-	<div class="bs-callout bs-callout-danger" id="a21">
-		<h4>City Overview</h4>
-		<text-angular ng-model="city.en_info.city_overview"></text-angular>
-	</div>
-	<div class="bs-callout bs-callout-danger" id="a15">
-		<h4>Attractions Overview</h4>
-		<text-angular ng-model="city.en_info.attraction_overview"></text-angular>
-	</div>
-	<div class="bs-callout bs-callout-danger" id="a16">
-		<h4>Restaurants Overview</h4>
-		<text-angular ng-model="city.en_info.restaurant_overview"></text-angular>
-	</div>
-	<div class="bs-callout bs-callout-danger" id="a17">
-		<h4>Shopping Overview</h4>
-		<text-angular ng-model="city.en_info.shopping_overview"></text-angular>
-	</div>
-	<div class="bs-callout bs-callout-danger" id="a18">
-		<h4>Detailed Introduction</h4>
-		<div class="bs-callout bs-callout-danger bs-small">
-			<div class="form-group">
-			    <h4 class="col-sm-2">title</h4>
-			    <div class="col-sm-10">
-			      <input type="text" class="form-control" ng-model="atip.intrItemTitle">
+	<form class="form-horizontal" role="form">
+		<div class="bs-callout bs-callout-danger" id="a21">
+			<h4>City Overview</h4>
+			<text-angular ng-model="city.en_info.city_overview"></text-angular>
+		</div>
+		<div class="bs-callout bs-callout-danger" id="a15">
+			<h4>Attractions Overview</h4>
+			<text-angular ng-model="city.en_info.attraction_overview"></text-angular>
+		</div>
+		<div class="bs-callout bs-callout-danger" id="a16">
+			<h4>Restaurants Overview</h4>
+			<text-angular ng-model="city.en_info.restaurant_overview"></text-angular>
+		</div>
+		<div class="bs-callout bs-callout-danger" id="a17">
+			<h4>Shopping Overview</h4>
+			<text-angular ng-model="city.en_info.shopping_overview"></text-angular>
+		</div>
+		<div class="bs-callout bs-callout-danger" id="a18">
+			<h4>Detailed Introduction</h4>
+			<div class="bs-callout bs-callout-danger bs-small">
+				<div class="form-group">
+				    <h4 class="col-sm-2">title</h4>
+				    <div class="col-sm-10">
+				      <input type="text" class="form-control" ng-model="atip.intrItemTitle">
+				    </div>
+				</div>
+				<div class="form-group">
+				    <h4 class="col-sm-2">content</h4>
+				    <div class="col-sm-10">
+						<text-angular name="atip.intrItemContent" ng-model="atip.intrItemContent"></text-angular>
+				    </div>
+				</div>
+				<div class="form-group">
+				    <div class="col-sm-offset-2 col-sm-10">
+						<button type="button" class="btn btn-success" ng-click="addTip(atip,  'introduce', 'en_info')">{{editMode ? "save":"add"}}</button>
+				    </div>
 			    </div>
 			</div>
-			<div class="form-group">
-			    <h4 class="col-sm-2">content</h4>
-			    <div class="col-sm-10">
-					<text-angular name="atip.intrItemContent" ng-model="atip.intrItemContent"></text-angular>
+			<div class="bs-callout bs-callout-danger bs-small" ng-repeat="introduce in city.en_info.introduce">
+				<h4>{{introduce.intrItemTitle}}</h4>
+				<pre ng-bind-html="introduce.intrItemContent"></pre>
+				<button type="button" class="btn btn-default" ng-click="editTip(introduce, 'introduce', 'en_info')">edit</button>
+				<button type="button" class="btn btn-danger" ng-click="removeTip(introduce, 'introduce', 'en_info')">delete</button>
+			</div>
+		</div>
+		<div class="bs-callout bs-callout-danger" id="a19">
+			<h4>Tips</h4>
+			<div class="bs-callout bs-callout-danger bs-small">
+				<div class="form-group">
+				    <h4 class="col-sm-2">title</h4>
+				    <div class="col-sm-10">
+				      <input type="text" class="form-control" ng-model="atip.tipItemTitle">
+				    </div>
+				</div>
+				<div class="form-group">
+				    <h4 class="col-sm-2">content</h4>
+				    <div class="col-sm-10">
+						<text-angular name="atip.tipItemContent" ng-model="atip.tipItemContent"></text-angular>
+				    </div>
+				</div>
+				<div class="form-group">
+				    <div class="col-sm-offset-2 col-sm-10">
+						<button type="button" class="btn btn-success" ng-click="addTip(atip, 'tips', 'en_info')">{{editMode ? "save":"add"}}</button>
+				    </div>
 			    </div>
 			</div>
-			<div class="form-group">
-			    <div class="col-sm-offset-2 col-sm-10">
-					<button type="button" class="btn btn-success" ng-click="addTip(atip,  'introduce', 'en_info')">{{editMode ? "save":"add"}}</button>
-			    </div>
-		    </div>
+			<div class="bs-callout bs-callout-danger bs-small" ng-repeat="tip in city.en_info.tips">
+				<h4>{{tip.tipItemTitle}}</h4>
+				<pre ng-bind-html="tip.tipItemContent"></pre>
+				<button type="button" class="btn btn-default" ng-click="editTip(tip, 'tips', 'en_info')">edit</button>
+				<button type="button" class="btn btn-danger" ng-click="removeTip(tip, 'tips', 'en_info')">delete</button>
+			</div>
 		</div>
-		<div class="bs-callout bs-callout-danger bs-small" ng-repeat="introduce in city.en_info.introduce">
-			<h4>{{introduce.intrItemTitle}}</h4>
-			<pre ng-bind-html="introduce.intrItemContent"></pre>
-			<button type="button" class="btn btn-default" ng-click="editTip(introduce, 'introduce', 'en_info')">edit</button>
-			<button type="button" class="btn btn-danger" ng-click="removeTip(introduce, 'introduce', 'en_info')">delete</button>
-		</div>
-	</div>
-	<div class="bs-callout bs-callout-danger" id="a19">
-		<h4>Tips</h4>
-		<div class="bs-callout bs-callout-danger bs-small">
-			<div class="form-group">
-			    <h4 class="col-sm-2">title</h4>
-			    <div class="col-sm-10">
-			      <input type="text" class="form-control" ng-model="atip.tipItemTitle">
+		<div class="bs-callout bs-callout-danger" id="a20">
+			<h4>Public Transport</h4>
+			<div class="bs-callout bs-callout-danger bs-small">
+				<div class="form-group">
+				    <h4 class="col-sm-2">title</h4>
+				    <div class="col-sm-10">
+				      <input type="text" class="form-control" ng-model="atip.traItemTitle">
+				    </div>
+				</div>
+				<div class="form-group">
+				    <h4 class="col-sm-2">content</h4>
+				    <div class="col-sm-10">
+						<text-angular name="atip.traItemContent" ng-model="atip.traItemContent"></text-angular>
+				    </div>
+				</div>
+				<div class="form-group">
+				    <div class="col-sm-offset-2 col-sm-10">
+						<button type="button" class="btn btn-success" ng-click="addTip(atip, 'traffic', 'en_info')">{{editMode ? "save":"add"}}</button>
+				    </div>
 			    </div>
 			</div>
-			<div class="form-group">
-			    <h4 class="col-sm-2">content</h4>
-			    <div class="col-sm-10">
-					<text-angular name="atip.tipItemContent" ng-model="atip.tipItemContent"></text-angular>
-			    </div>
+			<div class="bs-callout bs-callout-danger bs-small" ng-repeat="traffic in city.en_info.traffic">
+				<h4>{{traffic.traItemTitle}}</h4>
+				<pre ng-bind-html="traffic.traItemContent"></pre>
+				<button type="button" class="btn btn-default" ng-click="editTip(traffic, 'traffic', 'en_info')">edit</button>
+				<button type="button" class="btn btn-danger" ng-click="removeTip(traffic, 'traffic', 'en_info')">delete</button>
 			</div>
-			<div class="form-group">
-			    <div class="col-sm-offset-2 col-sm-10">
-					<button type="button" class="btn btn-success" ng-click="addTip(atip, 'tips', 'en_info')">{{editMode ? "save":"add"}}</button>
-			    </div>
-		    </div>
 		</div>
-		<div class="bs-callout bs-callout-danger bs-small" ng-repeat="tip in city.en_info.tips">
-			<h4>{{tip.tipItemTitle}}</h4>
-			<pre ng-bind-html="tip.tipItemContent"></pre>
-			<button type="button" class="btn btn-default" ng-click="editTip(tip, 'tips', 'en_info')">edit</button>
-			<button type="button" class="btn btn-danger" ng-click="removeTip(tip, 'tips', 'en_info')">delete</button>
-		</div>
-	</div>
-	<div class="bs-callout bs-callout-danger" id="a20">
-		<h4>Public Transport</h4>
-		<div class="bs-callout bs-callout-danger bs-small">
-			<div class="form-group">
-			    <h4 class="col-sm-2">title</h4>
-			    <div class="col-sm-10">
-			      <input type="text" class="form-control" ng-model="atip.traItemTitle">
-			    </div>
-			</div>
-			<div class="form-group">
-			    <h4 class="col-sm-2">content</h4>
-			    <div class="col-sm-10">
-					<text-angular name="atip.traItemContent" ng-model="atip.traItemContent"></text-angular>
-			    </div>
-			</div>
-			<div class="form-group">
-			    <div class="col-sm-offset-2 col-sm-10">
-					<button type="button" class="btn btn-success" ng-click="addTip(atip, 'traffic', 'en_info')">{{editMode ? "save":"add"}}</button>
-			    </div>
-		    </div>
-		</div>
-		<div class="bs-callout bs-callout-danger bs-small" ng-repeat="traffic in city.en_info.traffic">
-			<h4>{{traffic.traItemTitle}}</h4>
-			<pre ng-bind-html="traffic.traItemContent"></pre>
-			<button type="button" class="btn btn-default" ng-click="editTip(traffic, 'traffic', 'en_info')">edit</button>
-			<button type="button" class="btn btn-danger" ng-click="removeTip(traffic, 'traffic', 'en_info')">delete</button>
-		</div>
-	</div>
-
+	</form>
 </div>
 <div class="col-lg-3">
 	<nav id="citynavaffix" class="citynav affix">

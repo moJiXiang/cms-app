@@ -1,23 +1,19 @@
 <div class="col-lg-9">
 	<div class="bs-callout bs-callout-danger" id="a10">
-		<h4>Ticket Price</h4>
-		<text-angular ng-model="attraction.en_info.price"></text-angular>
-	</div>
-	<div class="bs-callout bs-callout-danger" id="a10">
-		<h4>Opening Hours</h4>
-		<text-angular ng-model="attraction.en_info.opentime"></text-angular>
-	</div>
-	<div class="bs-callout bs-callout-danger" id="a10">
-		<h4>Brief Introduce</h4>
+		<h4>Brief Introduction</h4>
 		<text-angular ng-model="attraction.en_info.short_introduce"></text-angular>
 	</div>
 	<div class="bs-callout bs-callout-danger" id="a11">
 		<h4>Detailed Introduction</h4>
 		<text-angular ng-model="attraction.en_info.introduce"></text-angular>
 	</div>
-	<div class="bs-callout bs-callout-danger" id="a12">
-		<h4>Tips</h4>
-		<text-angular ng-model="attraction.en_info.tips"></text-angular>
+	<div class="bs-callout bs-callout-danger" id="a10">
+		<h4>Ticket Price</h4>
+		<text-angular ng-model="attraction.en_info.price"></text-angular>
+	</div>
+	<div class="bs-callout bs-callout-danger" id="a10">
+		<h4>Opening Hours</h4>
+		<text-angular ng-model="attraction.en_info.opentime"></text-angular>
 	</div>
 	<div class="bs-callout bs-callout-danger" id="a13">
 		<h4>Public Transport</h4>
@@ -43,11 +39,10 @@
 		</div>
 		<h2>{{attraction.attractions}}</h2>
 		<ul>
+			<li scroll-on-click>Brief Introduction</li>
+			<li scroll-on-click>Detailed Introduction</li>
 			<li scroll-on-click>Ticket Price</li>
 			<li scroll-on-click>Opening Hours</li>
-			<li scroll-on-click>Brief Introduce</li>
-			<li scroll-on-click>Detailed Introduction</li>
-			<li scroll-on-click>Tips</li>
 			<li scroll-on-click>Public Transport</li>
 		</ul>
 	</nav>

@@ -9,6 +9,7 @@
 <table class="table table-hover">
 	<thead>
 		<tr>
+			<th>序号</th>
 			<th>城市</th>
 			<th>购物区域</th>
 			<th>是否显示</th>
@@ -18,6 +19,7 @@
 	</thead>
 	<tbody>
 		<tr ng-repeat="shoparea in shopareas | filter: query">
+			<td>{{$index + 1}}</td>
 			<td>{{shoparea.city_name}}</td>
 			<td>{{shoparea.area_name}}</td>
 			<td>{{shoparea.show_flag}}</td>

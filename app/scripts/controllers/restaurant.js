@@ -25,7 +25,7 @@ angular.module('cmsAppApp')
             restaurantResource.query({
                 city_name: $scope.cityname,
                 offset: ($scope.currentPage - 1) * 20,
-                sort: "city_name, -show_flag, -index_flag, ranking"
+                sort: "-city_name, -show_flag, -index_flag, ranking"
             }, function(items) {
                 items.forEach(function(item) {
                     item.imagecount = item.image.length;
@@ -46,7 +46,7 @@ angular.module('cmsAppApp')
             })
             return restaurantResource.query({
                 city_name: val,
-                sort: "city_name, -show_flag, -index_flag, ranking"
+                sort: "-city_name, -show_flag, -index_flag, ranking"
             }, function (items) {
                 items.forEach(function(item) {
                     item.imagecount = item.image.length;

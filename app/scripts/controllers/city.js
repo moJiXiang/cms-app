@@ -443,7 +443,25 @@ angular.module('cmsAppApp')
 				$scope.audit = item;
 			})
 		}
+		/**
+		 * edit tips, introduces, traffic, these are array data
+		 */
+		$scope.atip = {};
+		$scope.addTip = function(tip, items, type) {
 
+			if (!$scope.editMode) {
+				type ? $scope.city[type][items].push($scope.atip) : $scope.city[items].push($scope.atip);
+			}
+			$scope.atip = {};
+			$scope.editMode = false;
+		}
+		$scope.editTip = function(tip, items) {
+			$scope.atip = tip;
+			$scope.editMode = true;
+		}
+		$scope.removeTip = function(tip, items) {
+			$scope.city.en_info[items].splice($scope.city[items].indexOf(tip), 1);
+		}
 		/**
 		 * save city
 		 */

@@ -23,7 +23,7 @@ angular.module('cmsAppApp')
             attractionResource.query({
                 cityname: $scope.cityname,
                 offset: ($scope.currentPage - 1) * 20,
-                sort: "-index_flag, -recommand_flag, -show_flag"
+                sort: "-index_flag, -attractions"
             }, function(items) {
                 items.forEach(function (item) {
                     item.imagenum = item.image.length;
@@ -42,7 +42,7 @@ angular.module('cmsAppApp')
             })
             return attractionResource.query({
                 cityname: val,
-                sort: "-index_flag, -recommand_flag, -show_flag"
+                sort: "-index_flag, -attractions"
             }, function(items) {
                 items.forEach(function (item) {
                     item.imagenum = item.image.length;
@@ -61,6 +61,15 @@ angular.module('cmsAppApp')
 				return [];
 			})
 		}
+        $scope.reset = function () {
+            attractionResource.query({}, function(items) {
+                items.forEach(function(item) {
+                    item.imagecount = item.image.length;
+                })
+                $cookies.attr_cityname = $scope.cityname = '';
+                $scope.attractions = items;
+            })
+        }
 
 	}])
 	.controller('AttractionDetailCtrl', ['$scope', '$routeParams', 'attractionResource', 'auditingResource', 'AuditService', function($scope, $routeParams, attractionResource, auditingResource, AuditService) {

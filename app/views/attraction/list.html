@@ -1,5 +1,6 @@
 <input type="text" ng-model="cityname" placeholder="输入城市" typeahead="result for result in getItemByCity($viewValue)" class="form-control searchcitybtn" typeahead-wait-ms="1000">
 <input type="text" ng-model="attraction" placeholder="输入景点名" typeahead="result for result in getItem($viewValue)" class="form-control searchcitybtn" typeahead-wait-ms="1000">
+<button type="button" class="btn btn-primary" ng-click="reset()">reset</button>
 
 <!-- <input type="text" ng-model="value" class="form-control searchcitybtn" ng-change="getItem(value)"> -->
 

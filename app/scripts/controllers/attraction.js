@@ -23,7 +23,7 @@ angular.module('cmsAppApp')
             attractionResource.query({
                 cityname: $scope.cityname,
                 offset: ($scope.currentPage - 1) * 20,
-                sort: "-index_flag, -show_flag, -recommand_flag, attractions_en"
+                sort: " -show_flag, -recommand_flag, -index_flag, attractions_en"
             }, function(items) {
                 items.forEach(function (item) {
                     item.imagenum = item.image.length;
@@ -42,7 +42,7 @@ angular.module('cmsAppApp')
             })
             return attractionResource.query({
                 cityname: val,
-                sort: "-index_flag, -show_flag, -recommand_flag, attractions_en"
+                sort: "-show_flag, -recommand_flag, -index_flag, attractions_en"
             }, function(items) {
                 items.forEach(function (item) {
                     item.imagenum = item.image.length;

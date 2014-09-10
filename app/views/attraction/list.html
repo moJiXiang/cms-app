@@ -23,7 +23,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="attraction in attractions | filter: query | orderBy: 'recommand_flag'">
+		<tr ng-repeat="attraction in attractions | filter: query">
 			<td>{{$index + 1}}</td>
 			<td>{{attraction.cityname}}</td>
 			<td>{{attraction.attractions}}</td>

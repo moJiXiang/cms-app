@@ -22,8 +22,8 @@ angular.module('cmsAppApp')
             $cookies.attr_currentPage = $scope.currentPage;
             attractionResource.query({
                 cityname: $scope.cityname,
-                offset: ($scope.currentPage - 1) * 20,
-                sort: " -show_flag, -recommand_flag, -index_flag, attractions_en"
+                sort: " -show_flag, -recommand_flag, -index_flag, attractions_en",
+                offset: ($scope.currentPage - 1) * 20
             }, function(items) {
                 items.forEach(function (item) {
                     item.imagenum = item.image.length;

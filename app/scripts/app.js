@@ -199,6 +199,13 @@ app.config(['$routeProvider', '$locationProvider', '$resourceProvider', '$httpPr
       controller: 'ShopareaFileuploadCtrl'
     })
     /**
+     * label list
+     */
+    .when('/labellist', {
+      templateUrl: 'views/label/list.html',
+      controller: 'LabelListCtrl'
+    })
+    /**
      * editor routes
      */
     .when('/userlist', {

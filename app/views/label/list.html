@@ -4,12 +4,14 @@
 		<tr>
 			<th>序号</th>
 			<th>label</th>
+			<th>level</th>
 			<th>label_en</th>
 	</thead>
 	<tbody>
 		<tr ng-repeat="label in labels | filter: query">
 			<td>{{$index + 1}}</td>
 			<td>{{label.label}}</td>
+			<td>{{label.level}}</td>
 			<td>{{label.label_en}}</td>
 			<td><button class="btn btn-default" ng-click="open('', label)">modify</button></td>
 		</tr>

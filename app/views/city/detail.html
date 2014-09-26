@@ -8,6 +8,15 @@
 			<h4>封面图片</h4>
 			<img ng-src="http://weegotest.b0.upaiyun.com/city/imgsizeC2/{{city.coverImageName}}" alt="" class="img-thumbnail">
 		</div>
+		<div class="bs-callout bs-callout-info" id="a1">
+			<div class="alert alert-warning" ng-show="a1box">
+				<textarea class="form-control itemcomment" rows='2' ng-model="a1c"></textarea>
+				<button type="button" class="btn btn-default" ng-click="savecomment('a1c', a1c)">保存</button>
+		    </div>
+			<input type="checkbox" class="commentbtn" ng-model="a1box" >
+			<h4>APP IMG</h4>
+			<img ng-src="http://weegotest.b0.upaiyun.com/city/imgsizeC4/{{city.imgforapp}}" alt="" class="img-thumbnail">
+		</div>
 		<div class="bs-callout bs-callout-info" id="a2">
 			<div class="alert alert-warning" ng-show="a2box">
 				<textarea class="form-control itemcomment" rows='2' ng-model="a2c"></textarea>

@@ -607,7 +607,7 @@ angular.module('cmsAppApp')
 			$scope.thislist = 'citylist';
 			$scope.thisitem = $routeParams.cityId;
 			var uploader = $scope.uploader = new FileUploader({
-				url: '/citypic/upload_background_img'
+				url: '/citypic/upload_imgforapp'
 			});
 			uploader.headers.cityid = $routeParams.cityId;
 

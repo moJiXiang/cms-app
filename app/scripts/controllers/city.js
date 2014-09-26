@@ -602,7 +602,7 @@ angular.module('cmsAppApp')
 	            }
 	        });
 		}])
-	.controller('FileUploadCitybgimgCtrl', ['$scope', 'FileUploader', '$routeParams',
+	.controller('FileUploadimgforappCtrl', ['$scope', 'FileUploader', '$routeParams',
 		function($scope, FileUploader, $routeParams) {
 			$scope.thislist = 'citylist';
 			$scope.thisitem = $routeParams.cityId;

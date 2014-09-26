@@ -74,6 +74,10 @@ app.config(['$routeProvider', '$locationProvider', '$resourceProvider', '$httpPr
       templateUrl: 'views/routes/fileupload.html',
       controller: 'FileUploadCitybgimgCtrl'
     })
+    .when('/citylist/:cityId/fileuploadimgforapp',{
+      templateUrl: 'views/routes/fileupload.html',
+      controller: 'FileUploadimgforappCtrl'
+    })
     /**
      * attraction routes
      */

@@ -1,5 +1,17 @@
 <div class="col-lg-9">
 	<form action="" class="form-horizontal">
+		<div class="bs-callout bs-callout-info" id="a2">
+			<h4>tags</h4>
+			<h4 ng-repeat="tag in shoparea.en_info.tags">
+				<span class="label label-success">{{tag}}</span>
+			</h4>
+			<div class="input-group" style="width: 50%">
+				<input class="form-control" type="text" ng-model="tag">
+		        <span class="input-group-btn">
+					<button type="button" class="btn btn-success" ng-click="addTag(tag, shoparea.en_info.tags)">增加</button>
+		        </span>
+		    </div>
+		</div>
 		<div class="bs-callout bs-callout-info" id="a3">
 			<h4>open time</h4>
 			<text-angular ng-model="shoparea.en_info.open_time"></text-angular>

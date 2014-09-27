@@ -270,7 +270,14 @@ angular.module('cmsAppApp')
                 $scope.editor = items[0];
             });
 		})
-
+        // add shoparea tag
+        $scope.addTag = function(tag, tags) {
+            $scope.shoparea.en_info.tags = tags;
+            if(tags.indexOf(tag) < 0){
+                $scope.shoparea.en_info.tags.push(tag);
+            }
+            $scope.tag="";
+        }
 		/**
          * get auditors by type
          */

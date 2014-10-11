@@ -166,7 +166,14 @@
 			<h4>简介</h4>
 			<pre>{{restaurant.introduce}}</pre>
 		</div>
-
+		<div class="bs-callout bs-callout-info" id="a8">
+			<div class="alert alert-warning" ng-show="checked">
+				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
+		    </div>
+			<input type="checkbox" class="commentbtn" ng-model="checked" >
+			<h4>一句话介绍</h4>
+			<pre>{{restaurant.brief_introduce}}</pre>
+		</div>
 		<div class="bs-callout bs-callout-info" id="a9">
 			<div class="alert alert-warning" ng-show="checked">
 				<span class="glyphicon glyphicon-thumbs-up"></span><textarea class="form-control" rows='2'></textarea>
